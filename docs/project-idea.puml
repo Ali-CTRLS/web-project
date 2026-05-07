@@ -1,0 +1,53 @@
+@startuml
+' Injury System - Project Idea
+
+left to right direction
+skinparam packageStyle rectangle
+
+actor Patient
+actor Doctor
+actor Admin
+
+rectangle "Injury System (PHP + SQLite/JSON)" as System {
+  usecase "Register" as UC_Register
+  usecase "Login" as UC_Login
+  usecase "Submit Injury Form" as UC_Injury
+  usecase "View Appointments" as UC_ViewAppt
+  usecase "View Reports" as UC_ViewReport
+  usecase "Confirm Appointment" as UC_ConfirmAppt
+  usecase "Cancel Appointment" as UC_CancelAppt
+  usecase "Create Report" as UC_CreateReport
+}
+
+database "SQLite/JSON" as DB
+
+Patient --> UC_Register
+Patient --> UC_Login
+Patient --> UC_Injury
+Patient --> UC_ViewAppt
+Patient --> UC_ViewReport
+
+Doctor --> UC_Login
+Doctor --> UC_ViewAppt
+Doctor --> UC_ConfirmAppt
+Doctor --> UC_CancelAppt
+Doctor --> UC_CreateReport
+
+Admin --> UC_ViewReport
+
+UC_Register --> DB
+UC_Login --> DB
+UC_Injury --> DB
+UC_ViewAppt --> DB
+UC_ConfirmAppt --> DB
+UC_CancelAppt --> DB
+UC_CreateReport --> DB
+UC_ViewReport --> DB
+
+note right of System
+Plain HTML/CSS/PHP
+Sessions for auth
+No encryption (placeholder)
+end note
+
+@enduml
