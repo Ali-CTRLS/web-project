@@ -62,6 +62,26 @@ All milestones are scoped to fit within a 24-hour total window.
 
 ---
 
+## ▶ YouTube Search Keywords (Intermediate)
+
+### Frontend (HTML/CSS)
+
+- "multi page html css project structure"
+- "responsive navbar footer html css"
+- "html css form layout design"
+- "simple dashboard layout html css"
+- "white blue website theme css"
+
+### Backend (PHP + SQLite/JSON)
+
+- "php login register session tutorial"
+- "php sqlite crud example"
+- "php json file database crud"
+- "php form submit store sqlite"
+- "php appointments list update status"
+
+---
+
 ## 📁 Project Structure (Proposed)
 
 ```
