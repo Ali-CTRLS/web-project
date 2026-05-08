@@ -4,10 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MedCare — Modern Healthcare UI</title>
+  <title>MedCare — Care With Clarity</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;600&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="/src/css/style.css">
 </head>
 
@@ -15,23 +17,89 @@
   <div id="componentHeader"></div>
 
   <main class="hero">
+    <div class="hero-bg">
+      <div class="orb orb-a"></div>
+      <div class="orb orb-b"></div>
+      <div class="gridlines"></div>
+    </div>
     <div class="container hero-inner">
       <div class="hero-content">
-        <h1 class="title">Healthcare, reimagined with delightful design</h1>
-        <p class="lead">A polished frontend demo for appointments, reports and patient workflows — responsive and accessible.</p>
+        <span class="eyebrow">Patient-first demo</span>
+        <h1 class="title">Care with clarity, built for calm decisions.</h1>
+        <p class="lead">A clean, responsive front end for appointments, reports, and injury submissions. Designed to
+          feel trustworthy and fast.</p>
         <div class="hero-ctas">
-          <a class="btn primary" href="/src/pages/login.html">Get started</a>
-          <a class="btn ghost" href="/src/pages/home.html">Explore demo</a>
+          <a class="btn primary" href="/src/pages/login.html">Start as patient</a>
+          <a class="btn ghost" href="/src/pages/home.html">Browse pages</a>
+        </div>
+        <div class="hero-meta">
+          <div class="meta-item">
+            <span class="meta-label">Avg. check-in</span>
+            <span class="meta-value">2m 12s</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Patient updates</span>
+            <span class="meta-value">Same day</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Reports</span>
+            <span class="meta-value">Auto-organized</span>
+          </div>
         </div>
       </div>
       <div class="hero-art">
-        <div class="card-stacked">
-          <div class="card card-1">Doctor dashboard preview</div>
-          <div class="card card-2">Patient timeline</div>
+        <div class="panel panel-top">
+          <div class="panel-header">
+            <span>Upcoming</span>
+            <strong>3 appointments</strong>
+          </div>
+          <div class="panel-row">
+            <div>
+              <div class="panel-title">Dr. Sarah Smith</div>
+              <div class="panel-sub">Cardiology • May 15, 10:00</div>
+            </div>
+            <span class="badge">Confirmed</span>
+          </div>
+          <div class="panel-row">
+            <div>
+              <div class="panel-title">Dr. Michael Jones</div>
+              <div class="panel-sub">Orthopedic • May 22, 14:30</div>
+            </div>
+            <span class="badge ghost">Pending</span>
+          </div>
+        </div>
+        <div class="panel panel-bottom">
+          <div class="panel-header">
+            <span>Injury report</span>
+            <strong>Submitted today</strong>
+          </div>
+          <div class="panel-row">
+            <div>
+              <div class="panel-title">Right knee strain</div>
+              <div class="panel-sub">Severity: Moderate</div>
+            </div>
+            <button class="btn small primary" type="button">View</button>
+          </div>
         </div>
       </div>
     </div>
   </main>
+
+  <section class="feature-slab">
+    <div class="container slab-inner">
+      <div>
+        <h2 class="section-title">A steady flow from intake to report.</h2>
+        <p class="muted">Everything you need to navigate as a patient, with the doctor view ready for confirmations and
+          follow-ups.</p>
+      </div>
+      <div class="pill-grid">
+        <div class="pill">One-click appointment updates</div>
+        <div class="pill">Structured injury intake</div>
+        <div class="pill">Clear status labels</div>
+        <div class="pill">Lightweight PHP backend</div>
+      </div>
+    </div>
+  </section>
 
   <section class="features">
     <div class="container">
@@ -39,15 +107,51 @@
       <div class="grid">
         <div class="feature">
           <h3>Fast workflows</h3>
-          <p>Appointment booking, reporting, and forms optimized for speed.</p>
+          <p>Appointment booking, reporting, and form capture optimized for speed.</p>
         </div>
         <div class="feature">
           <h3>Accessible</h3>
-          <p>High contrast, keyboard friendly, and responsive across devices.</p>
+          <p>High contrast, keyboard friendly patterns, and responsive layouts.</p>
         </div>
         <div class="feature">
-          <h3>Beautiful UI</h3>
-          <p>Smooth micro-interactions and polished typography.</p>
+          <h3>Grounded design</h3>
+          <p>Confident typography and calm color layers that build trust.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pathway">
+    <div class="container">
+      <div class="pathway-card">
+        <div>
+          <span class="eyebrow">Patient journey</span>
+          <h2 class="section-title">Navigate every page with purpose.</h2>
+          <p class="muted">Start as a patient, submit an injury report, and track appointment updates without leaving
+            the flow.</p>
+        </div>
+        <div class="pathway-steps">
+          <div class="step">
+            <span>1</span>
+            <div>
+              <h4>Sign in</h4>
+              <p>Use the login page to access your dashboard.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span>2</span>
+            <div>
+              <h4>Report injury</h4>
+              <p>Submit the form with detailed symptoms.</p>
+            </div>
+          </div>
+          <div class="step">
+            <span>3</span>
+            <div>
+              <h4>Track appointments</h4>
+              <p>Confirmations appear instantly for doctors.</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

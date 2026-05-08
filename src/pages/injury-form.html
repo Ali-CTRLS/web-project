@@ -15,20 +15,20 @@
 
     <div class="form-card">
       <h2 style="margin-top:0">Injury Report Form</h2>
-      <form>
+      <form action="/src/php/patient/save-injury.php" method="POST">
         <div class="form-group">
           <label for="fullname">Full Name:</label>
-          <input type="text" id="fullname" placeholder="Your full name" required>
+          <input type="text" id="fullname" name="fullname" placeholder="Your full name" required>
         </div>
 
         <div class="form-group">
           <label for="date">Date of Injury:</label>
-          <input type="date" id="date" required>
+          <input type="date" id="date" name="date" required>
         </div>
 
         <div class="form-group">
           <label for="location">Location of Injury:</label>
-          <select id="location" required>
+          <select id="location" name="location" required>
             <option value="">-- Select body part --</option>
             <option value="head">Head</option>
             <option value="neck">Neck</option>
@@ -49,7 +49,7 @@
 
         <div class="form-group">
           <label for="severity">Severity Level:</label>
-          <select id="severity" required>
+          <select id="severity" name="severity" required>
             <option value="">-- Select severity --</option>
             <option value="mild">Mild (Minor pain, no swelling)</option>
             <option value="moderate">Moderate (Pain with limited mobility)</option>
@@ -60,7 +60,7 @@
 
         <div class="form-group">
           <label for="cause">Cause of Injury:</label>
-          <select id="cause" required>
+          <select id="cause" name="cause" required>
             <option value="">-- Select cause --</option>
             <option value="sports">Sports/Athletic Activity</option>
             <option value="accident">Accident/Fall</option>
@@ -72,17 +72,17 @@
 
         <div class="form-group">
           <label for="description">Detailed Description:</label>
-          <textarea id="description" placeholder="Describe how the injury occurred and any symptoms you're experiencing..." required></textarea>
+          <textarea id="description" name="description" placeholder="Describe how the injury occurred and any symptoms you're experiencing..." required></textarea>
         </div>
 
         <div class="form-group">
           <label for="medications">Current Medications (if any):</label>
-          <textarea id="medications" placeholder="List any medications you're currently taking..."></textarea>
+          <textarea id="medications" name="medications" placeholder="List any medications you're currently taking..."></textarea>
         </div>
 
         <div class="form-group">
           <label for="symptoms">Current Symptoms:</label>
-          <textarea id="symptoms" placeholder="List any pain, swelling, numbness, or other symptoms..." required></textarea>
+          <textarea id="symptoms" name="symptoms" placeholder="List any pain, swelling, numbness, or other symptoms..." required></textarea>
         </div>
 
         <div class="form-actions">

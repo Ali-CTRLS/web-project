@@ -21,15 +21,24 @@ To meet the deadline, we will use a **Foundation-First** approach. Dev 1 will bu
 | **4:00 - 5:00** | **Integration & QA** | Testing full flow with Dev 2. |
 
 ## Developer 2: The Feature Lead (API & Business Logic)
-**Goal**: Build the data-heavy doctor features.
+**Goal**: Build the data-heavy doctor features and ensure the UI connects to the backend.
 
-| Time | Task | Folder/File |
+| Time | Task | Key Deliverables |
 | :--- | :--- | :--- |
-| **0:00 - 0:45** | **Frontend Review** | Audit `src/pages/` to ensure form `name` attributes match. |
-| **0:45 - 1:30** | **Data Mocking** | Create dummy data in `app.sqlite` for testing. |
-| **1:30 - 3:00** | **Doctor Dashboard API** | `php/doctor/appointments.php` |
-| **3:00 - 4:15** | **Appointment Actions** | `php/doctor/update-appointment.php` |
-| **4:15 - 5:00** | **Final Debugging** | Fixing JSON issues and UI redirects. |
+| **0:00 - 0:45** | **Frontend Audit** | Sync form `name` attributes in HTML with DB columns; add `action` URLs. |
+| **0:45 - 1:30** | **Data Seeding** | Use DB Browser or SQL to insert test users (patient/doctor) and appointments. |
+| **1:30 - 3:00** | **Doctor Dashboard API** | Build `appointments.php` to fetch and return JSON for the dashboard table. |
+| **3:00 - 4:15** | **Appointment Actions** | Build `update-appointment.php` to handle AJAX status changes (Confirm/Cancel). |
+| **4:15 - 5:00** | **UI Connection** | Add basic `fetch()` scripts to the HTML pages to display the real data. |
+
+## Developer 2: Technical Strategy
+> [!TIP]
+> **Don't wait for Dev 1.** You can build the Doctor API logic using an array of dummy data inside the PHP file first. Once Dev 1 finishes `db.php`, you just replace the array with a `db_query()` call.
+
+### Dev 2 Implementation Focus:
+1.  **JSON First**: All doctor-facing PHP files should use `header('Content-Type: application/json');`. This allows the dashboard to update without refreshing.
+2.  **State Management**: For "Confirm/Cancel" actions, ensure you return the *new* state in the JSON response so the UI can update the button color/text immediately.
+3.  **Data Integrity**: When seeding test data, make sure every appointment has a valid `patient_id` that exists in your `users` table.
 
 ---
 
