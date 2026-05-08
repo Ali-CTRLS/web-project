@@ -1,36 +1,90 @@
 <?php
-// session.php - Simple Session Helper
+// session.php - Session Management & Authentication Guards
 
-function ensure_session() {
-    if (session_status() === PHP_SESSION_NONE) session_start();
+/**
+ * Ensure session is started safely
+ * Prevents "headers already sent" errors
+ */
+function ensure_session_started() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
 }
 
-function set_user($user) {
-    ensure_session();
-    $_SESSION['user'] = $user;
+/**
+ * Store user data in session
+ * Stores id, name, and role
+ */
+function set_user_session($user) {
+    ensure_session_started();
+    $_SESSION['user_id'] = $user['id'];
+    $_SESSION['name'] = $user['name'];
+    $_SESSION['email'] = $user['email'];
+    $_SESSION['role'] = $user['role'];
 }
 
+/**
+ * Get logged-in user data from session
+ */
 function get_user() {
-    ensure_session();
-    return $_SESSION['user'] ?? null;
+    ensure_session_started();
+    if (!isset($_SESSION['user_id'])) {
+        return null;
+    }
+    return [
+        'id' => $_SESSION['user_id'],
+        'name' => $_SESSION['name'],
+        'email' => $_SESSION['email'],
+        'role' => $_SESSION['role']
+    ];
 }
 
-function require_login($role = null) {
+/**
+ * Check if user is logged in
+ */
+function is_logged_in() {
+    return get_user() !== null;
+}
+
+/**
+ * Authentication guard - require login
+ * Redirect to login page if not authenticated or unauthorized
+ */
+function require_login($required_role = null) {
     $user = get_user();
+    
+    // Check if user is logged in
     if (!$user) {
         header("Location: /src/pages/login.html");
         exit;
     }
-    if ($role && $user['role'] !== $role) {
+    
+    // Check role if specified
+    if ($required_role && $user['role'] !== $required_role) {
         header("Location: /src/pages/login.html?error=unauthorized");
         exit;
     }
 }
 
-function logout() {
-    ensure_session();
+/**
+ * Clear session data completely
+ */
+function logout_user() {
+    ensure_session_started();
+    
+    // Clear the session array
+    $_SESSION = [];
+    
+    // Destroy the session cookie if using cookies
+    if (ini_get("session.use_cookies")) {
+        $params = session_get_cookie_params();
+        setcookie(session_name(), '', time() - 42000,
+            $params["path"], $params["domain"],
+            $params["secure"], $params["httponly"]
+        );
+    }
+    
+    // Destroy the session
     session_destroy();
-    header("Location: /src/pages/login.html");
-    exit;
 }
 ?>
