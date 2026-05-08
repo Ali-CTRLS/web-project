@@ -1,0 +1,3241 @@
+﻿/* ============================================
+   TAJ-LMS Unified Filament Theme (Shared Only Entry)
+   Contains merged Admin + Tutor + Shared layers.
+   ============================================ */
+
+/* ---- Merged: Admin Theme ---- */
+/* ============================================
+   TAJ-LMS Admin Panel — Custom Filament Theme
+   Following GUI-enhance.md Design Guidelines
+   ============================================ */
+
+/* ── CSS Custom Properties (Color Palette) ────────────────────────── */
+:root {
+  --taj-primary: #047857;
+  --taj-primary-dark: #065f46;
+  --taj-primary-light: #d1fae5;
+  --taj-background: #ffffff;
+  --taj-surface: #f0fdf4;
+  --taj-text-primary: #1f2937;
+  --taj-text-secondary: #6b7280;
+  --taj-gold: #d4a017;
+  --taj-error: #dc2626;
+  --taj-success: #16a34a;
+}
+
+/* ── Bismillah Dashboard Header ───────────────────────────────────── */
+.fi-dashboard-bismillah {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--taj-surface) 0%, #ecfdf5 50%, var(--taj-surface) 100%);
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.fi-dashboard-bismillah::before,
+.fi-dashboard-bismillah::after {
+  content: '✦';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--taj-gold);
+  font-size: 1.25rem;
+  opacity: 0.5;
+}
+
+.fi-dashboard-bismillah::before {
+  inset-inline-start: 1.5rem;
+}
+
+.fi-dashboard-bismillah::after {
+  inset-inline-end: 1.5rem;
+}
+
+.fi-dashboard-bismillah .bismillah-text {
+  font-family: 'Amiri', 'Scheherazade New', 'IBM Plex Sans Arabic', serif;
+  font-size: 1.75rem;
+  color: var(--taj-primary-dark);
+  line-height: 2.5;
+  letter-spacing: 0.02em;
+}
+
+.fi-dashboard-bismillah .welcome-text {
+  font-size: 0.875rem;
+  color: var(--taj-text-secondary);
+  margin-top: 0.25rem;
+}
+
+@media (max-width: 640px) {
+  .fi-dashboard-bismillah {
+    padding: 1rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .fi-dashboard-bismillah .bismillah-text {
+    font-size: 1.25rem;
+    line-height: 2;
+  }
+
+  .fi-dashboard-bismillah::before,
+  .fi-dashboard-bismillah::after {
+    display: none;
+  }
+}
+
+/* ── Student Dashboard Summary Widget ─────────────────────────────── */
+@keyframes taj-card-rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Admin Dashboard Business Widget ─────────────────────────────── */
+.taj-admin-dashboard {
+  width: 100%;
+  display: grid;
+  gap: clamp(0.85rem, 0.6rem + 0.8vw, 1.25rem);
+  --taj-admin-space-xs: clamp(0.32rem, 0.28rem + 0.2vw, 0.46rem);
+  --taj-admin-space-sm: clamp(0.55rem, 0.45rem + 0.35vw, 0.72rem);
+  --taj-admin-space-md: clamp(0.85rem, 0.72rem + 0.45vw, 1.1rem);
+  --taj-admin-space-lg: clamp(1rem, 0.82rem + 0.7vw, 1.4rem);
+  --taj-admin-font-sm: clamp(0.76rem, 0.7rem + 0.15vw, 0.85rem);
+  --taj-admin-font-base: clamp(0.88rem, 0.82rem + 0.2vw, 0.98rem);
+  --taj-admin-font-title: clamp(1.45rem, 1.2rem + 0.65vw, 1.95rem);
+}
+
+.taj-admin-hero {
+  position: relative;
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #ffffff 0%, var(--taj-surface) 62%, #ecfdf5 100%);
+  padding: var(--taj-admin-space-lg);
+  overflow: hidden;
+}
+
+.taj-admin-hero::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: -65px;
+  top: -65px;
+  width: 210px;
+  height: 210px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(4, 120, 87, 0.12) 0%, rgba(4, 120, 87, 0) 70%);
+  pointer-events: none;
+}
+
+.taj-admin-hero-grid {
+  position: relative;
+  display: grid;
+  gap: var(--taj-admin-space-md);
+  z-index: 1;
+}
+
+.taj-admin-eyebrow {
+  margin: 0;
+  color: var(--taj-primary-dark);
+  font-size: var(--taj-admin-font-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.taj-admin-title {
+  margin: 0.3rem 0 0;
+  color: var(--taj-primary-dark);
+  font-size: var(--taj-admin-font-title);
+  font-weight: 800;
+}
+
+.taj-admin-focus {
+  margin: 0.5rem 0 0;
+  color: var(--taj-text-primary);
+  font-size: var(--taj-admin-font-base);
+  max-width: 75ch;
+}
+
+.taj-admin-chips {
+  margin-top: var(--taj-admin-space-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--taj-admin-space-sm);
+}
+
+.taj-admin-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--taj-admin-space-xs);
+  border: 1px solid var(--taj-primary-light);
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--taj-primary-dark);
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-size: var(--taj-admin-font-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.taj-admin-chip:hover {
+  transform: translateY(-1px);
+  border-color: var(--taj-primary);
+  box-shadow: 0 4px 10px rgba(4, 120, 87, 0.12);
+}
+
+.taj-admin-chip:focus-visible {
+  outline: 2px solid rgba(4, 120, 87, 0.35);
+  outline-offset: 2px;
+}
+
+.taj-admin-chip--warning {
+  border-color: #fde68a;
+  color: #92400e;
+  background: #fffbeb;
+}
+
+.taj-admin-quote-card {
+  margin: 0;
+  padding: var(--taj-admin-space-lg);
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 0.95rem;
+  background: #ffffff;
+  box-shadow: 0 1px 5px rgba(4, 120, 87, 0.08);
+}
+
+.taj-admin-quote-ar {
+  margin: 0;
+  color: var(--taj-primary-dark);
+  font-family: 'Amiri', 'Noto Naskh Arabic', 'IBM Plex Sans Arabic', serif;
+  font-size: clamp(1.18rem, 1.03rem + 0.45vw, 1.52rem);
+  line-height: 1.9;
+}
+
+.taj-admin-quote-translation {
+  margin: 0.35rem 0 0;
+  color: var(--taj-text-primary);
+  font-size: var(--taj-admin-font-base);
+}
+
+.taj-admin-quote-source {
+  margin: 0.3rem 0 0;
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-admin-font-sm);
+  font-weight: 600;
+}
+
+.taj-admin-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--taj-admin-space-sm);
+}
+
+.taj-admin-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--taj-admin-space-xs);
+  width: 100%;
+  min-height: clamp(2.75rem, 2.6rem + 0.4vw, 3rem);
+  border-radius: 0.85rem;
+  border: 1px solid var(--taj-primary-light);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: var(--taj-admin-font-base);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  animation: taj-card-rise 0.35s ease both;
+}
+
+.taj-admin-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(4, 120, 87, 0.14);
+  border-color: var(--taj-primary);
+}
+
+.taj-admin-cta--primary {
+  background: linear-gradient(135deg, var(--taj-primary), #059669);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.taj-admin-cta--success {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.taj-admin-cta--info {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+.taj-admin-cta--gray {
+  background: #f8fafc;
+  color: #334155;
+  border-color: #e2e8f0;
+}
+
+.taj-admin-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--taj-admin-space-md);
+}
+
+.taj-admin-card {
+  display: block;
+  text-decoration: none;
+  padding: var(--taj-admin-space-lg);
+  border-radius: 0.95rem;
+  border: 1px solid var(--taj-primary-light);
+  background: #ffffff;
+  color: inherit;
+  box-shadow: 0 1px 4px rgba(4, 120, 87, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  animation: taj-card-rise 0.42s ease both;
+}
+
+.taj-admin-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(4, 120, 87, 0.12);
+  border-color: var(--taj-primary);
+}
+
+.taj-admin-card-top {
+  display: flex;
+  align-items: center;
+  gap: var(--taj-admin-space-xs);
+}
+
+.taj-admin-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: var(--taj-primary);
+}
+
+.taj-admin-card-label {
+  color: var(--taj-text-primary);
+  font-size: var(--taj-admin-font-base);
+  font-weight: 700;
+}
+
+.taj-admin-card-value-wrap {
+  margin-top: var(--taj-admin-space-sm);
+  display: flex;
+  align-items: baseline;
+  gap: var(--taj-admin-space-xs);
+}
+
+.taj-admin-card-value {
+  color: var(--taj-primary-dark);
+  font-size: clamp(1.5rem, 1.28rem + 0.55vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.taj-admin-card-unit {
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-admin-font-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.taj-admin-card-description {
+  margin: 0.35rem 0 0;
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-admin-font-sm);
+}
+
+.taj-admin-card--success .taj-admin-card-icon {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.taj-admin-card--warning .taj-admin-card-icon {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.taj-admin-card--danger .taj-admin-card-icon {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.taj-admin-card--info .taj-admin-card-icon {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.taj-admin-card--gray .taj-admin-card-icon {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.taj-admin-card--primary .taj-admin-card-icon {
+  background: #e6fffa;
+  color: #0f766e;
+}
+
+@media (min-width: 768px) {
+  .taj-admin-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .taj-admin-hero-grid {
+    grid-template-columns: 1.35fr 1fr;
+    align-items: stretch;
+  }
+
+  .taj-admin-actions-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .taj-admin-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.taj-student-dashboard {
+  width: 100%;
+  display: grid;
+  gap: clamp(0.85rem, 0.6rem + 0.8vw, 1.25rem);
+  --taj-space-xs: clamp(0.32rem, 0.28rem + 0.2vw, 0.46rem);
+  --taj-space-sm: clamp(0.55rem, 0.45rem + 0.35vw, 0.72rem);
+  --taj-space-md: clamp(0.85rem, 0.72rem + 0.45vw, 1.1rem);
+  --taj-space-lg: clamp(1rem, 0.82rem + 0.7vw, 1.4rem);
+  --taj-font-sm: clamp(0.76rem, 0.7rem + 0.15vw, 0.85rem);
+  --taj-font-base: clamp(0.88rem, 0.82rem + 0.2vw, 0.98rem);
+  --taj-font-title: clamp(1.45rem, 1.2rem + 0.65vw, 1.92rem);
+}
+
+.taj-student-hero {
+  position: relative;
+  display: grid !important;
+  gap: var(--taj-space-md);
+  padding: var(--taj-space-lg);
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #ffffff 0%, var(--taj-surface) 60%, #ecfdf5 100%);
+  overflow: hidden;
+  text-align: start;
+}
+
+.taj-student-hero::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: -70px;
+  bottom: -70px;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(4, 120, 87, 0.14) 0%, rgba(4, 120, 87, 0) 70%);
+  pointer-events: none;
+}
+
+.taj-student-eyebrow {
+  margin: 0;
+  color: var(--taj-primary-dark);
+  font-size: var(--taj-font-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.taj-student-title {
+  margin: 0.35rem 0 0;
+  color: var(--taj-primary-dark);
+  font-size: var(--taj-font-title);
+  font-weight: 800;
+}
+
+.taj-student-focus {
+  margin: 0.5rem 0 0;
+  color: var(--taj-text-primary);
+  font-size: var(--taj-font-base);
+  max-width: 70ch;
+}
+
+.taj-student-chips {
+  margin-top: var(--taj-space-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--taj-space-sm);
+}
+
+.taj-student-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--taj-space-xs);
+  border: 1px solid var(--taj-primary-light);
+  background: rgba(255, 255, 255, 0.85);
+  color: var(--taj-primary-dark);
+  border-radius: 999px;
+  padding: 0.3rem 0.68rem;
+  font-size: var(--taj-font-sm);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.taj-student-chips a.taj-student-chip:hover {
+  transform: translateY(-1px);
+  border-color: var(--taj-primary);
+  box-shadow: 0 4px 10px rgba(4, 120, 87, 0.12);
+}
+
+.taj-student-chips a.taj-student-chip:focus-visible {
+  outline: 2px solid rgba(4, 120, 87, 0.35);
+  outline-offset: 2px;
+}
+
+.taj-student-chip--alert {
+  border-color: #fecaca;
+  color: #991b1b;
+  background: #fef2f2;
+}
+
+.taj-student-chip--warning {
+  border-color: #fde68a;
+  color: #92400e;
+  background: #fffbeb;
+}
+
+.taj-student-quote-card {
+  margin: 0;
+  padding: var(--taj-space-lg);
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 0.9rem;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(4, 120, 87, 0.06);
+}
+
+.taj-student-quote-ar {
+  margin: 0;
+  color: var(--taj-primary-dark);
+  font-family: 'Amiri', 'Noto Naskh Arabic', 'IBM Plex Sans Arabic', serif;
+  font-size: clamp(1.24rem, 1.08rem + 0.45vw, 1.55rem);
+  line-height: 2;
+}
+
+.taj-student-quote-translation {
+  margin: 0.35rem 0 0;
+  color: var(--taj-text-primary);
+  font-size: var(--taj-font-base);
+}
+
+.taj-student-quote-source {
+  margin: 0.3rem 0 0;
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-font-sm);
+  font-weight: 600;
+}
+
+.taj-student-actions-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--taj-space-sm);
+}
+
+.taj-student-cta {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: var(--taj-space-xs);
+  width: 100%;
+  min-height: clamp(2.75rem, 2.6rem + 0.4vw, 3rem);
+  border-radius: 0.8rem;
+  border: 1px solid var(--taj-primary-light);
+  background: #ffffff;
+  color: var(--taj-primary-dark);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: var(--taj-font-base);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  animation: taj-card-rise 0.35s ease both;
+}
+
+.taj-student-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(4, 120, 87, 0.12);
+  border-color: var(--taj-primary);
+}
+
+.taj-student-cta--primary {
+  background: linear-gradient(135deg, var(--taj-primary), #059669);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.taj-student-cta--success {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.taj-student-cta--info {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+.taj-student-cta--gray {
+  background: #f8fafc;
+  color: #334155;
+  border-color: #e2e8f0;
+}
+
+.taj-student-cards-grid {
+  display: grid !important;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--taj-space-md);
+}
+
+.taj-student-card {
+  display: block;
+  text-decoration: none;
+  padding: var(--taj-space-lg);
+  border-radius: 0.95rem;
+  border: 1px solid var(--taj-primary-light);
+  background: #ffffff;
+  color: inherit;
+  box-shadow: 0 1px 4px rgba(4, 120, 87, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  animation: taj-card-rise 0.42s ease both;
+}
+
+.taj-student-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(4, 120, 87, 0.12);
+  border-color: var(--taj-primary);
+}
+
+.taj-student-card-top {
+  display: flex !important;
+  align-items: center;
+  gap: var(--taj-space-xs);
+}
+
+.taj-student-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: var(--taj-primary);
+}
+
+.taj-student-card-label {
+  color: var(--taj-text-primary);
+  font-size: var(--taj-font-base);
+  font-weight: 700;
+}
+
+.taj-student-card-value-wrap {
+  margin-top: var(--taj-space-sm);
+  display: flex;
+  align-items: baseline;
+  gap: var(--taj-space-xs);
+}
+
+.taj-student-card-value {
+  color: var(--taj-primary-dark);
+  font-size: clamp(1.5rem, 1.28rem + 0.55vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.taj-student-card-unit {
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-font-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.taj-student-card-description {
+  margin: 0.35rem 0 0;
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-font-sm);
+}
+
+.taj-student-card--warning .taj-student-card-icon {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.taj-student-card--danger .taj-student-card-icon {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.taj-student-card--info .taj-student-card-icon {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.taj-student-card--gray .taj-student-card-icon {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.taj-performance-mini {
+  margin-top: var(--taj-space-md);
+  border: 1px solid rgba(4, 120, 87, 0.18);
+  border-radius: 0.78rem;
+  background:
+    radial-gradient(circle at 92% 8%, rgba(4, 120, 87, 0.08) 0%, rgba(4, 120, 87, 0) 46%),
+    linear-gradient(180deg, rgba(240, 253, 249, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+  padding: 0.55rem 0.6rem 0.5rem;
+}
+
+.taj-performance-mini-svg {
+  width: 100%;
+  height: 4.28rem;
+  display: block;
+}
+
+.taj-performance-mini-grid-line {
+  stroke: rgba(4, 120, 87, 0.14);
+  stroke-width: 0.95;
+}
+
+.taj-performance-area {
+  fill: url(#tajMiniTrendFill);
+}
+
+.taj-performance-area--expanded {
+  fill: url(#tajExpandedTrendFill);
+}
+
+.taj-performance-line {
+  fill: none;
+  stroke: #047857;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 1px rgba(4, 120, 87, 0.18));
+}
+
+.taj-performance-line--expanded {
+  stroke-width: 2.85;
+  filter: none;
+}
+
+.taj-performance-dot {
+  fill: #f8fffd;
+  stroke: #047857;
+  stroke-width: 1.5;
+}
+
+.taj-performance-dot--last {
+  fill: #ffffff;
+  stroke-width: 2.2;
+}
+
+.taj-performance-dot--expanded {
+  stroke-width: 2;
+}
+
+.taj-performance-mini-empty {
+  margin: 0;
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-font-sm);
+  min-height: 4.55rem;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.taj-performance-mini-hint {
+  margin: 0.36rem 0 0;
+  margin-left: auto;
+  margin-right: 0;
+  width: fit-content;
+  color: #065f46;
+  font-size: 0.71rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
+  border-radius: 999px;
+  border: 1px solid rgba(4, 120, 87, 0.14);
+  background: rgba(4, 120, 87, 0.08);
+  padding: 0.2rem 0.42rem;
+}
+
+.taj-performance-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.58);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.taj-performance-modal {
+  width: min(920px, 100%);
+  max-height: calc(100vh - 2rem);
+  overflow: auto;
+  border-radius: 1rem;
+  border: 1px solid rgba(209, 250, 229, 0.95);
+  background: #ffffff;
+  box-shadow: 0 28px 60px rgba(2, 6, 23, 0.34);
+  padding: clamp(0.95rem, 0.78rem + 0.6vw, 1.35rem);
+}
+
+.taj-performance-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+
+[dir='rtl'] .taj-performance-modal-head {
+  flex-direction: row-reverse;
+}
+
+.taj-performance-modal-title {
+  margin: 0;
+  color: var(--taj-primary-dark);
+  font-size: clamp(1.04rem, 0.95rem + 0.34vw, 1.22rem);
+  font-weight: 800;
+}
+
+.taj-performance-modal-summary {
+  margin: 0.22rem 0 0;
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-font-sm);
+}
+
+[dir='rtl'] .taj-performance-modal-title,
+[dir='rtl'] .taj-performance-modal-summary {
+  text-align: right;
+}
+
+.taj-performance-modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 999px;
+  border: 1px solid var(--taj-primary-light);
+  background: #ffffff;
+  color: var(--taj-primary-dark);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.taj-performance-modal-close:hover {
+  transform: translateY(-1px);
+  border-color: var(--taj-primary);
+  box-shadow: 0 8px 16px rgba(4, 120, 87, 0.14);
+}
+
+.taj-performance-expanded-wrap {
+  margin-top: var(--taj-space-md);
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 0.9rem;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(4, 120, 87, 0.07) 0%, rgba(4, 120, 87, 0) 42%),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  padding: 0.68rem;
+  overflow-x: auto;
+}
+
+.taj-performance-expanded-svg {
+  width: 100%;
+  min-width: 700px;
+  height: auto;
+  display: block;
+}
+
+.taj-performance-grid-line {
+  stroke: rgba(4, 120, 87, 0.2);
+  stroke-width: 1;
+  stroke-dasharray: 3 5;
+}
+
+.taj-performance-axis-line {
+  stroke: rgba(6, 95, 70, 0.52);
+  stroke-width: 1.2;
+}
+
+.taj-performance-y-tick {
+  fill: #065f46;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.taj-performance-x-tick {
+  fill: #1f2937;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.taj-performance-x-date {
+  fill: #64748b;
+  font-size: 9px;
+  font-weight: 600;
+}
+
+[dir='rtl'] .taj-performance-mini-hint {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+[dir='rtl'] .taj-performance-x-tick,
+[dir='rtl'] .taj-performance-x-date {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.taj-performance-axis-label {
+  display: block;
+  color: #065f46;
+  font-size: var(--taj-font-sm);
+  font-weight: 700;
+}
+
+.taj-performance-axis-label--y {
+  margin: 0 0 0.35rem;
+}
+
+.taj-performance-axis-label--y-rtl {
+  text-align: right;
+  padding-right: 0.35rem;
+}
+
+.taj-performance-axis-label--x {
+  margin: 0.25rem 0 0;
+  text-align: center;
+}
+
+.taj-performance-empty-state {
+  margin-top: var(--taj-space-md);
+  border: 1px dashed var(--taj-primary-light);
+  border-radius: 0.85rem;
+  background: #f8fafc;
+  color: var(--taj-text-secondary);
+  min-height: 7.2rem;
+  display: grid;
+  place-items: center;
+  gap: 0.4rem;
+  text-align: center;
+  padding: 0.9rem;
+}
+
+.taj-performance-empty-state p {
+  margin: 0;
+  font-size: var(--taj-font-base);
+}
+
+@media (min-width: 768px) {
+  .taj-student-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .taj-student-hero {
+    grid-template-columns: 1.3fr 1fr;
+    align-items: stretch;
+  }
+
+  .taj-student-actions-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .taj-student-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.dark .taj-student-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #111827 65%, #0f172a 100%);
+  border-color: #1f2937;
+}
+
+.dark .taj-student-eyebrow,
+.dark .taj-student-title {
+  color: #6ee7b7;
+}
+
+.dark .taj-student-focus,
+.dark .taj-student-card-label,
+.dark .taj-student-quote-translation {
+  color: #e5e7eb;
+}
+
+.dark .taj-student-chip {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.9) 0%, rgba(17, 24, 39, 0.92) 100%);
+  border-color: rgba(56, 189, 248, 0.34);
+  color: #e5e7eb;
+}
+
+.dark .taj-student-quote-card {
+  background: linear-gradient(145deg, #0a1a35 0%, #0e2242 55%, #123154 100%);
+  border-color: rgba(56, 189, 248, 0.38);
+  color: #e5e7eb;
+  box-shadow: 0 14px 28px rgba(2, 6, 23, 0.45);
+}
+
+.dark .taj-student-card {
+  background: linear-gradient(155deg, #0b162f 0%, #10213f 58%, #123455 100%);
+  border-color: rgba(56, 189, 248, 0.34);
+  color: #e5e7eb;
+  box-shadow: 0 12px 26px rgba(2, 6, 23, 0.4);
+}
+
+.dark .taj-student-card:hover {
+  border-color: rgba(110, 231, 183, 0.72);
+  box-shadow: 0 16px 30px rgba(2, 6, 23, 0.52);
+}
+
+.dark .taj-student-cta {
+  border-color: rgba(56, 189, 248, 0.32);
+  background: linear-gradient(145deg, #0c1730 0%, #10203b 100%);
+  color: #e5e7eb;
+}
+
+.dark .taj-student-cta--primary {
+  background: linear-gradient(135deg, #0f766e 0%, #0f8f79 50%, #14b8a6 100%);
+  border-color: transparent;
+  color: #ecfeff;
+}
+
+.dark .taj-student-cta--success {
+  background: linear-gradient(135deg, #0b3a31 0%, #14532d 100%);
+  border-color: rgba(74, 222, 128, 0.4);
+  color: #bbf7d0;
+}
+
+.dark .taj-student-cta--info {
+  background: linear-gradient(135deg, #0f2f4d 0%, #1e3a8a 100%);
+  border-color: rgba(96, 165, 250, 0.5);
+  color: #bfdbfe;
+}
+
+.dark .taj-student-cta--gray {
+  background: linear-gradient(135deg, #1f2937 0%, #334155 100%);
+  border-color: rgba(148, 163, 184, 0.45);
+  color: #e2e8f0;
+}
+
+.dark .taj-student-card-icon {
+  background: rgba(236, 253, 245, 0.14);
+  border: 1px solid rgba(110, 231, 183, 0.32);
+  color: #a7f3d0;
+}
+
+.dark .taj-student-card-value,
+.dark .taj-student-quote-ar {
+  color: #86efac;
+}
+
+.dark .taj-student-card-description,
+.dark .taj-student-card-unit,
+.dark .taj-student-quote-source {
+  color: #9ca3af;
+}
+
+/* ── Stat Widgets — Mushaf Frame Style ────────────────────────────── */
+.fi-wi-stats-overview-stat {
+  border: 1px solid var(--taj-primary-light) !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.2s ease;
+}
+
+.fi-wi-stats-overview-stat:hover {
+  border-color: var(--taj-primary) !important;
+  box-shadow: 0 4px 6px -1px rgba(4, 120, 87, 0.1), 0 2px 4px -2px rgba(4, 120, 87, 0.1);
+}
+
+/* Table styles are centralized in filament-shared-theme.css */
+
+/* ── Navigation Sidebar ───────────────────────────────────────────── */
+/* Active nav item green accent */
+.fi-sidebar-item {
+  border-inline-start: 3px solid transparent;
+  box-sizing: border-box;
+}
+
+.fi-sidebar-item-active {
+  border-inline-start-color: var(--taj-primary) !important;
+}
+
+/* Navigation group labels */
+.fi-sidebar-group-label {
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.08em;
+  color: var(--taj-text-secondary) !important;
+}
+
+/* Touch-friendly nav items (min 44px) */
+.fi-sidebar-item-button {
+  min-height: 2.75rem;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+
+/* ── Admin Sidebar Profile Card ───────────────────────────────────── */
+.taj-admin-sidebar-footer {
+  padding: 0.75rem 0.5rem 0.9rem;
+  border-top: 1px solid var(--taj-primary-light);
+  background: linear-gradient(180deg, rgba(240, 253, 244, 0.35) 0%, rgba(255, 255, 255, 0.96) 100%);
+}
+
+.taj-admin-sidebar-card {
+  border: 1px solid rgba(4, 120, 87, 0.2);
+  border-radius: 0.9rem;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(4, 120, 87, 0.08);
+  padding: 0.7rem;
+}
+
+.taj-admin-sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin-bottom: 0.65rem;
+}
+
+.taj-admin-sidebar-user {
+  display: grid;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.taj-admin-sidebar-greeting {
+  font-size: 0.74rem;
+  color: var(--taj-text-secondary);
+  line-height: 1.2;
+}
+
+.taj-admin-sidebar-name {
+  color: var(--taj-primary-dark);
+  font-size: 0.93rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taj-admin-sidebar-name-short {
+  display: block;
+}
+
+.taj-admin-sidebar-name-full,
+.taj-admin-sidebar-greeting,
+.taj-admin-sidebar-role,
+.taj-admin-sidebar-logout-text {
+  display: none;
+}
+
+.taj-admin-sidebar-role {
+  font-size: 0.74rem;
+  color: var(--taj-text-secondary);
+}
+
+.taj-admin-sidebar-avatar {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #ffffff;
+  background: radial-gradient(circle at 35% 30%, #059669 0%, #047857 55%, #065f46 100%);
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px rgba(4, 120, 87, 0.25);
+}
+
+.taj-admin-sidebar-logout-form {
+  margin: 0;
+}
+
+.taj-admin-sidebar-logout {
+  width: 100%;
+  min-height: 2.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(4, 120, 87, 0.24);
+  background: var(--taj-surface);
+  color: var(--taj-primary-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.taj-admin-sidebar-logout svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.taj-admin-sidebar-logout:hover {
+  border-color: var(--taj-primary);
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  transform: translateY(-1px);
+}
+
+.fi-sidebar-open .taj-admin-sidebar-name-short {
+  display: none;
+}
+
+.fi-sidebar-open .taj-admin-sidebar-name-full,
+.fi-sidebar-open .taj-admin-sidebar-greeting,
+.fi-sidebar-open .taj-admin-sidebar-role,
+.fi-sidebar-open .taj-admin-sidebar-logout-text {
+  display: inline;
+}
+
+.fi-sidebar-open .taj-admin-sidebar-user {
+  gap: 0.12rem;
+}
+
+/* ── Form Section Styling ─────────────────────────────────────────── */
+/* Section headers with green accent */
+.fi-section-header {
+  border-bottom: 2px solid var(--taj-primary-light) !important;
+  padding-bottom: 0.75rem !important;
+}
+
+/* ── Page Header ──────────────────────────────────────────────────── */
+.fi-header-heading {
+  color: var(--taj-primary-dark) !important;
+  font-weight: 700 !important;
+}
+
+/* ── Badges — Consistent with palette ─────────────────────────────── */
+/* Gold badge for premium/ratings */
+.fi-badge-gold {
+  background-color: rgba(212, 160, 23, 0.1);
+  color: var(--taj-gold);
+  border: 1px solid rgba(212, 160, 23, 0.3);
+}
+
+/* ── Topbar Brand Styling ─────────────────────────────────────────── */
+.fi-topbar {
+  background: linear-gradient(180deg, #ffffff 0%, #f6fef9 100%) !important;
+  border-bottom: 1px solid #a7f3d0 !important;
+  box-shadow: 0 8px 20px -18px rgba(4, 120, 87, 0.5) !important;
+}
+
+.dark .fi-topbar {
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%) !important;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.35) !important;
+  box-shadow: 0 12px 24px -20px rgba(16, 185, 129, 0.5) !important;
+}
+
+.fi-topbar::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(4, 120, 87, 0) 0%, rgba(4, 120, 87, 0.35) 50%, rgba(4, 120, 87, 0) 100%);
+  pointer-events: none;
+}
+
+.dark .fi-topbar::after {
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0) 0%, rgba(16, 185, 129, 0.55) 50%, rgba(16, 185, 129, 0) 100%);
+}
+
+.fi-panel-student .fi-topbar .fi-topbar-database-notifications-btn,
+.fi-panel-student .fi-topbar .fi-user-menu {
+  display: none !important;
+}
+
+.fi-logo {
+  font-weight: 800 !important;
+}
+
+.taj-locale-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--taj-primary-dark);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.taj-locale-switch:hover {
+  border-color: var(--taj-primary);
+  background: var(--taj-surface);
+}
+
+.taj-locale-switch-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6rem;
+  height: 1.4rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--taj-primary);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ── Global Pop-out Notifications (Student + Admin) ─────────────── */
+@keyframes taj-notification-glow {
+  0% {
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16), 0 0 0 0 rgba(4, 120, 87, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 12px 34px rgba(15, 23, 42, 0.2), 0 0 0 3px rgba(4, 120, 87, 0.15);
+  }
+
+  100% {
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16), 0 0 0 0 rgba(4, 120, 87, 0.2);
+  }
+}
+
+.fi-no {
+  width: min(100%, 32rem);
+  inset-inline: 0 !important;
+  margin-inline: auto !important;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.fi-no-notification {
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: var(--taj-primary) !important;
+  animation: taj-notification-glow 2.2s ease-in-out infinite;
+}
+
+.fi-no-notification.fi-status-success {
+  border-color: var(--taj-success) !important;
+}
+
+.fi-no-notification.fi-status-warning {
+  border-color: #d97706 !important;
+}
+
+.fi-no-notification.fi-status-danger {
+  border-color: var(--taj-error) !important;
+}
+
+.fi-no-notification.fi-status-info {
+  border-color: #0284c7 !important;
+}
+
+.dark .fi-no-notification {
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.42);
+}
+
+/* ── Modal Styling ────────────────────────────────────────────────── */
+.fi-modal-header {
+  border-bottom: 2px solid var(--taj-primary-light) !important;
+}
+
+/* ── Mobile-First Responsive Overrides ────────────────────────────── */
+@media (max-width: 640px) {
+
+  .taj-admin-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .taj-admin-card {
+    padding: 0.7rem;
+  }
+
+  .taj-admin-card-value {
+    font-size: clamp(1.1rem, 1rem + 0.35vw, 1.35rem);
+  }
+
+  /* Table horizontal scroll on mobile */
+  .fi-ta-content {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Increase touch targets */
+  .fi-btn {
+    min-height: 2.75rem !important;
+    min-width: 2.75rem !important;
+  }
+
+  /* Stack action buttons */
+  .fi-ta-actions {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  /* Full-width action buttons on mobile */
+  .fi-ta-actions .fi-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Compact table cells on mobile */
+  .fi-ta-cell {
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  /* Compact stat widgets */
+  .fi-wi-stats-overview-stat {
+    padding: 0.75rem !important;
+  }
+
+  /* Stack form columns on mobile */
+  .fi-fo-component-ctn.grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .taj-locale-switch {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.72rem;
+    gap: 0.35rem;
+  }
+
+  .taj-locale-switch-code {
+    min-width: 1.4rem;
+    height: 1.25rem;
+  }
+
+  .taj-admin-sidebar-footer {
+    padding: 0.6rem 0.4rem 0.75rem;
+  }
+
+  .taj-admin-sidebar-card {
+    padding: 0.6rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+
+  /* Tablet: 2 stats per row */
+  .fi-wi-stats-overview {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ── Empty State Styling ──────────────────────────────────────────── */
+.fi-ta-empty-state {
+  background-color: var(--taj-surface) !important;
+  border-radius: 0.75rem;
+  border: 1px dashed var(--taj-primary-light);
+}
+
+/* ── Smooth transitions for all interactive elements ──────────────── */
+.fi-btn,
+.fi-sidebar-item-button,
+.fi-ta-row,
+.fi-wi-stats-overview-stat,
+.fi-badge {
+  transition: all 0.2s ease !important;
+}
+
+/* ── Disabled primary actions (dark mode look) ───────────────────── */
+.fi-btn[disabled],
+.fi-btn:disabled,
+.fi-btn[aria-disabled="true"] {
+  background-color: var(--taj-primary-dark) !important;
+  border-color: var(--taj-primary-dark) !important;
+  color: #ffffff !important;
+  opacity: 1 !important;
+  cursor: not-allowed !important;
+}
+
+/* ── Filament's widget table (Pending Payments) ───────────────────── */
+.fi-wi-table {
+  border: 1px solid var(--taj-primary-light) !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden;
+}
+
+/* ── Scrollbar Styling (WebKit) ───────────────────────────────────── */
+.fi-ta-content::-webkit-scrollbar {
+  height: 6px;
+}
+
+.fi-ta-content::-webkit-scrollbar-track {
+  background: var(--taj-surface);
+  border-radius: 3px;
+}
+
+.fi-ta-content::-webkit-scrollbar-thumb {
+  background: var(--taj-primary-light);
+  border-radius: 3px;
+}
+
+.fi-ta-content::-webkit-scrollbar-thumb:hover {
+  background: var(--taj-primary);
+}
+
+/* ---- Merged: Tutor Theme ---- */
+/* ============================================
+   TAJ-LMS Tutor Panel — Custom Filament Theme
+   Following GUI-enhance.md Design Guidelines
+   ============================================ */
+
+/* ── CSS Custom Properties (Color Palette) ────────────────────────── */
+:root {
+  --taj-primary: #047857;
+  --taj-primary-dark: #065f46;
+  --taj-primary-light: #d1fae5;
+  --taj-background: #ffffff;
+  --taj-surface: #f0fdf4;
+  --taj-text-primary: #1f2937;
+  --taj-text-secondary: #6b7280;
+  --taj-gold: #d4a017;
+  --taj-error: #dc2626;
+  --taj-success: #16a34a;
+}
+
+/* ── Bismillah Dashboard Header ───────────────────────────────────── */
+.fi-tutor-bismillah {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--taj-surface) 0%, #ecfdf5 50%, var(--taj-surface) 100%);
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.fi-tutor-bismillah::before,
+.fi-tutor-bismillah::after {
+  content: '✦';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--taj-gold);
+  font-size: 1.25rem;
+  opacity: 0.5;
+}
+
+.fi-tutor-bismillah::before {
+  inset-inline-start: 1.5rem;
+}
+
+.fi-tutor-bismillah::after {
+  inset-inline-end: 1.5rem;
+}
+
+.fi-tutor-bismillah .bismillah-text {
+  font-family: 'Amiri', 'Scheherazade New', 'IBM Plex Sans Arabic', serif;
+  font-size: 1.75rem;
+  color: var(--taj-primary-dark);
+  line-height: 2.5;
+  letter-spacing: 0.02em;
+}
+
+.fi-tutor-bismillah .welcome-text {
+  font-size: 0.875rem;
+  color: var(--taj-text-secondary);
+  margin-top: 0.25rem;
+}
+
+/* ── Tutor Dashboard Business Widget ─────────────────────────────── */
+.taj-tutor-dashboard {
+  width: 100%;
+  display: grid;
+  gap: clamp(0.85rem, 0.6rem + 0.8vw, 1.25rem);
+  --taj-tutor-space-xs: clamp(0.32rem, 0.28rem + 0.2vw, 0.46rem);
+  --taj-tutor-space-sm: clamp(0.55rem, 0.45rem + 0.35vw, 0.72rem);
+  --taj-tutor-space-md: clamp(0.85rem, 0.72rem + 0.45vw, 1.1rem);
+  --taj-tutor-space-lg: clamp(1rem, 0.82rem + 0.7vw, 1.4rem);
+  --taj-tutor-font-sm: clamp(0.76rem, 0.7rem + 0.15vw, 0.85rem);
+  --taj-tutor-font-base: clamp(0.88rem, 0.82rem + 0.2vw, 0.98rem);
+  --taj-tutor-font-title: clamp(1.45rem, 1.2rem + 0.65vw, 1.95rem);
+}
+
+.taj-tutor-hero {
+  position: relative;
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #ffffff 0%, var(--taj-surface) 62%, #ecfdf5 100%);
+  padding: var(--taj-tutor-space-lg);
+  overflow: hidden;
+}
+
+.taj-tutor-hero::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: -65px;
+  bottom: -65px;
+  width: 210px;
+  height: 210px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(4, 120, 87, 0.12) 0%, rgba(4, 120, 87, 0) 70%);
+  pointer-events: none;
+}
+
+.taj-tutor-hero-grid {
+  position: relative;
+  display: grid;
+  gap: var(--taj-tutor-space-md);
+  z-index: 1;
+}
+
+.taj-tutor-eyebrow {
+  margin: 0;
+  color: var(--taj-primary-dark);
+  font-size: var(--taj-tutor-font-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+
+.taj-tutor-title {
+  margin: 0.3rem 0 0;
+  color: var(--taj-primary-dark);
+  font-size: var(--taj-tutor-font-title);
+  font-weight: 800;
+}
+
+.taj-tutor-focus {
+  margin: 0.5rem 0 0;
+  color: var(--taj-text-primary);
+  font-size: var(--taj-tutor-font-base);
+  max-width: 75ch;
+}
+
+.taj-tutor-chips {
+  margin-top: var(--taj-tutor-space-md);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--taj-tutor-space-sm);
+}
+
+.taj-tutor-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--taj-tutor-space-xs);
+  border: 1px solid var(--taj-primary-light);
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--taj-primary-dark);
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  font-size: var(--taj-tutor-font-sm);
+  font-weight: 600;
+}
+
+.taj-tutor-chip--info {
+  border-color: #bfdbfe;
+  color: #1e40af;
+  background: #eff6ff;
+}
+
+.taj-tutor-quote-card {
+  margin: 0;
+  padding: var(--taj-tutor-space-lg);
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 0.95rem;
+  background: #ffffff;
+  box-shadow: 0 1px 5px rgba(4, 120, 87, 0.08);
+}
+
+.taj-tutor-quote-ar {
+  margin: 0;
+  color: var(--taj-primary-dark);
+  font-family: 'Amiri', 'Noto Naskh Arabic', 'IBM Plex Sans Arabic', serif;
+  font-size: clamp(1.18rem, 1.03rem + 0.45vw, 1.52rem);
+  line-height: 1.9;
+}
+
+.taj-tutor-quote-translation {
+  margin: 0.35rem 0 0;
+  color: var(--taj-text-primary);
+  font-size: var(--taj-tutor-font-base);
+}
+
+.taj-tutor-quote-source {
+  margin: 0.3rem 0 0;
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-tutor-font-sm);
+  font-weight: 600;
+}
+
+.taj-tutor-actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--taj-tutor-space-sm);
+}
+
+.taj-tutor-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--taj-tutor-space-xs);
+  width: 100%;
+  min-height: clamp(2.75rem, 2.6rem + 0.4vw, 3rem);
+  border-radius: 0.85rem;
+  border: 1px solid var(--taj-primary-light);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: var(--taj-tutor-font-base);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.taj-tutor-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(4, 120, 87, 0.14);
+  border-color: var(--taj-primary);
+}
+
+.taj-tutor-cta--primary {
+  background: linear-gradient(135deg, var(--taj-primary), #059669);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.taj-tutor-cta--success {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.taj-tutor-cta--info {
+  background: #eff6ff;
+  color: #1d4ed8;
+  border-color: #bfdbfe;
+}
+
+.taj-tutor-cta--gray {
+  background: #f8fafc;
+  color: #334155;
+  border-color: #e2e8f0;
+}
+
+.taj-tutor-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: var(--taj-tutor-space-md);
+}
+
+.taj-tutor-card {
+  display: block;
+  text-decoration: none;
+  padding: var(--taj-tutor-space-lg);
+  border-radius: 0.95rem;
+  border: 1px solid var(--taj-primary-light);
+  background: #ffffff;
+  color: inherit;
+  box-shadow: 0 1px 4px rgba(4, 120, 87, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.taj-tutor-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(4, 120, 87, 0.12);
+  border-color: var(--taj-primary);
+}
+
+.taj-tutor-card-top {
+  display: flex;
+  align-items: center;
+  gap: var(--taj-tutor-space-xs);
+}
+
+.taj-tutor-card-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 999px;
+  background: #ecfdf5;
+  color: var(--taj-primary);
+}
+
+.taj-tutor-card-label {
+  color: var(--taj-text-primary);
+  font-size: var(--taj-tutor-font-base);
+  font-weight: 700;
+}
+
+.taj-tutor-card-value-wrap {
+  margin-top: var(--taj-tutor-space-sm);
+  display: flex;
+  align-items: baseline;
+  gap: var(--taj-tutor-space-xs);
+}
+
+.taj-tutor-card-value {
+  color: var(--taj-primary-dark);
+  font-size: clamp(1.5rem, 1.28rem + 0.55vw, 1.85rem);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.taj-tutor-card-unit {
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-tutor-font-sm);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.taj-tutor-card-description {
+  margin: 0.35rem 0 0;
+  color: var(--taj-text-secondary);
+  font-size: var(--taj-tutor-font-sm);
+}
+
+.taj-tutor-card--success .taj-tutor-card-icon {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.taj-tutor-card--warning .taj-tutor-card-icon {
+  background: #fffbeb;
+  color: #b45309;
+}
+
+.taj-tutor-card--danger .taj-tutor-card-icon {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.taj-tutor-card--info .taj-tutor-card-icon {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.taj-tutor-card--gray .taj-tutor-card-icon {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.taj-tutor-card--primary .taj-tutor-card-icon {
+  background: #e6fffa;
+  color: #0f766e;
+}
+
+@media (min-width: 768px) {
+  .taj-tutor-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .taj-tutor-hero-grid {
+    grid-template-columns: 1.35fr 1fr;
+    align-items: stretch;
+  }
+
+  .taj-tutor-actions-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .taj-tutor-cards-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .taj-tutor-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .taj-tutor-card {
+    padding: 0.7rem;
+  }
+
+  .taj-tutor-card-value {
+    font-size: clamp(1.1rem, 1rem + 0.35vw, 1.35rem);
+  }
+
+  .fi-tutor-bismillah {
+    padding: 1rem 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .fi-tutor-bismillah .bismillah-text {
+    font-size: 1.25rem;
+    line-height: 2;
+  }
+
+  .fi-tutor-bismillah::before,
+  .fi-tutor-bismillah::after {
+    display: none;
+  }
+}
+
+/* ── Stat Widgets — Mushaf Frame Style ────────────────────────────── */
+.fi-wi-stats-overview-stat {
+  border: 1px solid var(--taj-primary-light) !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.2s ease;
+}
+
+.fi-wi-stats-overview-stat:hover {
+  border-color: var(--taj-primary) !important;
+  box-shadow: 0 4px 6px -1px rgba(4, 120, 87, 0.1), 0 2px 4px -2px rgba(4, 120, 87, 0.1);
+}
+
+/* Table styles are centralized in filament-shared-theme.css */
+
+/* ── Navigation Sidebar ───────────────────────────────────────────── */
+/* Active nav item green accent */
+.fi-sidebar-item-active {
+  border-inline-start: 3px solid var(--taj-primary) !important;
+}
+
+/* Navigation group labels */
+.fi-sidebar-group-label {
+  font-weight: 600 !important;
+  text-transform: none;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.01em;
+  color: var(--taj-text-secondary) !important;
+}
+
+/* Group spacing improves chunking and reduces scanning fatigue. */
+.fi-sidebar-group {
+  margin-top: 0.35rem;
+}
+
+/* Touch-friendly nav items (min 44px) */
+.fi-sidebar-item-button {
+  min-height: 2.75rem;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  border-radius: 0.6rem;
+}
+
+/* Subtle active background gives stronger feedback without visual noise. */
+.fi-sidebar-item-active .fi-sidebar-item-button {
+  background-color: var(--taj-surface) !important;
+}
+
+/* ── Sidebar Profile Card (Tutor/Student style parity) ───────────── */
+.taj-admin-sidebar-footer {
+  padding: 0.75rem 0.5rem 0.9rem;
+  border-top: 1px solid var(--taj-primary-light);
+  background: linear-gradient(180deg, rgba(240, 253, 244, 0.35) 0%, rgba(255, 255, 255, 0.96) 100%);
+}
+
+.taj-admin-sidebar-card {
+  border: 1px solid rgba(4, 120, 87, 0.2);
+  border-radius: 0.9rem;
+  background: #ffffff;
+  box-shadow: 0 8px 20px rgba(4, 120, 87, 0.08);
+  padding: 0.7rem;
+}
+
+.taj-admin-sidebar-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin-bottom: 0.65rem;
+}
+
+.taj-admin-sidebar-user {
+  display: grid;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.taj-admin-sidebar-greeting {
+  font-size: 0.74rem;
+  color: var(--taj-text-secondary);
+  line-height: 1.2;
+}
+
+.taj-admin-sidebar-name {
+  color: var(--taj-primary-dark);
+  font-size: 0.93rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.taj-admin-sidebar-name-short {
+  display: block;
+}
+
+.taj-admin-sidebar-name-full,
+.taj-admin-sidebar-greeting,
+.taj-admin-sidebar-role,
+.taj-admin-sidebar-logout-text {
+  display: none;
+}
+
+.taj-admin-sidebar-role {
+  font-size: 0.74rem;
+  color: var(--taj-text-secondary);
+}
+
+.taj-admin-sidebar-avatar {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: #ffffff;
+  background: radial-gradient(circle at 35% 30%, #059669 0%, #047857 55%, #065f46 100%);
+  box-shadow: 0 0 0 2px #ffffff, 0 0 0 3px rgba(4, 120, 87, 0.25);
+}
+
+.taj-admin-sidebar-logout-form {
+  margin: 0;
+}
+
+.taj-admin-sidebar-logout {
+  width: 100%;
+  min-height: 2.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(4, 120, 87, 0.24);
+  background: var(--taj-surface);
+  color: var(--taj-primary-dark);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.taj-admin-sidebar-logout svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.taj-admin-sidebar-logout:hover {
+  border-color: var(--taj-primary);
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  transform: translateY(-1px);
+}
+
+.fi-sidebar-open .taj-admin-sidebar-name-short {
+  display: none;
+}
+
+.fi-sidebar-open .taj-admin-sidebar-name-full,
+.fi-sidebar-open .taj-admin-sidebar-greeting,
+.fi-sidebar-open .taj-admin-sidebar-role,
+.fi-sidebar-open .taj-admin-sidebar-logout-text {
+  display: inline;
+}
+
+.fi-sidebar-open .taj-admin-sidebar-user {
+  gap: 0.12rem;
+}
+
+/* ── Form Section Styling ─────────────────────────────────────────── */
+/* Section headers with green accent */
+.fi-section-header {
+  border-bottom: 2px solid var(--taj-primary-light) !important;
+  padding-bottom: 0.75rem !important;
+}
+
+/* ── Page Header ──────────────────────────────────────────────────── */
+.fi-header-heading {
+  color: var(--taj-primary-dark) !important;
+  font-weight: 700 !important;
+}
+
+/* ── Badges — Consistent with palette ─────────────────────────────── */
+/* Gold badge for ratings/progress */
+.fi-badge-gold {
+  background-color: rgba(212, 160, 23, 0.1);
+  color: var(--taj-gold);
+  border: 1px solid rgba(212, 160, 23, 0.3);
+}
+
+/* ── Topbar Brand Styling ─────────────────────────────────────────── */
+.fi-topbar {
+  border-bottom: 2px solid var(--taj-primary-light) !important;
+}
+
+.fi-logo {
+  font-weight: 800 !important;
+}
+
+.taj-locale-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--taj-primary-dark);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.taj-locale-switch:hover {
+  border-color: var(--taj-primary);
+  background: var(--taj-surface);
+}
+
+.taj-locale-switch-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6rem;
+  height: 1.4rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--taj-primary);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ── Global Pop-out Notifications (Tutor) ────────────────────────── */
+@keyframes taj-notification-glow {
+  0% {
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16), 0 0 0 0 rgba(4, 120, 87, 0.2);
+  }
+
+  50% {
+    box-shadow: 0 12px 34px rgba(15, 23, 42, 0.2), 0 0 0 3px rgba(4, 120, 87, 0.15);
+  }
+
+  100% {
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16), 0 0 0 0 rgba(4, 120, 87, 0.2);
+  }
+}
+
+.fi-no {
+  width: min(100%, 32rem);
+  inset-inline: 0 !important;
+  margin-inline: auto !important;
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.fi-no-notification {
+  border-width: 2px !important;
+  border-style: solid !important;
+  border-color: var(--taj-primary) !important;
+  animation: taj-notification-glow 2.2s ease-in-out infinite;
+}
+
+.fi-no-notification.fi-status-success {
+  border-color: var(--taj-success) !important;
+}
+
+.fi-no-notification.fi-status-warning {
+  border-color: #d97706 !important;
+}
+
+.fi-no-notification.fi-status-danger {
+  border-color: var(--taj-error) !important;
+}
+
+.fi-no-notification.fi-status-info {
+  border-color: #0284c7 !important;
+}
+
+.dark .fi-no-notification {
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.42);
+}
+
+/* ── Modal Styling ────────────────────────────────────────────────── */
+.fi-modal-header {
+  border-bottom: 2px solid var(--taj-primary-light) !important;
+}
+
+/* ── FullCalendar (WeeklySchedule widget) Styling ─────────────────── */
+.fc .fc-toolbar-title {
+  color: var(--taj-primary-dark);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.fc .fc-button-primary {
+  background-color: var(--taj-primary) !important;
+  border-color: var(--taj-primary-dark) !important;
+}
+
+.fc .fc-button-primary:hover {
+  background-color: var(--taj-primary-dark) !important;
+}
+
+.fc .fc-button-primary:not(:disabled).fc-button-active {
+  background-color: var(--taj-primary-dark) !important;
+}
+
+.fc .fc-today-button {
+  background-color: var(--taj-primary-light) !important;
+  border-color: var(--taj-primary) !important;
+  color: var(--taj-primary-dark) !important;
+}
+
+.fc .fc-daygrid-day.fc-day-today,
+.fc .fc-timegrid-col.fc-day-today {
+  background-color: var(--taj-surface) !important;
+}
+
+.fc .fc-timegrid-slot {
+  border-color: var(--taj-primary-light) !important;
+}
+
+/* ── Mobile-First Responsive Overrides ────────────────────────────── */
+@media (max-width: 640px) {
+
+  /* Table horizontal scroll on mobile */
+  .fi-ta-content {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Increase touch targets */
+  .fi-btn {
+    min-height: 2.75rem !important;
+    min-width: 2.75rem !important;
+  }
+
+  /* Stack action buttons */
+  .fi-ta-actions {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  /* Full-width action buttons on mobile */
+  .fi-ta-actions .fi-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Compact table cells on mobile */
+  .fi-ta-cell {
+    padding: 0.5rem 0.75rem !important;
+  }
+
+  /* Hide calendar/clock icons on mobile to prevent overflow */
+  .sessions-date-col svg,
+  .sessions-date-col .fi-ta-col-icon,
+  [class*="sessions-date-col"]>*>svg,
+  .availability-day-col svg,
+  .availability-day-col .fi-ta-col-icon,
+  .availability-time-col svg,
+  .availability-time-col .fi-ta-col-icon,
+  .progress-date-col svg,
+  .progress-date-col .fi-ta-col-icon {
+    display: none !important;
+  }
+
+  .taj-locale-switch {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.72rem;
+    gap: 0.35rem;
+  }
+
+  .taj-locale-switch-code {
+    min-width: 1.4rem;
+    height: 1.25rem;
+  }
+
+  .taj-admin-sidebar-footer {
+    padding: 0.6rem 0.4rem 0.75rem;
+  }
+
+  .taj-admin-sidebar-card {
+    padding: 0.6rem;
+  }
+
+  /* Availability: hide individual action buttons on mobile, show ⋮ */
+  .avail-desktop-action {
+    display: none !important;
+  }
+}
+
+/* Availability: hide ⋮ dropdown on desktop, show individual buttons */
+@media (min-width: 641px) {
+  .avail-mobile-action {
+    display: none !important;
+  }
+}
+
+
+
+
+
+/* ── FullCalendar List View — Core Styling ────────────────────────── */
+
+/* Day header row in list view */
+.fc .fc-list-day-cushion {
+  background-color: var(--taj-surface) !important;
+  padding: 0.5rem 1rem;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--taj-primary-dark);
+  border-inline-start: 4px solid var(--taj-gold);
+}
+
+.fc .fc-list-day th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--taj-surface);
+}
+
+/* Event rows in list view */
+.fc .fc-list-event {
+  cursor: default;
+  transition: background-color 0.15s ease;
+}
+
+.fc .fc-list-event:hover td {
+  background-color: var(--taj-primary-light) !important;
+}
+
+/* Touch-friendly event row height */
+.fc .fc-list-event td {
+  padding: 0.6rem 0.75rem !important;
+  font-size: 0.875rem;
+  min-height: 2.75rem;
+  vertical-align: middle;
+}
+
+/* Time column in list view */
+.fc .fc-list-event-time {
+  color: var(--taj-text-secondary);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  min-width: 5rem;
+}
+
+/* Event title in list view — truncate if too long */
+.fc .fc-list-event-title {
+  font-weight: 500;
+  color: var(--taj-text-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 60vw;
+}
+
+/* Colored dot/marker column */
+.fc .fc-list-event-graphic {
+  padding-inline-end: 0.5rem !important;
+}
+
+/* Empty state message */
+.fc .fc-list-empty {
+  background-color: var(--taj-surface);
+  border: 1px dashed var(--taj-primary-light);
+  border-radius: 0.75rem;
+  color: var(--taj-text-secondary);
+  font-size: 0.875rem;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+/* ── FullCalendar Mobile Overrides (< 768px) ──────────────────────── */
+@media (max-width: 767px) {
+
+  /* Compact toolbar: stack on very small screens */
+  .fc .fc-toolbar {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding: 0.5rem;
+  }
+
+  .fc .fc-toolbar-title {
+    font-size: 0.95rem;
+    flex-basis: 100%;
+    text-align: center;
+    order: -1;
+  }
+
+  /* View buttons smaller on mobile */
+  .fc .fc-button {
+    padding: 0.3rem 0.6rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* Sticky list day header */
+  .fc .fc-list-day th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  /* Wider time column removed — inline with title on mobile */
+  .fc .fc-list-event-time {
+    display: none !important;
+  }
+
+  /* Show time inline before the title via CSS attr trick — FullCalendar sets data-time */
+  .fc .fc-list-event-title::before {
+    content: attr(data-time) ' · ';
+    color: var(--taj-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+
+  /* Make the calendar widget take full width */
+  .fc {
+    font-size: 0.9rem;
+  }
+
+  /* Remove horizontal scroll on the calendar container */
+  .fc-scroller {
+    overflow-x: hidden !important;
+  }
+
+  /* Compact stat widgets */
+  .fi-wi-stats-overview-stat {
+    padding: 0.75rem !important;
+  }
+
+  /* Stack form columns on mobile */
+  .fi-fo-component-ctn.grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+
+  /* Tablet: 2 stats per row */
+  .fi-wi-stats-overview {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ── Empty State Styling ──────────────────────────────────────────── */
+.fi-ta-empty-state {
+  background-color: var(--taj-surface) !important;
+  border-radius: 0.75rem;
+  border: 1px dashed var(--taj-primary-light);
+}
+
+/* ── Smooth transitions for all interactive elements ──────────────── */
+.fi-btn,
+.fi-sidebar-item-button,
+.fi-ta-row,
+.fi-wi-stats-overview-stat,
+.fi-badge {
+  transition: all 0.2s ease !important;
+}
+
+/* ── Filament's widget table (TodaysSchedule) ─────────────────────── */
+.fi-wi-table {
+  border: 1px solid var(--taj-primary-light) !important;
+  border-radius: 0.75rem !important;
+  overflow: hidden;
+}
+
+/* ── Scrollbar Styling (WebKit) ───────────────────────────────────── */
+.fi-ta-content::-webkit-scrollbar {
+  height: 6px;
+}
+
+.fi-ta-content::-webkit-scrollbar-track {
+  background: var(--taj-surface);
+  border-radius: 3px;
+}
+
+.fi-ta-content::-webkit-scrollbar-thumb {
+  background: var(--taj-primary-light);
+  border-radius: 3px;
+}
+
+.fi-ta-content::-webkit-scrollbar-thumb:hover {
+  background: var(--taj-primary);
+}
+
+/* ---- Merged: Shared Overrides ---- */
+/* ============================================
+   TAJ-LMS Shared Panel Theme (Admin/Student/Tutor)
+   Single source of truth for cross-panel UI polish.
+   ============================================ */
+
+:root {
+  --taj-primary: #047857;
+  --taj-primary-dark: #065f46;
+  --taj-primary-light: #d1fae5;
+  --taj-background: #ffffff;
+  --taj-surface: #f0fdf4;
+  --taj-text-primary: #1f2937;
+  --taj-text-secondary: #6b7280;
+  --taj-gold: #d4a017;
+  --taj-error: #dc2626;
+  --taj-success: #16a34a;
+}
+
+/* ΓöÇΓöÇ Global Topbar Surface (light + dark) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+.fi-topbar {
+  background: linear-gradient(180deg, #ffffff 0%, #f6fef9 100%) !important;
+  border-bottom: 1px solid #a7f3d0 !important;
+  box-shadow: 0 8px 20px -18px rgba(4, 120, 87, 0.5) !important;
+}
+
+.dark .fi-topbar {
+  background: linear-gradient(180deg, #0f172a 0%, #111827 100%) !important;
+  border-bottom: 1px solid rgba(16, 185, 129, 0.35) !important;
+  box-shadow: 0 12px 24px -20px rgba(16, 185, 129, 0.5) !important;
+}
+
+.fi-topbar::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(4, 120, 87, 0) 0%, rgba(4, 120, 87, 0.35) 50%, rgba(4, 120, 87, 0) 100%);
+  pointer-events: none;
+}
+
+.dark .fi-topbar::after {
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0) 0%, rgba(16, 185, 129, 0.55) 50%, rgba(16, 185, 129, 0) 100%);
+}
+
+/* ΓöÇΓöÇ Shared Locale Switcher Style ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+.taj-locale-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--taj-primary-light);
+  border-radius: 999px;
+  background: #ffffff;
+  color: var(--taj-primary-dark);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 1;
+  transition: all 0.2s ease;
+}
+
+.taj-locale-switch:hover {
+  border-color: var(--taj-primary);
+  background: var(--taj-surface);
+}
+
+.dark .taj-locale-switch {
+  background: #0f172a;
+  border-color: rgba(16, 185, 129, 0.28);
+  color: #a7f3d0;
+}
+
+.dark .taj-locale-switch:hover {
+  background: #111827;
+  border-color: rgba(16, 185, 129, 0.52);
+}
+
+.taj-locale-switch-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.6rem;
+  height: 1.4rem;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background: var(--taj-primary);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+@media (max-width: 640px) {
+  .taj-locale-switch {
+    padding: 0.3rem 0.55rem;
+    font-size: 0.72rem;
+    gap: 0.35rem;
+  }
+
+  .taj-locale-switch-code {
+    min-width: 1.4rem;
+    height: 1.25rem;
+  }
+}
+
+/* ΓöÇΓöÇ Unified Dark Dashboard Surface (Admin + Tutor) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+.dark .taj-admin-hero,
+.dark .taj-tutor-hero {
+  background: linear-gradient(135deg, #0f172a 0%, #111827 65%, #0f172a 100%) !important;
+  border-color: #1f2937 !important;
+}
+
+.dark .taj-admin-eyebrow,
+.dark .taj-admin-title,
+.dark .taj-tutor-eyebrow,
+.dark .taj-tutor-title {
+  color: #6ee7b7 !important;
+}
+
+.dark .taj-admin-focus,
+.dark .taj-admin-card-label,
+.dark .taj-admin-quote-translation,
+.dark .taj-tutor-focus,
+.dark .taj-tutor-card-label,
+.dark .taj-tutor-quote-translation {
+  color: #e5e7eb !important;
+}
+
+.dark .taj-admin-chip,
+.dark .taj-admin-quote-card,
+.dark .taj-admin-card,
+.dark .taj-admin-cta,
+.dark .taj-tutor-chip,
+.dark .taj-tutor-quote-card,
+.dark .taj-tutor-card,
+.dark .taj-tutor-cta {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+  color: #e5e7eb !important;
+}
+
+.dark .taj-admin-card-value,
+.dark .taj-admin-quote-ar,
+.dark .taj-tutor-card-value,
+.dark .taj-tutor-quote-ar {
+  color: #86efac !important;
+}
+
+.dark .taj-admin-card-description,
+.dark .taj-admin-card-unit,
+.dark .taj-admin-quote-source,
+.dark .taj-tutor-card-description,
+.dark .taj-tutor-card-unit,
+.dark .taj-tutor-quote-source {
+  color: #9ca3af !important;
+}
+
+/* ΓöÇΓöÇ Unified Sidebar Footer Card in Dark Mode ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+.dark .taj-admin-sidebar-footer {
+  border-top-color: #1f2937 !important;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(2, 6, 23, 0.95) 100%) !important;
+}
+
+.dark .taj-admin-sidebar-card {
+  background: #111827 !important;
+  border-color: #1f2937 !important;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35) !important;
+}
+
+.dark .taj-admin-sidebar-greeting,
+.dark .taj-admin-sidebar-role,
+.dark .taj-admin-sidebar-logout-text,
+.dark .taj-admin-sidebar-name-full,
+.dark .taj-admin-sidebar-name-short {
+  color: #d1d5db !important;
+}
+
+.dark .taj-admin-sidebar-logout {
+  background: #0f172a !important;
+  border-color: #1f2937 !important;
+  color: #a7f3d0 !important;
+}
+
+.dark .taj-admin-sidebar-logout:hover {
+  background: #111827 !important;
+  border-color: rgba(16, 185, 129, 0.6) !important;
+}
+
+/* Unified section dividers for dashboard action/KPI groups */
+.taj-dashboard-section {
+  display: block;
+}
+
+.taj-dashboard-section+.taj-dashboard-section {
+  margin-top: 0.35rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.26);
+}
+
+.dark .taj-dashboard-section+.taj-dashboard-section {
+  border-top-color: rgba(56, 189, 248, 0.3);
+}
+
+.dark .taj-dashboard-section-title {
+  color: #d1d5db !important;
+}
+
+/* ΓöÇΓöÇ Unified Sidebar Spacing + Design (All Panels) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+.fi-sidebar-item-active {
+  border-inline-start: 3px solid var(--taj-primary) !important;
+}
+
+.fi-sidebar-group-label {
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.08em !important;
+  color: var(--taj-text-secondary) !important;
+}
+
+.fi-sidebar-group {
+  margin-top: 0 !important;
+}
+
+.fi-sidebar-item-button {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem;
+  min-height: 44px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-radius: 0.75rem !important;
+}
+
+.fi-sidebar-item-active .fi-sidebar-item-button {
+  background-color: var(--taj-surface) !important;
+}
+
+.dark .fi-sidebar-item-button {
+  color: #9ca3af !important;
+}
+
+.dark .fi-sidebar-item-active .fi-sidebar-item-button {
+  background-color: #111827 !important;
+  border: 1px solid #1f2937 !important;
+  color: #6ee7b7 !important;
+}
+
+/* ΓöÇΓöÇ Unified Sidebar Scrollbar (All Panels) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+.fi-sidebar-nav {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(4, 120, 87, 0.55) transparent;
+}
+
+.dark .fi-sidebar-nav {
+  scrollbar-color: rgba(16, 185, 129, 0.5) transparent;
+}
+
+.fi-sidebar-nav::-webkit-scrollbar {
+  width: 6px;
+}
+
+.fi-sidebar-nav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.fi-sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(4, 120, 87, 0.42);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.fi-sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(4, 120, 87, 0.68);
+}
+
+.dark .fi-sidebar-nav::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.4);
+}
+
+.dark .fi-sidebar-nav::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.64);
+}
+
+/* ΓöÇΓöÇ Unified Table Styling (All Panels) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+.fi-ta-row:nth-child(even) {
+  background-color: var(--taj-surface) !important;
+}
+
+.fi-ta-header,
+.fi-ta-header-cell {
+  background-color: #e8f5ee !important;
+  border-color: #b7e4cf !important;
+}
+
+.fi-ta-header-cell {
+  font-weight: 600 !important;
+  color: var(--taj-text-primary) !important;
+  text-transform: uppercase;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.05em;
+}
+
+.fi-ta-row:hover,
+.fi-ta-table tbody tr:hover>td,
+.fi-ta-content table tbody tr:hover>td,
+.fi-ta-content table tbody tr:hover>th {
+  background-color: var(--taj-primary-light) !important;
+}
+
+.dark .fi-ta-content,
+.dark .fi-ta-table {
+  background-color: #0b1220 !important;
+}
+
+.dark .fi-ta-header,
+.dark .fi-ta-header-cell {
+  background-color: #0b1220 !important;
+  border-color: #1f2937 !important;
+  color: #f3f4f6 !important;
+}
+
+.dark .fi-ta-row,
+.dark .fi-ta-record,
+.dark .fi-ta-cell {
+  background-color: #111827 !important;
+  border-color: #1f2937 !important;
+}
+
+.dark .fi-ta-row:nth-child(even),
+.dark .fi-ta-record:nth-child(even) .fi-ta-cell {
+  background-color: #0f172a !important;
+}
+
+.dark .fi-ta-row:hover,
+.dark .fi-ta-record:hover .fi-ta-cell,
+.dark .fi-ta-record:focus-within .fi-ta-cell,
+.dark .fi-ta-table tbody tr:hover>td,
+.dark .fi-ta-content table tbody tr:hover>td,
+.dark .fi-ta-content table tbody tr:hover>th {
+  background-color: rgba(16, 185, 129, 0.18) !important;
+}
+
+.dark .fi-ta-text,
+.dark .fi-ta-text-item,
+.dark .fi-ta-text-item-label,
+.dark .fi-ta-cell {
+  color: #e5e7eb !important;
+}
+
+.dark .fi-ta-record[aria-expanded="true"] .fi-ta-cell,
+.dark .fi-ta-record.fi-active .fi-ta-cell,
+.dark .fi-ta-record[data-state="active"] .fi-ta-cell {
+  background-color: #134e4a !important;
+  color: #ecfeff !important;
+}
+
+.fi-ta-empty-state {
+  background-color: var(--taj-surface) !important;
+  border-radius: 0.75rem;
+  border: 1px dashed var(--taj-primary-light);
+}
+
+.dark .fi-ta-empty-state {
+  background-color: #0f172a !important;
+  border-color: #1f2937 !important;
+  color: #cbd5e1 !important;
+}
+
+/* ΓöÇΓöÇ Unified Widget Styling (Dark Mode) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+.dark .fi-wi,
+.dark .fi-widget,
+.dark .fi-section-content-ctn {
+  color: #e5e7eb;
+}
+
+.dark .fi-wi-stats-overview-stat {
+  border-color: rgba(56, 189, 248, 0.42) !important;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.92) 0%, rgba(17, 24, 39, 0.96) 100%) !important;
+  box-shadow: 0 10px 26px rgba(2, 6, 23, 0.42) !important;
+}
+
+.dark .fi-wi-stats-overview-stat:hover {
+  border-color: rgba(110, 231, 183, 0.78) !important;
+  box-shadow: 0 14px 28px rgba(2, 6, 23, 0.5) !important;
+}
+
+.dark .fi-wi-stats-overview-stat-label,
+.dark .fi-wi-stats-overview-stat-description,
+.dark .fi-wi-stats-overview-stat-chart-label {
+  color: #cbd5e1 !important;
+}
+
+.dark .fi-wi-stats-overview-stat-value {
+  color: #6ee7b7 !important;
+}
+
+.dark .fi-wi-table {
+  border-color: #1f2937 !important;
+  background-color: #0f172a !important;
+}
+
+.dark .fi-wi .fi-section,
+.dark .fi-wi .fi-section-content,
+.dark .fi-wi .fi-ta,
+.dark .fi-wi .fi-ta-content {
+  background-color: #0f172a !important;
+  border-color: #1f2937 !important;
+}
+
+/* ΓöÇΓöÇ Motivation Hero Widget (Unified) ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ */
+.taj-motivation-hero {
+  margin-bottom: 1.5rem;
+}
+
+.taj-motivation-shell {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid #9ee6c6;
+  background: linear-gradient(135deg, #0b8f67 0%, #0a7f5d 58%, #0a6f53 100%);
+  box-shadow: 0 8px 24px rgba(4, 120, 87, 0.18);
+}
+
+.taj-motivation-shell::after {
+  content: '';
+  position: absolute;
+  inset-inline-end: -80px;
+  bottom: -80px;
+  width: 220px;
+  height: 220px;
+  border-radius: 999px;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.taj-motivation-head {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+}
+
+.taj-motivation-icon {
+  width: 3.2rem;
+  height: 3.2rem;
+  flex: 0 0 3.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #d1fae5;
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.taj-motivation-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.taj-motivation-title {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: clamp(1.45rem, 1.2rem + 0.6vw, 2.1rem);
+  line-height: 1.2;
+}
+
+.taj-motivation-badge {
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  background: #d4a017;
+}
+
+.taj-motivation-keywords {
+  margin-top: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.taj-motivation-keyword {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.34rem 0.8rem;
+  color: #f8fafc;
+  font-size: 0.82rem;
+  font-weight: 700;
+  border: 1px solid rgba(56, 189, 248, 0.55);
+  background: rgba(15, 23, 42, 0.22);
+}
+
+.taj-motivation-message {
+  margin: 0.95rem 0 0;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: clamp(1.02rem, 0.98rem + 0.22vw, 1.18rem);
+  line-height: 1.55;
+}
+
+.taj-motivation-steps-wrap {
+  position: relative;
+  z-index: 1;
+  margin-top: 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(56, 189, 248, 0.45);
+  background: rgba(15, 23, 42, 0.15);
+  padding: 0.7rem;
+}
+
+.taj-motivation-steps-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.taj-motivation-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 0.9rem;
+  padding: 0.25rem 0.35rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.04) 100%);
+}
+
+.taj-motivation-step-number {
+  width: 2rem;
+  height: 2rem;
+  flex: 0 0 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 800;
+  background: #d4a017;
+}
+
+.taj-motivation-step-text {
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.dark .taj-motivation-shell {
+  border-color: rgba(45, 212, 191, 0.5);
+  background: linear-gradient(142deg, #07354a 0%, #0a4b5f 32%, #0f5f64 65%, #11644f 100%);
+  box-shadow: 0 14px 32px rgba(2, 6, 23, 0.5);
+}
+
+.dark .taj-motivation-keyword {
+  border-color: rgba(56, 189, 248, 0.62);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.45) 0%, rgba(30, 41, 59, 0.38) 100%);
+}
+
+.dark .taj-motivation-steps-wrap {
+  border-color: rgba(56, 189, 248, 0.5);
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.4) 0%, rgba(30, 41, 59, 0.32) 100%);
+}
+
+.dark .taj-motivation-step {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.42) 0%, rgba(15, 118, 110, 0.22) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.26);
+}
+
+@media (min-width: 900px) {
+  .taj-motivation-steps-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .taj-motivation-shell {
+    padding: 1rem;
+    border-radius: 0.85rem;
+  }
+
+  .taj-motivation-head {
+    gap: 0.7rem;
+  }
+
+  .taj-motivation-icon {
+    width: 2.7rem;
+    height: 2.7rem;
+    flex-basis: 2.7rem;
+  }
+
+  .taj-motivation-message {
+    margin-top: 0.75rem;
+  }
+
+  .taj-motivation-step-text {
+    font-size: 0.95rem;
+  }
+}
+
+/* Student panel mobile spacing + card distribution polish */
+@media (max-width: 640px) {
+  .fi-panel-student .taj-student-dashboard {
+    gap: 0.75rem;
+  }
+
+  .fi-panel-student .taj-student-hero {
+    padding: 0.9rem;
+    gap: 0.75rem;
+    border-radius: 1rem;
+  }
+
+  .fi-panel-student .taj-student-chips {
+    margin-top: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .fi-panel-student .taj-student-actions-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .fi-panel-student .taj-student-cta {
+    min-height: 2.8rem;
+    padding-inline: 0.6rem;
+    border-radius: 0.75rem;
+    font-size: 0.88rem;
+  }
+
+  .fi-panel-student .taj-student-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .fi-panel-student .taj-student-card {
+    padding: 0.75rem;
+    border-radius: 0.85rem;
+  }
+
+  .fi-panel-student .taj-student-card-value {
+    font-size: clamp(1.1rem, 1rem + 0.35vw, 1.35rem);
+  }
+
+  .fi-panel-student .taj-student-card-description {
+    margin-top: 0.3rem;
+    line-height: 1.4;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .fi-panel-admin .taj-admin-dashboard {
+    gap: 0.75rem;
+  }
+
+  .fi-panel-admin .taj-admin-actions-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .fi-panel-admin .taj-admin-cta {
+    min-height: 2.8rem;
+    padding-inline: 0.6rem;
+    border-radius: 0.75rem;
+    font-size: 0.88rem;
+  }
+
+  .fi-panel-admin .taj-admin-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .fi-panel-admin .taj-admin-card {
+    padding: 0.75rem;
+    border-radius: 0.85rem;
+  }
+
+  .fi-panel-admin .taj-admin-card-value {
+    font-size: clamp(1.1rem, 1rem + 0.35vw, 1.35rem);
+  }
+
+  .fi-panel-admin .taj-admin-card-description {
+    margin-top: 0.3rem;
+    line-height: 1.4;
+    font-size: 0.78rem;
+  }
+}
+
+/* Final dark-mode unification for Admin + Tutor dashboard cards */
+.dark .taj-admin-card,
+.dark .taj-tutor-card {
+  background: linear-gradient(155deg, #0b162f 0%, #10213f 58%, #123455 100%) !important;
+  border-color: rgba(56, 189, 248, 0.34) !important;
+  color: #e5e7eb !important;
+  box-shadow: 0 12px 26px rgba(2, 6, 23, 0.4) !important;
+}
+
+.dark .taj-admin-card:hover,
+.dark .taj-tutor-card:hover {
+  border-color: rgba(110, 231, 183, 0.72) !important;
+  box-shadow: 0 16px 30px rgba(2, 6, 23, 0.52) !important;
+}
+
+.dark .taj-admin-cta,
+.dark .taj-tutor-cta {
+  border-color: rgba(56, 189, 248, 0.32) !important;
+  background: linear-gradient(145deg, #0c1730 0%, #10203b 100%) !important;
+  color: #e5e7eb !important;
+}
+
+.dark .taj-admin-cta--primary,
+.dark .taj-tutor-cta--primary {
+  background: linear-gradient(135deg, #0f766e 0%, #0f8f79 50%, #14b8a6 100%) !important;
+  border-color: transparent !important;
+  color: #ecfeff !important;
+}
+
+.dark .taj-admin-cta--success,
+.dark .taj-tutor-cta--success {
+  background: linear-gradient(135deg, #0b3a31 0%, #14532d 100%) !important;
+  border-color: rgba(74, 222, 128, 0.4) !important;
+  color: #bbf7d0 !important;
+}
+
+.dark .taj-admin-cta--info,
+.dark .taj-tutor-cta--info {
+  background: linear-gradient(135deg, #0f2f4d 0%, #1e3a8a 100%) !important;
+  border-color: rgba(96, 165, 250, 0.5) !important;
+  color: #bfdbfe !important;
+}
+
+.dark .taj-admin-cta--gray,
+.dark .taj-tutor-cta--gray {
+  background: linear-gradient(135deg, #1f2937 0%, #334155 100%) !important;
+  border-color: rgba(148, 163, 184, 0.45) !important;
+  color: #e2e8f0 !important;
+}
