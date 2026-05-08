@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Login — MedCare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/css/style.css">
+</head>
+<body>
+  <div id="componentHeader"></div>
+  <main class="container">
+    <h1 class="section-title">Sign in to MedCare</h1>
+    <div class="form-card">
+      <form action="/src/php/auth/login.php" method="post">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required placeholder="you@example.com">
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" required placeholder="••••••••">
+
+        <div class="form-actions">
+          <button class="btn primary" type="submit">Sign in</button>
+          <a class="btn ghost" href="/src/pages/register.html">Register</a>
+        </div>
+      </form>
+    </div>
+  </main>
+  <div id="componentFooter"></div>
+  <script src="/src/js/main.js"></script>
+</body>
+</html>

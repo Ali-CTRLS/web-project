@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Doctor Dashboard — MedCare Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/css/style.css">
+</head>
+<body>
+  <div id="componentHeader"></div>
+  <main class="container">
+    <h1 class="section-title">Doctor Dashboard</h1>
+    <p class="muted">Welcome back, Dr. Sarah Smith. Manage your patients and appointments.</p>
+
+    <div class="dashboard-grid">
+      <div class="dashboard-card">
+        <h3>👥 Total Patients</h3>
+        <div class="stat">24</div>
+        <p>Active patient relationships</p>
+      </div>
+      <div class="dashboard-card">
+        <h3>📅 Today's Appointments</h3>
+        <div class="stat">3</div>
+        <p>Scheduled for today</p>
+      </div>
+      <div class="dashboard-card">
+        <h3>📋 Pending Reports</h3>
+        <div class="stat">5</div>
+        <p>Reports awaiting completion</p>
+      </div>
+      <div class="dashboard-card">
+        <h3>⏰ Avg Consultation Time</h3>
+        <div class="stat">28m</div>
+        <p>Average per patient</p>
+      </div>
+    </div>
+
+    <div style="margin:3rem 0">
+      <h2>Today's Appointments</h2>
+      <div style="overflow-x:auto">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Patient</th>
+              <th>Reason</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>9:00 AM</td>
+              <td>
+                <div style="font-weight:600">John Doe</div>
+                <div style="color:var(--muted);font-size:0.9rem">ID: P001</div>
+              </td>
+              <td>Follow-up visit</td>
+              <td><span class="badge">Scheduled</span></td>
+              <td style="display:flex;gap:0.5rem">
+                <button class="btn small ghost">View</button>
+                <button class="btn small ghost">Notes</button>
+              </td>
+            </tr>
+            <tr>
+              <td>10:30 AM</td>
+              <td>
+                <div style="font-weight:600">Jane Smith</div>
+                <div style="color:var(--muted);font-size:0.9rem">ID: P002</div>
+              </td>
+              <td>Initial consultation</td>
+              <td><span class="badge">Scheduled</span></td>
+              <td style="display:flex;gap:0.5rem">
+                <button class="btn small ghost">View</button>
+                <button class="btn small ghost">Notes</button>
+              </td>
+            </tr>
+            <tr>
+              <td>2:00 PM</td>
+              <td>
+                <div style="font-weight:600">Robert Wilson</div>
+                <div style="color:var(--muted);font-size:0.9rem">ID: P003</div>
+              </td>
+              <td>Injury assessment</td>
+              <td><span class="badge">Scheduled</span></td>
+              <td style="display:flex;gap:0.5rem">
+                <button class="btn small ghost">View</button>
+                <button class="btn small ghost">Notes</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:3rem 0">
+      <div>
+        <h2>Recent Patient Submissions</h2>
+        <div class="list-item">
+          <div>
+            <div class="list-item-title">Emily Brown - Injury Report</div>
+            <div class="list-item-desc">Submitted May 7, 2026</div>
+          </div>
+          <button class="btn small primary">Review</button>
+        </div>
+        <div class="list-item">
+          <div>
+            <div class="list-item-title">Michael Taylor - Medical History</div>
+            <div class="list-item-desc">Updated May 6, 2026</div>
+          </div>
+          <button class="btn small primary">Review</button>
+        </div>
+        <div class="list-item">
+          <div>
+            <div class="list-item-title">Sarah Johnson - Lab Results</div>
+            <div class="list-item-desc">Received May 5, 2026</div>
+          </div>
+          <button class="btn small primary">Review</button>
+        </div>
+      </div>
+
+      <div>
+        <h2>Quick Actions</h2>
+        <button style="width:100%;margin:0.5rem 0" class="btn primary">➕ Create Medical Report</button>
+        <button style="width:100%;margin:0.5rem 0" class="btn ghost">📝 Update Patient Notes</button>
+        <button style="width:100%;margin:0.5rem 0" class="btn ghost">📋 Schedule Appointment</button>
+        <button style="width:100%;margin:0.5rem 0" class="btn ghost">💬 Message Patient</button>
+        <button style="width:100%;margin:0.5rem 0" class="btn ghost">📊 View Analytics</button>
+      </div>
+    </div>
+
+    <div style="margin-top:3rem">
+      <h2>Patient Search</h2>
+      <div style="display:flex;gap:1rem">
+        <input type="text" placeholder="Search by patient name or ID..." style="flex:1;padding:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);color:inherit">
+        <button class="btn primary">Search</button>
+      </div>
+    </div>
+  </main>
+  <div id="componentFooter"></div>
+  <script src="/src/js/main.js"></script>
+</body>
+</html>

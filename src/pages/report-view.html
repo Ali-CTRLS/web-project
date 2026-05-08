@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Medical Reports — MedCare Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/css/style.css">
+</head>
+<body>
+  <div id="componentHeader"></div>
+  <main class="container">
+    <h1 class="section-title">Medical Reports</h1>
+    <p class="muted">View and manage your medical reports and documentation.</p>
+
+    <div style="margin:2rem 0;display:flex;gap:1rem;flex-wrap:wrap">
+      <input type="text" placeholder="Search reports..." style="flex:1;min-width:200px;padding:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);color:inherit">
+      <select style="padding:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);color:inherit">
+        <option value="">All Types</option>
+        <option value="physical">Physical Examination</option>
+        <option value="lab">Laboratory Results</option>
+        <option value="imaging">Imaging Report</option>
+        <option value="consultation">Consultation Notes</option>
+      </select>
+      <button class="btn primary">🔍 Filter</button>
+    </div>
+
+    <div style="overflow-x:auto;margin:2rem 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Report Type</th>
+            <th>Date</th>
+            <th>Doctor</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div style="font-weight:600">Physical Examination</div>
+              <div style="color:var(--muted);font-size:0.9rem">General health check-up</div>
+            </td>
+            <td>May 8, 2026</td>
+            <td>Dr. Sarah Smith</td>
+            <td><span class="badge">Completed</span></td>
+            <td style="display:flex;gap:0.5rem">
+              <button class="btn small ghost">View</button>
+              <button class="btn small ghost">⬇ Download</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:600">Laboratory Results</div>
+              <div style="color:var(--muted);font-size:0.9rem">Blood work analysis</div>
+            </td>
+            <td>April 30, 2026</td>
+            <td>Dr. Michael Jones</td>
+            <td><span class="badge">Completed</span></td>
+            <td style="display:flex;gap:0.5rem">
+              <button class="btn small ghost">View</button>
+              <button class="btn small ghost">⬇ Download</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:600">Imaging Report</div>
+              <div style="color:var(--muted);font-size:0.9rem">Chest X-ray analysis</div>
+            </td>
+            <td>April 22, 2026</td>
+            <td>Dr. Jennifer Lee</td>
+            <td><span class="badge">Completed</span></td>
+            <td style="display:flex;gap:0.5rem">
+              <button class="btn small ghost">View</button>
+              <button class="btn small ghost">⬇ Download</button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div style="font-weight:600">Consultation Notes</div>
+              <div style="color:var(--muted);font-size:0.9rem">Follow-up visit</div>
+            </td>
+            <td>April 10, 2026</td>
+            <td>Dr. Rajesh Patel</td>
+            <td><span class="badge">Completed</span></td>
+            <td style="display:flex;gap:0.5rem">
+              <button class="btn small ghost">View</button>
+              <button class="btn small ghost">⬇ Download</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top:3rem">
+      <h2>Sample Report Preview</h2>
+      <div class="form-card" style="background:rgba(255,255,255,0.015)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
+          <div>
+            <h3 style="margin:0 0 0.5rem;color:var(--accent)">Physical Examination Report</h3>
+            <p style="margin:0;color:var(--muted)">May 8, 2026 | Dr. Sarah Smith</p>
+          </div>
+          <button class="btn small primary">📥 Export PDF</button>
+        </div>
+        <div style="line-height:1.8;color:#e6eef8">
+          <h4 style="color:var(--accent-2)">Patient Information</h4>
+          <p><strong>Name:</strong> John Doe | <strong>ID:</strong> P001 | <strong>DOB:</strong> January 15, 1985</p>
+          
+          <h4 style="margin-top:1.5rem;color:var(--accent-2)">Clinical Findings</h4>
+          <p>Patient presents in good general health. Vital signs within normal limits. Blood pressure 120/80 mmHg, heart rate 72 bpm, temperature 98.6°F. Physical examination reveals no abnormalities.</p>
+          
+          <h4 style="margin-top:1.5rem;color:var(--accent-2)">Diagnosis</h4>
+          <p>General health check - No acute findings.</p>
+          
+          <h4 style="margin-top:1.5rem;color:var(--accent-2)">Treatment Plan</h4>
+          <p>Continue current lifestyle. Maintain regular exercise and balanced diet. Follow-up appointment in 6 months unless symptoms develop.</p>
+          
+          <h4 style="margin-top:1.5rem;color:var(--accent-2)">Recommendations</h4>
+          <ul>
+            <li>Continue current activities</li>
+            <li>Maintain healthy diet</li>
+            <li>Regular exercise (30 min/day)</li>
+            <li>Schedule annual check-up</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="componentFooter"></div>
+  <script src="/src/js/main.js"></script>
+</body>
+</html>
