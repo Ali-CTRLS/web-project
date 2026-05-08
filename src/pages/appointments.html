@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Appointments — MedCare Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/css/style.css">
+</head>
+<body>
+  <div id="componentHeader"></div>
+  <main class="container">
+    <h1 class="section-title">Manage Appointments</h1>
+    <p class="muted">View and manage your upcoming appointments with healthcare providers.</p>
+
+    <div class="form-card" style="margin:2rem auto">
+      <h2 style="margin-top:0">Book New Appointment</h2>
+      <form>
+        <div class="form-group">
+          <label for="doctor">Select Doctor:</label>
+          <select id="doctor" required>
+            <option value="">-- Choose a doctor --</option>
+            <option value="dr-smith">Dr. Sarah Smith - Cardiologist</option>
+            <option value="dr-jones">Dr. Michael Jones - Orthopedic</option>
+            <option value="dr-lee">Dr. Jennifer Lee - Neurology</option>
+            <option value="dr-patel">Dr. Rajesh Patel - Dermatology</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="date">Preferred Date:</label>
+          <input type="date" id="date" required>
+        </div>
+        <div class="form-group">
+          <label for="time">Preferred Time:</label>
+          <input type="time" id="time" required>
+        </div>
+        <div class="form-group">
+          <label for="reason">Reason for Visit:</label>
+          <textarea id="reason" placeholder="Brief description of your visit reason..." required></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Book Appointment</button>
+          <button type="reset" class="btn ghost">Clear</button>
+        </div>
+      </form>
+    </div>
+
+    <div style="margin-top:3rem">
+      <h2>Your Upcoming Appointments</h2>
+      <div class="list-item">
+        <div>
+          <div class="list-item-title">Dr. Sarah Smith - Cardiologist</div>
+          <div class="list-item-desc">📅 May 15, 2026 at 10:00 AM</div>
+          <div class="list-item-desc">📍 Cardiology Clinic, Building A</div>
+        </div>
+        <div class="list-item-meta">
+          <span class="badge">Confirmed</span>
+          <button class="btn small ghost">Reschedule</button>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div>
+          <div class="list-item-title">Dr. Michael Jones - Orthopedic</div>
+          <div class="list-item-desc">📅 May 22, 2026 at 2:30 PM</div>
+          <div class="list-item-desc">📍 Orthopedic Suite, Building B</div>
+        </div>
+        <div class="list-item-meta">
+          <span class="badge">Pending</span>
+          <button class="btn small ghost">Cancel</button>
+        </div>
+      </div>
+
+      <div class="list-item">
+        <div>
+          <div class="list-item-title">Dr. Jennifer Lee - Neurology</div>
+          <div class="list-item-desc">📅 June 5, 2026 at 9:15 AM</div>
+          <div class="list-item-desc">📍 Neurology Center, Building C</div>
+        </div>
+        <div class="list-item-meta">
+          <span class="badge">Confirmed</span>
+          <button class="btn small ghost">Reschedule</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="componentFooter"></div>
+  <script src="/src/js/main.js"></script>
+</body>
+</html>

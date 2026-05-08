@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Report Injury — MedCare Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/css/style.css">
+</head>
+<body>
+  <div id="componentHeader"></div>
+  <main class="container">
+    <h1 class="section-title">Report an Injury</h1>
+    <p class="muted">Submit details about your recent injury to get proper medical attention.</p>
+
+    <div class="form-card">
+      <h2 style="margin-top:0">Injury Report Form</h2>
+      <form>
+        <div class="form-group">
+          <label for="fullname">Full Name:</label>
+          <input type="text" id="fullname" placeholder="Your full name" required>
+        </div>
+
+        <div class="form-group">
+          <label for="date">Date of Injury:</label>
+          <input type="date" id="date" required>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location of Injury:</label>
+          <select id="location" required>
+            <option value="">-- Select body part --</option>
+            <option value="head">Head</option>
+            <option value="neck">Neck</option>
+            <option value="shoulder">Shoulder</option>
+            <option value="arm">Arm</option>
+            <option value="wrist">Wrist</option>
+            <option value="hand">Hand</option>
+            <option value="chest">Chest</option>
+            <option value="back">Back</option>
+            <option value="abdomen">Abdomen</option>
+            <option value="hip">Hip</option>
+            <option value="leg">Leg</option>
+            <option value="knee">Knee</option>
+            <option value="ankle">Ankle</option>
+            <option value="foot">Foot</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="severity">Severity Level:</label>
+          <select id="severity" required>
+            <option value="">-- Select severity --</option>
+            <option value="mild">Mild (Minor pain, no swelling)</option>
+            <option value="moderate">Moderate (Pain with limited mobility)</option>
+            <option value="severe">Severe (Significant pain, swelling present)</option>
+            <option value="critical">Critical (Urgent medical attention needed)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="cause">Cause of Injury:</label>
+          <select id="cause" required>
+            <option value="">-- Select cause --</option>
+            <option value="sports">Sports/Athletic Activity</option>
+            <option value="accident">Accident/Fall</option>
+            <option value="workplace">Workplace Incident</option>
+            <option value="vehicular">Vehicular Accident</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="description">Detailed Description:</label>
+          <textarea id="description" placeholder="Describe how the injury occurred and any symptoms you're experiencing..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="medications">Current Medications (if any):</label>
+          <textarea id="medications" placeholder="List any medications you're currently taking..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="symptoms">Current Symptoms:</label>
+          <textarea id="symptoms" placeholder="List any pain, swelling, numbness, or other symptoms..." required></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Submit Injury Report</button>
+          <button type="reset" class="btn ghost">Clear Form</button>
+        </div>
+      </form>
+    </div>
+
+    <div style="margin-top:2rem;padding:1rem;background:rgba(255,255,255,0.02);border-radius:8px;border-left:3px solid #f87171">
+      <strong style="color:#f87171">⚠️ Emergency?</strong>
+      <p>If you are experiencing a life-threatening emergency, please call emergency services (911) immediately instead of filling this form.</p>
+    </div>
+  </main>
+  <div id="componentFooter"></div>
+  <script src="/src/js/main.js"></script>
+</body>
+</html>
