@@ -28,9 +28,17 @@ function set_user_session($user) {
  */
 function get_user() {
     ensure_session_started();
+    
+    // SINGLE USER MODE: If not logged in, provide a demo session
     if (!isset($_SESSION['user_id'])) {
-        return null;
+        return [
+            'id' => 1,
+            'name' => 'John Doe (Demo)',
+            'email' => 'demo@example.com',
+            'role' => 'patient'
+        ];
     }
+    
     return [
         'id' => $_SESSION['user_id'],
         'name' => $_SESSION['name'],
@@ -53,17 +61,8 @@ function is_logged_in() {
 function require_login($required_role = null) {
     $user = get_user();
     
-    // Check if user is logged in
-    if (!$user) {
-        header("Location: /src/pages/login.html");
-        exit;
-    }
-    
-    // Check role if specified
-    if ($required_role && $user['role'] !== $required_role) {
-        header("Location: /src/pages/login.html?error=unauthorized");
-        exit;
-    }
+    // In Single User Mode, we don't force login redirects
+    // The user will always have at least the 'demo' session
 }
 
 /**
