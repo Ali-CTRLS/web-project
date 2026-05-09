@@ -25,7 +25,7 @@ To meet the deadline, we will use a **Foundation-First** approach. Dev 1 will bu
 
 | Time | Task | Key Deliverables |
 | :--- | :--- | :--- |
-| **0:00 - 0:45** | **Frontend Audit** | Sync form `name` attributes in HTML with DB columns; add `action` URLs. |
+**0:00 - 0:45** | **Frontend Audit** | Sync form `name` attributes in HTML with DB columns; add `action` URLs. || 
 | **0:45 - 1:30** | **Data Seeding** | Use DB Browser or SQL to insert test users (patient/doctor) and appointments. |
 | **1:30 - 3:00** | **Doctor Dashboard API** | Build `appointments.php` to fetch and return JSON for the dashboard table. |
 | **3:00 - 4:15** | **Appointment Actions** | Build `update-appointment.php` to handle AJAX status changes (Confirm/Cancel). |

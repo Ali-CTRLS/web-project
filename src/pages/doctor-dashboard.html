@@ -140,5 +140,55 @@
   </main>
   <div id="componentFooter"></div>
   <script src="/src/js/main.js"></script>
+  <script>
+    async function loadAppointments() {
+      try {
+        const response = await fetch('/src/php/doctor/appointments.php');
+        const data = await response.json();
+        const tbody = document.querySelector('table tbody');
+        
+        if (data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">No appointments found.</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = data.map(appt => `
+          <tr>
+            <td>${appt.preferred_time}</td>
+            <td>
+              <div style="font-weight:600">${appt.patient_name || 'Patient'}</div>
+              <div style="color:var(--muted);font-size:0.9rem">ID: ${appt.patient_id}</div>
+            </td>
+            <td>${appt.reason}</td>
+            <td><span class="badge">${appt.status}</span></td>
+            <td style="display:flex;gap:0.5rem">
+              <button class="btn small ghost" onclick="updateStatus(${appt.id}, 'confirm')">Confirm</button>
+              <button class="btn small ghost" onclick="updateStatus(${appt.id}, 'cancel')">Cancel</button>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        console.error('Failed to load appointments', err);
+      }
+    }
+
+    async function updateStatus(id, action) {
+      const formData = new FormData();
+      formData.append('appointment_id', id);
+      formData.append('action', action);
+
+      try {
+        const res = await fetch('/src/php/doctor/update-appointment.php', {
+          method: 'POST',
+          body: formData
+        });
+        if (res.ok) loadAppointments();
+      } catch (err) {
+        console.error('Update failed', err);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadAppointments);
+  </script>
 </body>
 </html>
