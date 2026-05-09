@@ -1,50 +1,67 @@
 <?php
 // db.php - Simple Database Helper
-require_once 'config.php';
+require_once __DIR__ . '/config.php';
 
 function db_connect() {
-    $pdo = new PDO("sqlite:" . SQLITE_PATH);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ATTR_EXCEPTION);
+    $pdo = new PDO('sqlite:' . SQLITE_PATH);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     return $pdo;
 }
 
+function db_query($pdo, $sql, $params = []) {
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 function db_init($pdo) {
-    // Create Users
     $pdo->exec("CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT, 
-        email TEXT UNIQUE, 
-        password TEXT, 
+        name TEXT,
+        email TEXT UNIQUE,
+        password TEXT,
         role TEXT DEFAULT 'patient'
     )");
 
-    // Create Injuries
     $pdo->exec("CREATE TABLE IF NOT EXISTS injuries (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        patient_id INTEGER, 
-        full_name TEXT, 
-        injury_date DATE, 
-        location TEXT, 
-        severity TEXT, 
-        cause TEXT, 
-        description TEXT, 
-        medications TEXT, 
+        patient_id INTEGER,
+        full_name TEXT,
+        injury_date DATE,
+        location TEXT,
+        severity TEXT,
+        cause TEXT,
+        description TEXT,
+        medications TEXT,
         symptoms TEXT
     )");
 
-    // Create Appointments
     $pdo->exec("CREATE TABLE IF NOT EXISTS appointments (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        patient_id INTEGER, 
-        doctor_name TEXT, 
-        preferred_date DATE, 
-        preferred_time TIME, 
-        reason TEXT, 
-        status TEXT DEFAULT 'pending'
+        patient_id INTEGER,
+        doctor_name TEXT,
+        preferred_date DATE,
+        preferred_time TIME,
+        reason TEXT,
+        status TEXT DEFAULT 'pending',
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
     )");
+
+    $columns = $pdo->query('PRAGMA table_info(appointments)')->fetchAll(PDO::FETCH_ASSOC);
+    $has_updated_at = false;
+
+    foreach ($columns as $column) {
+        if (($column['name'] ?? '') === 'updated_at') {
+            $has_updated_at = true;
+            break;
+        }
+    }
+
+    if (!$has_updated_at) {
+        $pdo->exec('ALTER TABLE appointments ADD COLUMN updated_at DATETIME');
+    }
 }
 
-// Connect and Init
 $pdo = db_connect();
 db_init($pdo);
 ?>
