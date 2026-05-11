@@ -4,21 +4,23 @@
  * Saves a patient's injury report.
  */
 
-require_once '../db.php';
-require_once '../session.php';
+require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../session.php';
 
-// Only patients can access this
+// التأكد من أن المستخدم "مريض" ومسجل دخول
 require_login('patient');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: /src/pages/patient-dashboard.html");
+    // تصحيح المسار: العودة للخلف مرتين للوصول لمجلد pages
+    header("Location: ../../pages/patient-dashboard.html");
     exit;
 }
 
-$user = get_current_user_data();
+// تصحيح اسم الدالة: في ملف session.php الذي أرسلته الاسم هو get_user() وليس get_current_user_data()
+$user = get_user();
 $patient_id = $user['id'];
 
-// Read inputs (matching form field names)
+// قراءة البيانات من الفورم
 $fullname = trim($_POST['fullname'] ?? '');
 $injury_date = $_POST['date'] ?? '';
 $location = trim($_POST['location'] ?? '');
@@ -28,28 +30,33 @@ $description = trim($_POST['description'] ?? '');
 $medications = trim($_POST['medications'] ?? '');
 $symptoms = trim($_POST['symptoms'] ?? '');
 
-// Basic validation for required fields
+// التحقق من البيانات المطلوبة
 if (empty($fullname) || empty($injury_date) || empty($location) || empty($severity) || empty($cause) || empty($description) || empty($symptoms)) {
-    header("Location: /src/pages/injury-form.html?error=missing_fields");
+    header("Location: ../../pages/report-injury.html?error=missing_fields");
     exit;
 }
 
-$pdo = db_connect();
+try {
+    $pdo = db_connect();
 
-$sql = "INSERT INTO injuries (
-    patient_id, full_name, injury_date, location, 
-    severity, cause, description, medications, symptoms
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO injuries (
+        patient_id, full_name, injury_date, location, 
+        severity, cause, description, medications, symptoms
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-$success = db_execute($pdo, $sql, [
-    $patient_id, $fullname, $injury_date, $location,
-    $severity, $cause, $description, $medications, $symptoms
-]);
+    $stmt = $pdo->prepare($sql);
+    $success = $stmt->execute([
+        $patient_id, $fullname, $injury_date, $location,
+        $severity, $cause, $description, $medications, $symptoms
+    ]);
 
-if ($success) {
-    header("Location: /src/pages/patient-dashboard.html?success=injury_saved");
-} else {
-    header("Location: /src/pages/injury-form.html?error=save_failed");
+    if ($success) {
+        header("Location: ../../pages/patient-dashboard.html?success=injury_saved");
+    } else {
+        header("Location: ../../pages/report-injury.html?error=save_failed");
+    }
+} catch (PDOException $e) {
+    header("Location: ../../pages/report-injury.html?error=db_error");
 }
 exit;
 ?>

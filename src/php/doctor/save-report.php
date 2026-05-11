@@ -4,13 +4,11 @@
  * Handles medical report creation by doctors.
  */
 
-require_once '../config.php';
-require_once '../db.php';
-require_once '../session.php';
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../session.php';
 
 ensure_session_started();
-
-// Only doctors can create reports
 require_login('doctor');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -18,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Read inputs
 $patient_id = $_POST['patient_id'] ?? '';
 $report_type = $_POST['report_type'] ?? '';
 $report_date = $_POST['report_date'] ?? '';
@@ -29,7 +26,6 @@ $medications = trim($_POST['medications'] ?? '');
 $followup = trim($_POST['followup'] ?? '');
 $notes = trim($_POST['notes'] ?? '');
 
-// Basic validation
 if (empty($patient_id) || empty($report_type) || empty($report_date) || empty($diagnosis)) {
     header("Location: /src/pages/report-form.html?error=missing_fields");
     exit;
@@ -50,12 +46,15 @@ try {
     ]);
 
     if ($success) {
-        header("Location: /src/pages/doctor-dashboard.html?success=report_saved");
+        // توجيه للطبيب عند النجاح
+        header("Location: ../../pages/doctor-dashboard.html?success=report_saved");
     } else {
-        header("Location: /src/pages/report-form.html?error=save_failed");
+        header("Location: ../../pages/report-form.html?error=save_failed");
     }
 } catch (PDOException $e) {
-    header("Location: /src/pages/report-form.html?error=db");
+    // يفضل تسجيل الخطأ في السيرفر للمتابعة
+    error_log("Database Error in save-report: " . $e->getMessage());
+    header("Location: ../../pages/report-form.html?error=db");
 }
 exit;
 ?>

@@ -1,21 +1,13 @@
 <?php
 // session.php - Session Management & Authentication Guards
 
-/**
- * Ensure session is started safely
- * Prevents "headers already sent" errors
- */
 function ensure_session_started() {
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
     }
 }
 
-/**
- * Store user data in session
- * Stores id, name, and role
- */
-function set_user_session($user) {
+function set_user_session(array $user) {
     ensure_session_started();
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['name'] = $user['name'];
@@ -23,20 +15,12 @@ function set_user_session($user) {
     $_SESSION['role'] = $user['role'];
 }
 
-/**
- * Get logged-in user data from session
- */
 function get_user() {
     ensure_session_started();
     
-    // SINGLE USER MODE: If not logged in, provide a demo session
+    // إذا لم يكن هناك جلسة، نعيد null بدلاً من بيانات ديمو وهمية
     if (!isset($_SESSION['user_id'])) {
-        return [
-            'id' => 1,
-            'name' => 'John Doe (Demo)',
-            'email' => 'demo@example.com',
-            'role' => 'patient'
-        ];
+        return null;
     }
     
     return [
@@ -47,34 +31,37 @@ function get_user() {
     ];
 }
 
-/**
- * Check if user is logged in
- */
 function is_logged_in() {
     return get_user() !== null;
 }
 
 /**
- * Authentication guard - require login
- * Redirect to login page if not authenticated or unauthorized
+ * حارس البوابة (Authentication Guard)
+ * تم تفعيله الآن ليقوم بالتوجيه الحقيقي عند محاولة دخول صفحة محمية
  */
 function require_login($required_role = null) {
     $user = get_user();
     
-    // In Single User Mode, we don't force login redirects
-    // The user will always have at least the 'demo' session
+    // 1. إذا لم يكن مسجل دخول، وجهه لصفحة تسجيل الدخول
+    if (!$user) {
+        header("Location: ../../pages/login.html");
+        exit;
+    }
+    
+    // 2. إذا كان مسجل دخول ولكن يحاول دخول صفحة ليست من صلاحياته (مثلاً مريض يحاول دخول صفحة طبيب)
+    if ($required_role && $user['role'] !== $required_role) {
+        if ($user['role'] === 'doctor') {
+            header("Location: ../../pages/doctor-dashboard.html");
+        } else {
+            header("Location: ../../pages/patient-dashboard.html");
+        }
+        exit;
+    }
 }
 
-/**
- * Clear session data completely
- */
 function logout_user() {
     ensure_session_started();
-    
-    // Clear the session array
     $_SESSION = [];
-    
-    // Destroy the session cookie if using cookies
     if (ini_get("session.use_cookies")) {
         $params = session_get_cookie_params();
         setcookie(session_name(), '', time() - 42000,
@@ -82,8 +69,6 @@ function logout_user() {
             $params["secure"], $params["httponly"]
         );
     }
-    
-    // Destroy the session
     session_destroy();
 }
 ?>

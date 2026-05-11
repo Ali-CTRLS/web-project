@@ -17,10 +17,7 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
-// Destroy session
 session_destroy();
-
-// Redirect to login page
 header("Location: /src/pages/login.html");
 exit;
 ?>

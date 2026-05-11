@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Patient Dashboard — MedCare Demo</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/src/css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
   <div id="componentHeader"></div>
@@ -60,122 +60,11 @@
       </div>
     </div>
 
-    <div style="margin:3rem 0">
-      <h2>Upcoming Appointments</h2>
-      <div class="list-item">
-        <div>
-          <div class="list-item-title">Dr. Sarah Smith - Cardiologist</div>
-          <div class="list-item-desc">📅 May 15, 2026 at 10:00 AM</div>
-          <div class="list-item-desc">📍 Cardiology Clinic, Building A</div>
-        </div>
-        <div class="list-item-meta">
-          <span class="badge">Confirmed</span>
-          <button class="btn small ghost">Details</button>
-        </div>
-      </div>
-
-      <div class="list-item">
-        <div>
-          <div class="list-item-title">Dr. Michael Jones - Orthopedic</div>
-          <div class="list-item-desc">📅 May 22, 2026 at 2:30 PM</div>
-          <div class="list-item-desc">📍 Orthopedic Suite, Building B</div>
-        </div>
-        <div class="list-item-meta">
-          <span class="badge">Pending</span>
-          <button class="btn small ghost">Details</button>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin:3rem 0">
-      <h2>Current Medications</h2>
-      <div style="overflow-x:auto">
-        <table>
-          <thead>
-            <tr>
-              <th>Medication</th>
-              <th>Dosage</th>
-              <th>Frequency</th>
-              <th>Prescribed By</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Lisinopril</td>
-              <td>10mg</td>
-              <td>Once daily</td>
-              <td>Dr. Sarah Smith</td>
-              <td><span class="badge">Active</span></td>
-            </tr>
-            <tr>
-              <td>Metformin</td>
-              <td>500mg</td>
-              <td>Twice daily</td>
-              <td>Dr. Jennifer Lee</td>
-              <td><span class="badge">Active</span></td>
-            </tr>
-            <tr>
-              <td>Vitamin D3</td>
-              <td>2000 IU</td>
-              <td>Once daily</td>
-              <td>Dr. Michael Jones</td>
-              <td><span class="badge">Active</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:3rem 0">
-      <div>
-        <h2>Quick Links</h2>
-        <button style="width:100%;margin:0.5rem 0;text-align:left" class="btn ghost">📋 View All Medical Records</button>
-        <button style="width:100%;margin:0.5rem 0;text-align:left" class="btn ghost">📝 Update Health Information</button>
-        <button style="width:100%;margin:0.5rem 0;text-align:left" class="btn ghost">💬 Message Your Doctor</button>
-        <button style="width:100%;margin:0.5rem 0;text-align:left" class="btn ghost">🔔 Manage Notifications</button>
-      </div>
-
-      <div>
-        <h2>Recent Activity</h2>
-        <div class="list-item" style="margin-bottom:0.5rem">
-          <div>
-            <div class="list-item-title">Medical Report Created</div>
-            <div class="list-item-desc">May 8, 2026 10:30 AM</div>
-          </div>
-        </div>
-        <div class="list-item" style="margin-bottom:0.5rem">
-          <div>
-            <div class="list-item-title">Appointment Confirmed</div>
-            <div class="list-item-desc">May 7, 2026 2:15 PM</div>
-          </div>
-        </div>
-        <div class="list-item">
-          <div>
-            <div class="list-item-title">Lab Results Available</div>
-            <div class="list-item-desc">May 1, 2026 9:45 AM</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-top:3rem;padding:1rem;background:rgba(255,255,255,0.02);border-radius:8px">
-      <h3 style="margin-top:0;color:var(--accent)">📱 Health Tips</h3>
-      <ul style="color:var(--muted)">
-        <li>Stay hydrated - Drink 8-10 glasses of water daily</li>
-        <li>Exercise regularly - Aim for 30 minutes of activity per day</li>
-        <li>Take your medications - Set reminders for consistent adherence</li>
-        <li>Attend check-ups - Regular monitoring helps prevent health issues</li>
-      </ul>
-    </div>
-  </main>
+    </main>
   <div id="componentFooter"></div>
-  <script src="/src/js/main.js"></script>
+  <script src="../js/main.js"></script>
   <script>
     async function loadPatientData() {
-      // Note: In a real app, we might have a specific endpoint for patient dashboard data.
-      // For this demo, we'll fetch from the general appointments API if allowed, 
-      // or just simulate the connection to show the workflow.
       console.log("Patient dashboard connected to backend.");
     }
     document.addEventListener('DOMContentLoaded', loadPatientData);

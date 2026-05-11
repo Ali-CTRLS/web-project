@@ -12,7 +12,7 @@
   <main class="container">
     <h1 class="section-title">Create an account</h1>
     <div class="form-card">
-      <form action="/src/php/auth/register.php" method="POST">
+      <form action="../php/auth/register.php" method="POST">
         <label for="name">Full name</label>
         <input id="name" name="name" type="text" required placeholder="Jane Doe">
 
@@ -24,12 +24,13 @@
 
         <div class="form-actions">
           <button class="btn primary" type="submit">Create account</button>
-          <a class="btn ghost" href="login.html">Sign in</a>
+          <a href="login.html">Sign in</a>
+          <!-- <a class="btn ghost" href="login.html">Sign in</a> -->
         </div>
       </form>
     </div>
   </main>
   <div id="componentFooter"></div>
-  <script src="/src/js/main.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 </html>
