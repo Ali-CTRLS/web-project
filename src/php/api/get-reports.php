@@ -13,6 +13,15 @@ require_once __DIR__ . '/../session.php';
 ensure_session_started();
 $user = get_user();
 
+if (!$user) {
+    http_response_code(401);
+    echo json_encode([
+        'success' => false,
+        'error' => 'Not authenticated'
+    ]);
+    exit;
+}
+
 try {
     $pdo = db_connect();
     
@@ -22,7 +31,22 @@ try {
     if ($isDoctor) {
         // Doctor: Get all reports they created
         $stmt = $pdo->prepare("
-            SELECT id, patient_id, report_type, content, notes, status, doctor_name, created_at
+            SELECT
+                id,
+                patient_id,
+                doctor_id,
+                COALESCE(doctor_name, (SELECT name FROM users WHERE id = doctor_id), 'Doctor') AS doctor_name,
+                report_type,
+                report_date,
+                findings AS content,
+                diagnosis,
+                treatment_plan,
+                medications,
+                followup_instructions,
+                additional_notes AS notes,
+                status,
+                created_at,
+                (SELECT name FROM users WHERE id = patient_id) AS patient_name
             FROM reports 
             WHERE doctor_id = ? OR doctor_name LIKE ?
             ORDER BY created_at DESC 
@@ -32,7 +56,22 @@ try {
     } else {
         // Patient: Get only their own reports
         $stmt = $pdo->prepare("
-            SELECT id, patient_id, report_type, content, notes, status, doctor_name, created_at
+            SELECT
+                id,
+                patient_id,
+                doctor_id,
+                COALESCE(doctor_name, (SELECT name FROM users WHERE id = doctor_id), 'Doctor') AS doctor_name,
+                report_type,
+                report_date,
+                findings AS content,
+                diagnosis,
+                treatment_plan,
+                medications,
+                followup_instructions,
+                additional_notes AS notes,
+                status,
+                created_at,
+                (SELECT name FROM users WHERE id = patient_id) AS patient_name
             FROM reports 
             WHERE patient_id = ?
             ORDER BY created_at DESC 

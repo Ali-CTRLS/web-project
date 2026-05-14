@@ -1,7 +1,7 @@
 <footer class="site-footer">
   <div class="container footer-shell">
     <div class="footer-brand-block">
-      <a class="footer-brand" href="/myapp/web-project/src/index.html">MedCare</a>
+      <a class="footer-brand" href="/myapp/web-project/src/index.php">MedCare</a>
       <p class="footer-copy">A calm, patient-first healthcare demo with clear flows for booking, reporting, and review.</p>
       <div class="footer-badges">
         <span class="footer-badge">Patient-first</span>
@@ -13,18 +13,18 @@
     <div class="footer-links-group">
       <h4>Explore</h4>
       <div class="footer-links">
-        <a href="/myapp/web-project/src/pages/home.html">Home</a>
-        <a href="/myapp/web-project/src/pages/appointments.html">Appointments</a>
-        <a href="/myapp/web-project/src/pages/patient-dashboard.html">Patient Dashboard</a>
+        <a href="/myapp/web-project/src/pages/home.php">Home</a>
+        <a href="/myapp/web-project/src/pages/appointments.php">Appointments</a>
+        <a href="/myapp/web-project/src/pages/patient-dashboard.php">Patient Dashboard</a>
       </div>
     </div>
 
     <div class="footer-links-group">
       <h4>Actions</h4>
       <div class="footer-links">
-        <a href="/myapp/web-project/src/pages/report-view.html">Reports</a>
-        <a href="/myapp/web-project/src/pages/injury-form.html">Injury Form</a>
-        <a href="/myapp/web-project/src/pages/register.html">Register</a>
+        <a href="/myapp/web-project/src/pages/report-view.php">Reports</a>
+        <a href="/myapp/web-project/src/pages/injury-form.php">Injury Form</a>
+        <a href="/myapp/web-project/src/pages/register.php">Register</a>
       </div>
     </div>
   </div>

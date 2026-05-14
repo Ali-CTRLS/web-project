@@ -148,9 +148,10 @@
     }
 
     function downloadReport(reportId) {
-      // In a real application, this would generate a PDF or download a file
-      alert('Download feature would be implemented with server-side PDF generation.\nReport ID: ' + reportId);
-      // For now, you could add actual PDF export by creating a PHP endpoint that generates PDF
+      // Navigate to server endpoint that returns a downloadable HTML report
+      const url = `../php/api/download-report.php?id=${reportId}`;
+      // open in new tab to trigger download
+      window.open(url, '_blank');
     }
 
     function filterReports() {

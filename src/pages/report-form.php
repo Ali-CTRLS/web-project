@@ -16,14 +16,11 @@
 
     <div class="form-card">
       <h2 class="no-margin-top">Medical Report</h2>
-      <form action="../php/doctor/save-report.php" method="POST">
+      <form action="/myapp/web-project/src/php/doctor/save-report.php" method="POST">
         <div class="form-group">
           <label for="patient">Select Patient:</label>
           <select id="patient" name="patient_id" required>
-            <option value="p001" selected>John Doe (ID: P001)</option>
-            <option value="p002">Jane Smith (ID: P002)</option>
-            <option value="p003">Robert Wilson (ID: P003)</option>
-            <option value="p004">Emily Brown (ID: P004)</option>
+            <option value="">Loading patients...</option>
           </select>
         </div>
 
@@ -85,5 +82,34 @@
   </main>
   <div id="componentFooter"></div>
   <script src="../js/main.js"></script>
+  <script>
+    async function loadPatientsForReport() {
+      const select = document.getElementById('patient');
+      try {
+        const res = await fetch('../php/api/get-patients.php');
+        if (!res.ok) {
+          select.innerHTML = '<option value="">Unable to load patients</option>';
+          return;
+        }
+        const data = await res.json();
+        if (!data.success || !Array.isArray(data.data)) {
+          select.innerHTML = '<option value="">No patients available</option>';
+          return;
+        }
+        select.innerHTML = '';
+        data.data.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.textContent = `${p.name} (ID: ${p.id})`;
+          select.appendChild(opt);
+        });
+      } catch (err) {
+        console.error('Failed to load patients', err);
+        select.innerHTML = '<option value="">Error loading patients</option>';
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadPatientsForReport);
+  </script>
 </body>
 </html>

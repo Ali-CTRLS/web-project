@@ -12,7 +12,7 @@ ensure_session_started();
 require_login('doctor');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: ../../pages/report-form.html");
+    header("Location: ../../pages/report-form.php");
     exit;
 }
 
@@ -27,7 +27,7 @@ $followup = trim($_POST['followup'] ?? '');
 $notes = trim($_POST['notes'] ?? '');
 
 if (empty($patient_id) || empty($report_type) || empty($report_date) || empty($diagnosis)) {
-    header("Location: ../../pages/report-form.html?error=missing_fields");
+    header("Location: ../../pages/report-form.php?error=missing_fields");
     exit;
 }
 
@@ -46,15 +46,40 @@ try {
     ]);
 
     if ($success) {
-        // توجيه للطبيب عند النجاح
-        header("Location: ../../pages/doctor-dashboard.html?success=report_saved");
+        // try to attach doctor info to the report record
+        $reportId = $pdo->lastInsertId();
+        $currentUser = get_user();
+        $doctorId = $currentUser['id'] ?? null;
+        $doctorName = $currentUser['name'] ?? null;
+        $updateSql = "UPDATE reports SET doctor_id = ?, doctor_name = ? WHERE id = ?";
+
+        if ($reportId && ($doctorId || $doctorName)) {
+            try {
+                // First attempt to update in case columns exist
+                $updateStmt = $pdo->prepare($updateSql);
+                $updateStmt->execute([$doctorId, $doctorName, $reportId]);
+            } catch (PDOException $e) {
+                // If columns don't exist, try to add them (SQLite supports ADD COLUMN)
+                try {
+                    $pdo->exec("ALTER TABLE reports ADD COLUMN doctor_id INTEGER");
+                    $pdo->exec("ALTER TABLE reports ADD COLUMN doctor_name TEXT");
+                    $updateStmt = $pdo->prepare($updateSql);
+                    $updateStmt->execute([$doctorId, $doctorName, $reportId]);
+                } catch (Exception $inner) {
+                    // ignore if alter fails
+                }
+            }
+        }
+
+        // redirect doctor on success
+        header("Location: ../../pages/doctor-dashboard.php?success=report_saved");
     } else {
-        header("Location: ../../pages/report-form.html?error=save_failed");
+        header("Location: ../../pages/report-form.php?error=save_failed");
     }
 } catch (PDOException $e) {
     // يفضل تسجيل الخطأ في السيرفر للمتابعة
     error_log("Database Error in save-report: " . $e->getMessage());
-    header("Location: ../../pages/report-form.html?error=db");
+    header("Location: ../../pages/report-form.php?error=db");
 }
 exit;
 ?>

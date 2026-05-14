@@ -1,6 +1,8 @@
 <?php
 // session.php - Session Management & Authentication Guards
 
+require_once __DIR__ . '/config.php';
+
 function ensure_session_started() {
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
@@ -44,16 +46,16 @@ function require_login($required_role = null) {
     
     // 1. إذا لم يكن مسجل دخول، وجهه لصفحة تسجيل الدخول
     if (!$user) {
-        header("Location: ../../pages/login.html");
+        header("Location: " . BASE_URL . "src/pages/login.php");
         exit;
     }
     
     // 2. إذا كان مسجل دخول ولكن يحاول دخول صفحة ليست من صلاحياته (مثلاً مريض يحاول دخول صفحة طبيب)
     if ($required_role && $user['role'] !== $required_role) {
         if ($user['role'] === 'doctor') {
-            header("Location: ../../pages/doctor-dashboard.html");
+            header("Location: " . BASE_URL . "src/pages/doctor-dashboard.php");
         } else {
-            header("Location: ../../pages/patient-dashboard.html");
+            header("Location: " . BASE_URL . "src/pages/patient-dashboard.php");
         }
         exit;
     }

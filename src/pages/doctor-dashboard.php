@@ -1,3 +1,7 @@
+<?php
+require_once '../php/session.php';
+require_login('doctor');
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -69,10 +73,10 @@
 
       <div>
         <h2>Quick Actions</h2>
-        <a class="btn primary full-width-action" href="report-form.html">➕ Create Medical Report</a>
-        <a class="btn ghost full-width-action" href="appointments.html">📋 Schedule Appointment</a>
-        <a class="btn ghost full-width-action" href="patient-dashboard.html">👥 View Patients</a>
-        <a class="btn ghost full-width-action" href="injury-form.html">🏥 View Injuries</a>
+        <a class="btn primary full-width-action" href="report-form.php">➕ Create Medical Report</a>
+        <a class="btn ghost full-width-action" href="appointments.php">📋 Schedule Appointment</a>
+        <a class="btn ghost full-width-action" href="patient-dashboard.php">👥 View Patients</a>
+        <a class="btn ghost full-width-action" href="injury-form.php">🏥 View Injuries</a>
       </div>
     </div>
   </main>
@@ -89,7 +93,7 @@
         
         if (!authData.authenticated) {
           console.warn('Not authenticated! Redirecting to login...');
-          window.location.href = '../../pages/login.html';
+          window.location.href = 'login.php';
           return;
         }
         
@@ -120,7 +124,7 @@
         
         // Load appointments
         console.log('Loading appointments...');
-        const appointRes = await fetch('../php/doctor/appointments.php');
+        const appointRes = await fetch('../php/api/get-doctor-appointments.php');
         const appointText = await appointRes.text();
         
         console.log('Appointments response (raw):', appointText.substring(0, 200));
@@ -129,7 +133,7 @@
         // Handle auth errors
         if (appointRes.status === 401) {
           console.warn('Not authenticated, redirecting to login...');
-          window.location.href = '../../pages/login.html';
+          window.location.href = 'login.php';
           return;
         }
         
@@ -200,7 +204,7 @@
                 <td>${appt.reason}</td>
                 <td><span class="badge">${appt.status}</span></td>
                 <td style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                  <a class="btn small ghost" href="appointment-detail.html?id=${appt.id}">View</a>
+                  <a class="btn small ghost" href="appointment-detail.php?id=${appt.id}">View</a>
                   <button class="btn small ghost" onclick="updateStatus(${appt.id}, 'confirm', this)" ${appt.status === 'confirmed' ? 'disabled' : ''}>✓ Confirm</button>
                   <button class="btn small ghost" onclick="updateStatus(${appt.id}, 'cancel', this)" ${appt.status === 'canceled' ? 'disabled' : ''}>✕ Cancel</button>
                 </td>
@@ -220,7 +224,7 @@
                 <div class="list-item-title">${injury.patient_name || 'Patient'} - ${injury.injury_type}</div>
                 <div class="list-item-desc">Submitted ${formatDate(injury.created_at)}</div>
               </div>
-              <a class="btn small primary" href="injury-detail.html?id=${injury.id}">Review</a>
+              <a class="btn small primary" href="injury-detail.php?id=${injury.id}">Review</a>
             </div>
           `).join('');
         }
@@ -237,15 +241,12 @@
     async function updateStatus(id, action, buttonElement) {
       const actionLabel = action === 'confirm' ? 'confirm' : 'cancel';
       
-      // Show confirmation dialog
       if (!confirm(`Are you sure you want to ${actionLabel} this appointment? The patient will see this update.`)) {
         return;
       }
 
-      // Disable button and show loading state
       if (buttonElement) {
         buttonElement.disabled = true;
-        const originalText = buttonElement.textContent;
         buttonElement.textContent = '⏳ Updating...';
         buttonElement.style.opacity = '0.6';
       }
@@ -263,17 +264,13 @@
         const result = await res.json();
         
         if (res.ok && result.success) {
-          // Show success message
           const message = action === 'confirm' 
             ? 'Appointment confirmed! Patient will see this update.' 
             : 'Appointment cancelled! Patient will see this update.';
           alert(message);
-          
-          // Reload dashboard to show updated status
           await loadDoctorDashboard();
         } else {
           alert('Failed to update appointment: ' + (result.error || 'Unknown error'));
-          // Restore button state
           if (buttonElement) {
             buttonElement.disabled = false;
             buttonElement.style.opacity = '1';
@@ -282,7 +279,6 @@
       } catch (err) {
         console.error('Update failed', err);
         alert('Error updating appointment');
-        // Restore button state
         if (buttonElement) {
           buttonElement.disabled = false;
           buttonElement.style.opacity = '1';

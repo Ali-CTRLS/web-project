@@ -97,7 +97,7 @@
         </form>
         
         <div class="form-link">
-          Don't have an account? <a href="register.html">Create one</a>
+          Don't have an account? <a href="register.php">Create one</a>
         </div>
       </div>
     </div>

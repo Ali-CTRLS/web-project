@@ -15,12 +15,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // تصحيح: العودة للخلف مرتين للوصول لـ pages/register.html
     if (empty($name) || empty($email) || empty($password)) {
-        header("Location: ../../pages/register.html?error=missing");
+        header("Location: " . BASE_URL . "src/pages/register.php?error=missing");
         exit;
     }
     
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header("Location: ../../pages/register.html?error=invalid_email");
+        header("Location: " . BASE_URL . "src/pages/register.php?error=invalid_email");
         exit;
     }
     
@@ -32,12 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $existing_user = $stmt->fetch();
         
         if ($existing_user) {
-            header("Location: ../../pages/register.html?error=exists");
+            header("Location: " . BASE_URL . "src/pages/register.php?error=exists");
             exit;
         }
         
         $stmt = $pdo->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, 'patient')");
-        $stmt->execute([$name, $email, $password]);
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        $stmt->execute([$name, $email, $hashed_password]);
         
         $user_id = $pdo->lastInsertId();
         $stmt = $pdo->prepare("SELECT id, name, email, role FROM users WHERE id = ?");
@@ -47,15 +48,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         set_user_session($user);
         
         // تصحيح: التوجه للوحة تحكم المريض بمسار نسبي
-        header("Location: ../../pages/patient-dashboard.html");
+        header("Location: " . BASE_URL . "src/pages/patient-dashboard.php");
         exit;
         
     } catch (PDOException $e) {
-        header("Location: ../../pages/register.html?error=db");
+        header("Location: " . BASE_URL . "src/pages/register.php?error=db");
         exit;
     }
 }
 
-header("Location: ../../pages/register.html");
+header("Location: " . BASE_URL . "src/pages/register.php");
 exit;
 ?>

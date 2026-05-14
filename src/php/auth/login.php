@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     // تصحيح روابط الخطأ: العودة للخلف للخروج من php/auth ثم الدخول لـ pages
     if (empty($email) || empty($password)) {
-        header("Location: ../../pages/login.html?error=1");
+        header("Location: " . BASE_URL . "src/pages/login.php?error=1");
         exit;
     }
     
@@ -25,29 +25,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         
-        if ($user && $user['password'] === $password) {
+         if ($user && password_verify($password, $user['password'])) {
             set_user_session($user);
             
             // تصحيح روابط لوحة التحكم: العودة للخلف مرتين للخروج من php/auth
             if ($user['role'] === 'doctor') {
-                header("Location: ../../pages/doctor-dashboard.html");
+                header("Location: " . BASE_URL . "src/pages/doctor-dashboard.php");
             } else {
-                header("Location: ../../pages/patient-dashboard.html");
+                header("Location: " . BASE_URL . "src/pages/patient-dashboard.php");
             }
             exit;
         } else {
             // تصحيح رابط فشل تسجيل الدخول
-            header("Location: ../../pages/login.html?error=1");
+            header("Location: " . BASE_URL . "src/pages/login.php?error=1");
             exit;
         }
         
     } catch (PDOException $e) {
-        header("Location: ../../pages/login.html?error=1");
+        header("Location: " . BASE_URL . "src/pages/login.php?error=1");
         exit;
     }
 }
 
 // تصحيح رابط الوصول المباشر للملف
-header("Location: ../../pages/login.html");
+header("Location: " . BASE_URL . "src/pages/login.php");
 exit;
 ?>

@@ -61,6 +61,23 @@ function db_init($pdo) {
     if (!$has_updated_at) {
         $pdo->exec('ALTER TABLE appointments ADD COLUMN updated_at DATETIME');
     }
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS reports (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        patient_id INTEGER NOT NULL,
+        doctor_id INTEGER,
+        doctor_name TEXT,
+        report_type TEXT NOT NULL,
+        report_date DATE,
+        findings TEXT,
+        diagnosis TEXT,
+        treatment_plan TEXT,
+        medications TEXT,
+        followup_instructions TEXT,
+        additional_notes TEXT,
+        status TEXT DEFAULT 'draft',
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )");
 }
 
 $pdo = db_connect();

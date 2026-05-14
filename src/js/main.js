@@ -149,8 +149,8 @@ function setupFormHandlers() {
 // Initialize page interactions
 document.addEventListener('DOMContentLoaded', async () => {
   // Load components
-  await loadComponent('componentHeader', '/myapp/web-project/src/components/header.html');
-  await loadComponent('componentFooter', '/myapp/web-project/src/components/footer.html');
+  await loadComponent('componentHeader', '/myapp/web-project/src/components/header.php');
+  await loadComponent('componentFooter', '/myapp/web-project/src/components/footer.php');
 
   // Load dynamic data for dashboards
   if (document.querySelector('.dashboard-grid')) {

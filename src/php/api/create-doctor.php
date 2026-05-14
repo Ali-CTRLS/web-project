@@ -27,7 +27,7 @@ try {
         $result = $stmt->execute([
             'Dr. Ahmed Hassan',
             'doctor@example.com',
-            'password123',
+            password_hash('password123', PASSWORD_DEFAULT),
             'doctor'
         ]);
         

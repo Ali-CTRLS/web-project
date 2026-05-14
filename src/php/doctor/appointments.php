@@ -17,13 +17,14 @@ try {
     $user = get_user();
     if (!$user) {
         http_response_code(401);
-        echo json_encode(['success' => false, 'error' => 'Not authenticated']);
+        echo json_encode(['success' => false, 'error' => 'Session expired']);
         exit;
     }
     
-    if ($user['role'] !== 'doctor') {
+    $userRole = $user['role'] ?? 'none';
+    if (strtolower($userRole) !== 'doctor') {
         http_response_code(403);
-        echo json_encode(['success' => false, 'error' => 'Forbidden: Doctor access only']);
+        echo json_encode(['success' => false, 'error' => 'Doctor access required. Current role: ' . $userRole]);
         exit;
     }
 

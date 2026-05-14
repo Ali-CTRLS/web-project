@@ -1,6 +1,17 @@
 <?php
-session_start();
-require_once './db.php';
+require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../session.php';
+
+header('Content-Type: application/json');
+
+ensure_session_started();
+$user = get_user();
+if (!$user) {
+    http_response_code(401);
+    echo json_encode(['error' => 'Not authenticated']);
+    exit;
+}
 
 // Get report ID from GET parameter
 $reportId = isset($_GET['id']) ? intval($_GET['id']) : null;
@@ -12,46 +23,34 @@ if (!$reportId) {
 }
 
 try {
-    $db = new Database();
-    $conn = $db->connect();
+    $pdo = db_connect();
 
     // Fetch medical report by ID
-    // This query assumes a 'reports' or 'medical_reports' table exists
     $sql = "
-        SELECT id, patient_id, doctor_name, report_type, content, notes, status, created_at,
-               (SELECT name FROM users WHERE id = patient_id) as patient_name
+        SELECT
+            id,
+            patient_id,
+            doctor_id,
+            COALESCE(doctor_name, (SELECT name FROM users WHERE id = doctor_id), 'Doctor') AS doctor_name,
+            report_type,
+            report_date,
+            findings AS content,
+            diagnosis,
+            treatment_plan,
+            medications,
+            followup_instructions,
+            additional_notes AS notes,
+            status,
+            created_at,
+            (SELECT name FROM users WHERE id = patient_id) as patient_name
         FROM reports
         WHERE id = ?
         LIMIT 1
     ";
 
-    $stmt = $conn->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt->execute([$reportId]);
     $report = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    // If no report found, try alternative table name
-    if (!$report) {
-        $sql = "
-            SELECT id, patient_id, doctor_id, report_type, content, notes, status, created_at
-            FROM medical_reports
-            WHERE id = ?
-            LIMIT 1
-        ";
-        
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([$reportId]);
-        $report = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if ($report && $report['doctor_id']) {
-            $doctorSql = "SELECT name FROM users WHERE id = ?";
-            $doctorStmt = $conn->prepare($doctorSql);
-            $doctorStmt->execute([$report['doctor_id']]);
-            $doctor = $doctorStmt->fetch(PDO::FETCH_ASSOC);
-            if ($doctor) {
-                $report['doctor_name'] = $doctor['name'];
-            }
-        }
-    }
 
     if (!$report) {
         http_response_code(404);
@@ -62,12 +61,21 @@ try {
     // Fetch patient name if not already included
     if (!isset($report['patient_name']) && $report['patient_id']) {
         $patientSql = "SELECT name FROM users WHERE id = ?";
-        $patientStmt = $conn->prepare($patientSql);
+        $patientStmt = $pdo->prepare($patientSql);
         $patientStmt->execute([$report['patient_id']]);
         $patient = $patientStmt->fetch(PDO::FETCH_ASSOC);
         if ($patient) {
             $report['patient_name'] = $patient['name'];
         }
+    }
+
+    // Authorization: allow doctors or the patient who owns the report
+    $currentRole = $user['role'] ?? '';
+    $currentUserId = $user['id'] ?? null;
+    if ($currentRole !== 'doctor' && $currentUserId != $report['patient_id']) {
+        http_response_code(403);
+        echo json_encode(['error' => 'Access denied']);
+        exit;
     }
 
     header('Content-Type: application/json');

@@ -12,7 +12,7 @@
   <div id="componentHeader"></div>
   <main class="container">
     <div style="margin-bottom: 2rem;">
-      <a href="doctor-dashboard.html" class="link-back">← Back to Dashboard</a>
+      <a href="doctor-dashboard.php" class="link-back">← Back to Dashboard</a>
     </div>
 
     <h1 class="section-title">Injury Report Details</h1>
@@ -64,8 +64,8 @@
           <div class="card">
             <h2 style="margin-top: 0;">Actions</h2>
             
-            <a class="btn primary full-width-action" href="report-form.html" style="display: block; text-decoration: none; text-align: center;">📝 Create Medical Report</a>
-            <a class="btn ghost full-width-action" href="doctor-dashboard.html" style="display: block; text-decoration: none; text-align: center;">← Back to Dashboard</a>
+            <a class="btn primary full-width-action" href="report-form.php" style="display: block; text-decoration: none; text-align: center;">📝 Create Medical Report</a>
+            <a class="btn ghost full-width-action" href="doctor-dashboard.php" style="display: block; text-decoration: none; text-align: center;">← Back to Dashboard</a>
           </div>
 
           <div class="card" style="margin-top: 1.5rem;">
@@ -92,7 +92,7 @@
     <div id="errorState" style="display: none; padding: 2rem; background: rgba(255, 107, 107, 0.1); border-radius: 8px; border: 1px solid rgba(255, 107, 107, 0.2); color: var(--text);">
       <h2 style="margin-top: 0;">Could not load injury report</h2>
       <p id="errorMessage">The requested injury report could not be found. Please check the report ID and try again.</p>
-      <a href="doctor-dashboard.html" class="btn primary">Back to Dashboard</a>
+      <a href="doctor-dashboard.php" class="btn primary">Back to Dashboard</a>
     </div>
   </main>
   <div id="componentFooter"></div>

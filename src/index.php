@@ -67,8 +67,8 @@
         <p class="lead">A clean, responsive front end for appointments, reports, and injury submissions. Designed to
           feel trustworthy and fast.</p>
         <div class="hero-ctas">
-          <a class="btn primary" href="pages/login.html">Start as patient</a>
-          <a class="btn ghost" href="pages/home.html">Explore demo</a>
+          <a class="btn primary" href="pages/login.php">Start as patient</a>
+          <a class="btn ghost" href="pages/home.php">Explore demo</a>
         </div>
         <div class="hero-meta">
           <div class="meta-item">
@@ -213,8 +213,8 @@
         <h2 class="section-title">Ready to get started?</h2>
         <p class="muted" style="max-width: 500px; margin: 1rem auto;">Experience seamless healthcare management with MedCare. Sign in or register to explore the demo.</p>
         <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-          <a class="btn primary" href="pages/login.html">Sign in</a>
-          <a class="btn ghost" href="pages/register.html">Create account</a>
+          <a class="btn primary" href="pages/login.php">Sign in</a>
+          <a class="btn ghost" href="pages/register.php">Create account</a>
         </div>
       </div>
     </div>

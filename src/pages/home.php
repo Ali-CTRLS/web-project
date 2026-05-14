@@ -22,12 +22,12 @@
         <div class="feature">
           <h3>Login</h3>
           <p>Sign in with your email and password to access your personalized dashboard.</p>
-          <a href="login.html" class="btn small primary">Go to Login</a>
+          <a href="login.php" class="btn small primary">Go to Login</a>
         </div>
         <div class="feature">
           <h3>Register</h3>
           <p>Create a new account to get started with MedCare and manage your health records.</p>
-          <a href="register.html" class="btn small primary">Go to Register</a>
+          <a href="register.php" class="btn small primary">Go to Register</a>
         </div>
       </div>
     </section>
@@ -38,17 +38,17 @@
         <div class="feature">
           <h3>📅 Appointments</h3>
           <p>Book appointments with healthcare providers, manage your schedule, and receive confirmations.</p>
-          <a href="appointments.html" class="btn small primary">View Appointments</a>
+          <a href="appointments.php" class="btn small primary">View Appointments</a>
         </div>
         <div class="feature">
           <h3>🏥 Patient Dashboard</h3>
           <p>View your health overview, recent check-ups, lab results, and medical records in one place.</p>
-          <a href="patient-dashboard.html" class="btn small primary">Go to Dashboard</a>
+          <a href="patient-dashboard.php" class="btn small primary">Go to Dashboard</a>
         </div>
         <div class="feature">
           <h3>🚨 Report Injury</h3>
           <p>Submit detailed injury reports with symptoms, causes, and severity levels for medical review.</p>
-          <a href="injury-form.html" class="btn small primary">Report Injury</a>
+          <a href="injury-form.php" class="btn small primary">Report Injury</a>
         </div>
       </div>
     </section>
@@ -104,9 +104,9 @@
       <h2 style="font-size: 1.3rem; margin-bottom: 1rem;">Ready to Explore?</h2>
       <p class="muted" style="margin-bottom: 1.5rem;">Start by logging in or registering to access the full demo experience.</p>
       <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-        <a href="login.html" class="btn primary">Sign In</a>
-        <a href="register.html" class="btn ghost">Create Account</a>
-        <a href="appointments.html" class="btn ghost">View Appointments</a>
+        <a href="login.php" class="btn primary">Sign In</a>
+        <a href="register.php" class="btn ghost">Create Account</a>
+        <a href="appointments.php" class="btn ghost">View Appointments</a>
       </div>
     </section>
   </main>

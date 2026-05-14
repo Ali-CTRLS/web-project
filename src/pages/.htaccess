@@ -1,0 +1,4 @@
+# Process .html files through the PHP engine so that
+# <?php ?> blocks at the top of dashboard pages execute
+# (authentication guards, session checks, etc.)
+AddType application/x-httpd-php .html
