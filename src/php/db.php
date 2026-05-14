@@ -1,6 +1,7 @@
 <?php
 // db.php - Simple Database Helper
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/session.php';
 
 function db_connect() {
     $pdo = new PDO('sqlite:' . SQLITE_PATH);

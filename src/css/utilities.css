@@ -1,0 +1,232 @@
+/* Utility Classes - Extracted from inline styles */
+
+.section-margin {
+  margin: 3rem 0;
+}
+
+.info-margin {
+  margin: 1rem 0;
+}
+
+.form-margin {
+  margin: 2rem auto;
+}
+
+.no-margin-top {
+  margin-top: 0;
+}
+
+.top-margin {
+  margin-top: 3rem;
+}
+
+.top-margin-small {
+  margin-top: 1rem;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.font-semi {
+  font-weight: 600;
+}
+
+.muted-small {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.patient-name {
+  font-weight: 600;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.two-col-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.two-col-grid {
+  grid-template-columns: 1fr 1fr;
+}
+
+.list-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.list-item:hover {
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.1);
+  border-color: var(--primary-light);
+  transform: translateY(-2px);
+}
+
+.list-item-title {
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: var(--text);
+}
+
+.list-item-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin-bottom: 0.2rem;
+}
+
+.list-item-meta {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.emergency-box {
+  margin-top: 2rem;
+  padding: 1.25rem;
+  background: rgba(239, 68, 68, 0.08);
+  border-radius: 8px;
+  border-left: 4px solid var(--error);
+  animation: slideIn 0.4s ease-out;
+}
+
+.emergency-text {
+  color: var(--error);
+  font-weight: 700;
+}
+
+/* Form Feedback States */
+.form-group.has-error input,
+.form-group.has-error select,
+.form-group.has-error textarea {
+  border-color: var(--error);
+  background: rgba(239, 68, 68, 0.02);
+}
+
+.form-group.has-error input:focus,
+.form-group.has-error select:focus,
+.form-group.has-error textarea:focus {
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+.form-group.has-success input,
+.form-group.has-success select,
+.form-group.has-success textarea {
+  border-color: var(--success);
+  background: rgba(16, 185, 129, 0.02);
+}
+
+.form-group.has-success input:focus,
+.form-group.has-success select:focus,
+.form-group.has-success textarea:focus {
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
+}
+
+.form-error {
+  color: var(--error);
+  font-size: 0.875rem;
+  margin-top: 0.35rem;
+  display: none;
+  animation: slideIn 0.2s ease-out;
+}
+
+.form-group.has-error .form-error {
+  display: block;
+}
+
+.form-success {
+  color: var(--success);
+  font-size: 0.875rem;
+  margin-top: 0.35rem;
+  display: none;
+  animation: slideIn 0.2s ease-out;
+}
+
+.form-group.has-success .form-success {
+  display: block;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+/* Loading and Animation States */
+.loading {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.spinner {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid rgba(15, 118, 110, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design Improvements */
+@media (max-width: 768px) {
+  .two-col-section,
+  .two-col-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .list-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .list-item-meta {
+    width: 100%;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .button-group {
+    width: 100%;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

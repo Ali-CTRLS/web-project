@@ -4,69 +4,232 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Patient Dashboard — MedCare Demo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/utilities.css">
 </head>
 <body>
   <div id="componentHeader"></div>
   <main class="container">
-    <h1 class="section-title">Patient Dashboard</h1>
-    <p class="muted">Welcome back, John Doe. Manage your health and medical records.</p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 class="section-title">Patient Dashboard</h1>
+        <p class="muted">Welcome back, John Doe. Manage your health and medical records.</p>
+      </div>
+      <a href="appointments.html" class="btn primary">📅 Book Appointment</a>
+    </div>
 
+    <h2 style="margin: 2.5rem 0 1.5rem; font-size: 1.3rem;">📊 Your Health Overview</h2>
     <div class="dashboard-grid">
       <div class="dashboard-card">
-        <h3>🏥 Active Doctors</h3>
+        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem;">
+          <h3 style="margin: 0; font-size: 1rem;">🏥 Active Doctors</h3>
+        </div>
         <div class="stat">4</div>
-        <p>Healthcare providers</p>
+        <p style="margin: 0.5rem 0 0; color: var(--muted); font-size: 0.9rem;">Healthcare providers</p>
       </div>
+      
       <div class="dashboard-card">
-        <h3>📅 Upcoming Appointments</h3>
-        <div class="stat">2</div>
-        <p>Scheduled appointments</p>
+        <h3 style="margin: 0 0 1rem; font-size: 1rem;">📅 Upcoming Appointments</h3>
+        <div class="stat" id="upcomingAppointmentCount">2</div>
+        <p style="margin: 0.5rem 0 0; color: var(--muted); font-size: 0.9rem;">Scheduled appointments</p>
       </div>
+      
       <div class="dashboard-card">
-        <h3>📋 Medical Records</h3>
+        <h3 style="margin: 0 0 1rem; font-size: 1rem;">📋 Medical Records</h3>
         <div class="stat">12</div>
-        <p>Reports and documents</p>
+        <p style="margin: 0.5rem 0 0; color: var(--muted); font-size: 0.9rem;">Reports and documents</p>
       </div>
+      
       <div class="dashboard-card">
-        <h3>💊 Medications</h3>
+        <h3 style="margin: 0 0 1rem; font-size: 1rem;">💊 Medications</h3>
         <div class="stat">3</div>
-        <p>Active prescriptions</p>
+        <p style="margin: 0.5rem 0 0; color: var(--muted); font-size: 0.9rem;">Active prescriptions</p>
       </div>
     </div>
 
-    <div style="margin:3rem 0">
-      <h2>Your Health Overview</h2>
-      <div class="dashboard-grid" style="grid-template-columns:1fr 1fr">
-        <div class="dashboard-card">
-          <h3>🩺 Recent Check-up</h3>
-          <div style="margin:1rem 0">
-            <p><strong>Date:</strong> May 8, 2026</p>
-            <p><strong>Doctor:</strong> Dr. Sarah Smith</p>
-            <p><strong>Status:</strong> <span class="badge">Healthy</span></p>
-          </div>
-          <button class="btn small primary">View Report</button>
+    <div class="section-margin">
+      <h2 style="margin-bottom: 1rem; font-size: 1.3rem;">📅 Upcoming Appointment Details</h2>
+      <div id="appointmentList" style="display: grid; gap: 1rem;"></div>
+    </div>
+
+    <div class="two-col-section">
+      <div class="dashboard-card">
+        <h3>🩺 Recent Check-up</h3>
+        <div class="info-margin">
+          <p><strong>Date:</strong> May 8, 2026</p>
+          <p><strong>Doctor:</strong> Dr. Sarah Smith</p>
+          <p><strong>Status:</strong> <span class="badge success">Healthy</span></p>
         </div>
-        <div class="dashboard-card">
-          <h3>🧪 Lab Results</h3>
-          <div style="margin:1rem 0">
-            <p><strong>Test:</strong> Blood Work</p>
-            <p><strong>Date:</strong> April 30, 2026</p>
-            <p><strong>Status:</strong> <span class="badge">Normal</span></p>
-          </div>
-          <button class="btn small primary">View Results</button>
+        <button class="btn small primary" onclick="window.location.href='appointments.html'">View Full Report</button>
+      </div>
+      
+      <div class="dashboard-card">
+        <h3>🧪 Lab Results</h3>
+        <div class="info-margin">
+          <p><strong>Test:</strong> Blood Work</p>
+          <p><strong>Date:</strong> April 30, 2026</p>
+          <p><strong>Status:</strong> <span class="badge success">Normal</span></p>
         </div>
+        <button class="btn small primary" onclick="window.location.href='appointments.html'">View Results</button>
       </div>
     </div>
 
-    </main>
+    <h2 style="margin: 2.5rem 0 1.5rem; font-size: 1.3rem;">📝 Recent Activity</h2>
+    <div class="list-item">
+      <div>
+        <div class="list-item-title">✅ Appointment Confirmed</div>
+        <div class="list-item-desc">Cardiology appointment with Dr. Sarah Smith</div>
+        <div class="list-item-desc" style="color: var(--muted); font-size: 0.85rem;">May 15, 2026</div>
+      </div>
+      <span class="badge success">Completed</span>
+    </div>
+
+    <div class="list-item">
+      <div>
+        <div class="list-item-title">📋 Lab Results Available</div>
+        <div class="list-item-desc">Your blood work results are now available for review</div>
+        <div class="list-item-desc" style="color: var(--muted); font-size: 0.85rem;">April 30, 2026</div>
+      </div>
+      <span class="badge">New</span>
+    </div>
+
+    <div class="list-item">
+      <div>
+        <div class="list-item-title">💊 Prescription Renewed</div>
+        <div class="list-item-desc">Your hypertension medication has been renewed</div>
+        <div class="list-item-desc" style="color: var(--muted); font-size: 0.85rem;">April 25, 2026</div>
+      </div>
+      <span class="badge">Processed</span>
+    </div>
+
+  </main>
   <div id="componentFooter"></div>
   <script src="../js/main.js"></script>
   <script>
-    async function loadPatientData() {
-      console.log("Patient dashboard connected to backend.");
+    function escapeHtml(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
+
+    function formatAppointmentTime(date, time) {
+      return `${date} at ${time}`;
+    }
+
+    async function refreshAppointments() {
+      await loadPatientData();
+    }
+
+    async function cancelAppointment(appointmentId) {
+      if (!window.confirm('Cancel this appointment? It will be removed from your upcoming appointments.')) {
+        return;
+      }
+
+      try {
+        const response = await fetch('../php/patient/cancel-appointment.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({ appointment_id: String(appointmentId) })
+        });
+
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+          alert(result.error || 'Could not cancel the appointment.');
+          return;
+        }
+
+        await refreshAppointments();
+      } catch (error) {
+        console.error('Failed to cancel appointment', error);
+        alert('Could not cancel the appointment.');
+      }
+    }
+
+    async function rescheduleAppointment(appointmentId) {
+      const newDate = window.prompt('Enter a new date for this appointment (YYYY-MM-DD):');
+      if (!newDate) return;
+
+      const newTime = window.prompt('Enter a new time for this appointment (HH:MM, 24-hour):');
+      if (!newTime) return;
+
+      try {
+        const response = await fetch('../php/patient/reschedule-appointment.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams({
+            appointment_id: String(appointmentId),
+            preferred_date: newDate,
+            preferred_time: newTime
+          })
+        });
+
+        const result = await response.json();
+        if (!response.ok || !result.success) {
+          alert(result.error || 'Could not reschedule the appointment.');
+          return;
+        }
+
+        await refreshAppointments();
+      } catch (error) {
+        console.error('Failed to reschedule appointment', error);
+        alert('Could not reschedule the appointment.');
+      }
+    }
+
+    async function loadPatientData() {
+      try {
+        const response = await fetch('../php/api/get-appointments.php');
+        const data = await response.json();
+        const appointmentList = document.getElementById('appointmentList');
+        const appointmentCount = document.getElementById('upcomingAppointmentCount');
+
+        if (!response.ok || !data.success) {
+          if (appointmentList) {
+            appointmentList.innerHTML = '<div class="list-item"><div><div class="list-item-title">No appointments yet</div><div class="list-item-desc">Book your first appointment to see it here.</div></div></div>';
+          }
+          if (appointmentCount) appointmentCount.textContent = '0';
+          return;
+        }
+
+        const appointments = Array.isArray(data.data) ? data.data : [];
+        if (appointmentCount) appointmentCount.textContent = String(appointments.length);
+
+        if (appointmentList) {
+          if (appointments.length === 0) {
+            appointmentList.innerHTML = '<div class="list-item"><div><div class="list-item-title">No appointments yet</div><div class="list-item-desc">Book your first appointment to see it here.</div></div></div>';
+          } else {
+            appointmentList.innerHTML = appointments.map(appt => `
+              <div class="list-item">
+                <div>
+                  <div class="list-item-title">📌 ${escapeHtml(appt.doctor_name || 'Appointment')}</div>
+                  <div class="list-item-desc">📅 ${escapeHtml(formatAppointmentTime(appt.preferred_date, appt.preferred_time))}</div>
+                  <div class="list-item-desc">📝 ${escapeHtml(appt.reason)}</div>
+                </div>
+                <div class="list-item-meta">
+                  <span class="badge ${appt.status === 'confirmed' ? 'success' : 'warning'}">${escapeHtml(appt.status)}</span>
+                  <button class="btn small ghost" type="button" onclick="rescheduleAppointment(${appt.id})">Reschedule</button>
+                  <button class="btn small ghost" type="button" onclick="cancelAppointment(${appt.id})">Cancel</button>
+                </div>
+              </div>
+            `).join('');
+          }
+        }
+
+        // Add smooth fade-in effect
+        document.querySelectorAll('.dashboard-card, .list-item').forEach((card, index) => {
+          setTimeout(() => {
+            card.style.opacity = '1';
+          }, index * 100);
+        });
+      } catch (error) {
+        console.error('Failed to load patient appointments', error);
+      }
+    }
+    
     document.addEventListener('DOMContentLoaded', loadPatientData);
   </script>
 </body>

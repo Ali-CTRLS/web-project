@@ -12,7 +12,7 @@ ensure_session_started();
 require_login('doctor');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header("Location: /src/pages/report-form.html");
+    header("Location: ../../pages/report-form.html");
     exit;
 }
 
@@ -27,7 +27,7 @@ $followup = trim($_POST['followup'] ?? '');
 $notes = trim($_POST['notes'] ?? '');
 
 if (empty($patient_id) || empty($report_type) || empty($report_date) || empty($diagnosis)) {
-    header("Location: /src/pages/report-form.html?error=missing_fields");
+    header("Location: ../../pages/report-form.html?error=missing_fields");
     exit;
 }
 

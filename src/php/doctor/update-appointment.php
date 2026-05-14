@@ -6,26 +6,40 @@ require_once __DIR__ . '/../session.php';
 
 header('Content-Type: application/json');
 
-require_login('doctor');
-
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-	http_response_code(405);
-	echo json_encode(['success' => false, 'error' => 'Method not allowed']);
-	exit;
-}
-
-$appointment_id = filter_input(INPUT_POST, 'appointment_id', FILTER_VALIDATE_INT);
-$action = $_POST['action'] ?? '';
-
-if (!$appointment_id || !in_array($action, ['confirm', 'cancel'], true)) {
-	http_response_code(400);
-	echo json_encode(['success' => false, 'error' => 'Invalid appointment ID or action']);
-	exit;
-}
-
-$status = $action === 'confirm' ? 'confirmed' : 'canceled';
-
 try {
+	ensure_session_started();
+	
+	// Check authentication without redirecting
+	$user = get_user();
+	if (!$user) {
+		http_response_code(401);
+		echo json_encode(['success' => false, 'error' => 'Not authenticated']);
+		exit;
+	}
+	
+	if ($user['role'] !== 'doctor') {
+		http_response_code(403);
+		echo json_encode(['success' => false, 'error' => 'Doctor access required']);
+		exit;
+	}
+
+	if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+		http_response_code(405);
+		echo json_encode(['success' => false, 'error' => 'Method not allowed']);
+		exit;
+	}
+
+	$appointment_id = filter_input(INPUT_POST, 'appointment_id', FILTER_VALIDATE_INT);
+	$action = $_POST['action'] ?? '';
+
+	if (!$appointment_id || !in_array($action, ['confirm', 'cancel'], true)) {
+		http_response_code(400);
+		echo json_encode(['success' => false, 'error' => 'Invalid appointment ID or action']);
+		exit;
+	}
+
+	$status = $action === 'confirm' ? 'confirmed' : 'canceled';
+
 	$pdo = db_connect();
 
 	$check = $pdo->prepare('SELECT id FROM appointments WHERE id = ? LIMIT 1');
@@ -42,9 +56,13 @@ try {
 	$update->execute([$status, $appointment_id]);
 
 	echo json_encode(['success' => true]);
+	
+} catch (PDOException $e) {
+	http_response_code(500);
+	echo json_encode(['success' => false, 'error' => 'Database error: ' . $e->getMessage()]);
 } catch (Throwable $e) {
 	http_response_code(500);
-	echo json_encode(['success' => false, 'error' => 'Failed to update appointment']);
+	echo json_encode(['success' => false, 'error' => 'Error: ' . $e->getMessage()]);
 }
 exit;
 ?>

@@ -5,190 +5,305 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Doctor Dashboard — MedCare Demo</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/src/css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/utilities.css">
 </head>
 <body>
   <div id="componentHeader"></div>
   <main class="container">
     <h1 class="section-title">Doctor Dashboard</h1>
-    <p class="muted">Welcome back, Dr. Sarah Smith. Manage your patients and appointments.</p>
+    <p class="muted">Welcome back. Manage your patients and appointments.</p>
 
     <div class="dashboard-grid">
       <div class="dashboard-card">
         <h3>👥 Total Patients</h3>
-        <div class="stat">24</div>
+        <div class="stat" id="totalPatients">-</div>
         <p>Active patient relationships</p>
       </div>
       <div class="dashboard-card">
-        <h3>📅 Today's Appointments</h3>
-        <div class="stat">3</div>
-        <p>Scheduled for today</p>
+        <h3>📅 Upcoming Appointments</h3>
+        <div class="stat" id="upcomingCount">-</div>
+        <p>Scheduled appointments</p>
       </div>
       <div class="dashboard-card">
-        <h3>📋 Pending Reports</h3>
-        <div class="stat">5</div>
-        <p>Reports awaiting completion</p>
+        <h3>📋 Injury Reports</h3>
+        <div class="stat" id="injuryCount">-</div>
+        <p>Patient injury submissions</p>
       </div>
       <div class="dashboard-card">
-        <h3>⏰ Avg Consultation Time</h3>
-        <div class="stat">28m</div>
-        <p>Average per patient</p>
+        <h3>📝 Medical Reports</h3>
+        <div class="stat" id="reportCount">-</div>
+        <p>Reports created</p>
       </div>
     </div>
 
-    <div style="margin:3rem 0">
-      <h2>Today's Appointments</h2>
-      <div style="overflow-x:auto">
+    <div class="section-margin">
+      <h2>Upcoming Appointments</h2>
+      <div class="table-scroll">
         <table>
           <thead>
             <tr>
-              <th>Time</th>
+              <th>Date & Time</th>
               <th>Patient</th>
               <th>Reason</th>
               <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="appointmentTableBody">
             <tr>
-              <td>9:00 AM</td>
-              <td>
-                <div style="font-weight:600">John Doe</div>
-                <div style="color:var(--muted);font-size:0.9rem">ID: P001</div>
-              </td>
-              <td>Follow-up visit</td>
-              <td><span class="badge">Scheduled</span></td>
-              <td style="display:flex;gap:0.5rem">
-                <button class="btn small ghost">View</button>
-                <button class="btn small ghost">Notes</button>
-              </td>
-            </tr>
-            <tr>
-              <td>10:30 AM</td>
-              <td>
-                <div style="font-weight:600">Jane Smith</div>
-                <div style="color:var(--muted);font-size:0.9rem">ID: P002</div>
-              </td>
-              <td>Initial consultation</td>
-              <td><span class="badge">Scheduled</span></td>
-              <td style="display:flex;gap:0.5rem">
-                <button class="btn small ghost">View</button>
-                <button class="btn small ghost">Notes</button>
-              </td>
-            </tr>
-            <tr>
-              <td>2:00 PM</td>
-              <td>
-                <div style="font-weight:600">Robert Wilson</div>
-                <div style="color:var(--muted);font-size:0.9rem">ID: P003</div>
-              </td>
-              <td>Injury assessment</td>
-              <td><span class="badge">Scheduled</span></td>
-              <td style="display:flex;gap:0.5rem">
-                <button class="btn small ghost">View</button>
-                <button class="btn small ghost">Notes</button>
-              </td>
+              <td colspan="5" style="text-align: center; padding: 2rem; color: var(--muted);">Loading appointments...</td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin:3rem 0">
+    <div class="two-col-section">
       <div>
-        <h2>Recent Patient Submissions</h2>
-        <div class="list-item">
-          <div>
-            <div class="list-item-title">Emily Brown - Injury Report</div>
-            <div class="list-item-desc">Submitted May 7, 2026</div>
-          </div>
-          <button class="btn small primary">Review</button>
-        </div>
-        <div class="list-item">
-          <div>
-            <div class="list-item-title">Michael Taylor - Medical History</div>
-            <div class="list-item-desc">Updated May 6, 2026</div>
-          </div>
-          <button class="btn small primary">Review</button>
-        </div>
-        <div class="list-item">
-          <div>
-            <div class="list-item-title">Sarah Johnson - Lab Results</div>
-            <div class="list-item-desc">Received May 5, 2026</div>
-          </div>
-          <button class="btn small primary">Review</button>
+        <h2>Recent Injury Submissions</h2>
+        <div id="injurySubmissions" style="display: flex; flex-direction: column; gap: 1rem;">
+          <p style="color: var(--muted);">Loading submissions...</p>
         </div>
       </div>
 
       <div>
         <h2>Quick Actions</h2>
-        <button style="width:100%;margin:0.5rem 0" class="btn primary">➕ Create Medical Report</button>
-        <button style="width:100%;margin:0.5rem 0" class="btn ghost">📝 Update Patient Notes</button>
-        <button style="width:100%;margin:0.5rem 0" class="btn ghost">📋 Schedule Appointment</button>
-        <button style="width:100%;margin:0.5rem 0" class="btn ghost">💬 Message Patient</button>
-        <button style="width:100%;margin:0.5rem 0" class="btn ghost">📊 View Analytics</button>
-      </div>
-    </div>
-
-    <div style="margin-top:3rem">
-      <h2>Patient Search</h2>
-      <div style="display:flex;gap:1rem">
-        <input type="text" placeholder="Search by patient name or ID..." style="flex:1;padding:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);color:inherit">
-        <button class="btn primary">Search</button>
+        <a class="btn primary full-width-action" href="report-form.html">➕ Create Medical Report</a>
+        <a class="btn ghost full-width-action" href="appointments.html">📋 Schedule Appointment</a>
+        <a class="btn ghost full-width-action" href="patient-dashboard.html">👥 View Patients</a>
+        <a class="btn ghost full-width-action" href="injury-form.html">🏥 View Injuries</a>
       </div>
     </div>
   </main>
   <div id="componentFooter"></div>
-  <script src="/src/js/main.js"></script>
+  <script src="../js/main.js"></script>
   <script>
-    async function loadAppointments() {
+    async function loadDoctorDashboard() {
       try {
-        const response = await fetch('/src/php/doctor/appointments.php');
-        const data = await response.json();
-        const tbody = document.querySelector('table tbody');
+        // First check authentication
+        console.log('Checking authentication...');
+        const authRes = await fetch('../php/api/test-auth.php');
+        const authData = await authRes.json();
+        console.log('Auth Data:', authData);
         
-        if (data.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" style="text-align:center">No appointments found.</td></tr>';
+        if (!authData.authenticated) {
+          console.warn('Not authenticated! Redirecting to login...');
+          window.location.href = '../../pages/login.html';
           return;
         }
-
-        tbody.innerHTML = data.map(appt => `
-          <tr>
-            <td>${appt.preferred_time}</td>
-            <td>
-              <div style="font-weight:600">${appt.patient_name || 'Patient'}</div>
-              <div style="color:var(--muted);font-size:0.9rem">ID: ${appt.patient_id}</div>
-            </td>
-            <td>${appt.reason}</td>
-            <td><span class="badge">${appt.status}</span></td>
-            <td style="display:flex;gap:0.5rem">
-              <button class="btn small ghost" onclick="updateStatus(${appt.id}, 'confirm')">Confirm</button>
-              <button class="btn small ghost" onclick="updateStatus(${appt.id}, 'cancel')">Cancel</button>
-            </td>
-          </tr>
-        `).join('');
+        
+        console.log('User role:', authData.user_role);
+        console.log('Is doctor?', authData.is_doctor);
+        
+        if (!authData.is_doctor) {
+          console.error('ERROR: User is logged in as "' + authData.user_role + '" but doctor role is required!');
+          document.getElementById('appointmentTableBody').innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #d32f2f;">ERROR: You are logged in as "' + authData.user_role + '" but this dashboard requires "doctor" role.<br><br>Please contact an administrator.</td></tr>';
+          return;
+        }
+        
+        // First test if server is responding
+        console.log('Testing server connectivity...');
+        const testRes = await fetch('../php/api/test-simple.php');
+        const testData = await testRes.text();
+        console.log('Test response (raw):', testData);
+        
+        // Try to parse as JSON
+        try {
+          const testJson = JSON.parse(testData);
+          console.log('Test response (JSON):', testJson);
+        } catch (e) {
+          console.error('Server returned invalid JSON:', e.message);
+          document.getElementById('appointmentTableBody').innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #d32f2f;">Server error: Check console (F12) for details. Raw response: ' + testData.substring(0, 100) + '...</td></tr>';
+          return;
+        }
+        
+        // Load appointments
+        console.log('Loading appointments...');
+        const appointRes = await fetch('../php/doctor/appointments.php');
+        const appointText = await appointRes.text();
+        
+        console.log('Appointments response (raw):', appointText.substring(0, 200));
+        console.log('Response status:', appointRes.status);
+        
+        // Handle auth errors
+        if (appointRes.status === 401) {
+          console.warn('Not authenticated, redirecting to login...');
+          window.location.href = '../../pages/login.html';
+          return;
+        }
+        
+        if (appointRes.status === 403) {
+          console.error('Access forbidden - doctor role required');
+          document.getElementById('appointmentTableBody').innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #d32f2f;">Access denied: Doctor role required</td></tr>';
+          return;
+        }
+        
+        // Try to parse as JSON
+        let appointData;
+        try {
+          appointData = JSON.parse(appointText);
+        } catch (e) {
+          console.error('Invalid JSON response:', e.message);
+          console.error('Response content:', appointText.substring(0, 500));
+          document.getElementById('appointmentTableBody').innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #d32f2f;">Invalid server response. Check console for details.</td></tr>';
+          return;
+        }
+        
+        console.log('Appointments Response:', appointData);
+        
+        if (appointRes.status !== 200) {
+          console.error('API Error:', appointData.error);
+          document.getElementById('appointmentTableBody').innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #d32f2f;">Error: ' + (appointData.error || 'Unknown error') + '</td></tr>';
+          return;
+        }
+        
+        let appointments = [];
+        if (appointData.success && appointData.data) {
+          appointments = Array.isArray(appointData.data) ? appointData.data : [];
+        } else if (Array.isArray(appointData)) {
+          appointments = appointData;
+        } else {
+          console.warn('Unexpected response format:', appointData);
+        }
+        
+        // Load injuries
+        const injuryRes = await fetch('../php/api/get-injuries.php');
+        const injuryData = injuryRes.ok ? await injuryRes.json() : {};
+        let injuries = [];
+        if (injuryData.data) {
+          injuries = Array.isArray(injuryData.data) ? injuryData.data : [];
+        } else if (Array.isArray(injuryData)) {
+          injuries = injuryData;
+        }
+        
+        // Update stats
+        document.getElementById('upcomingCount').textContent = String(appointments.length);
+        document.getElementById('injuryCount').textContent = String(injuries.length);
+        document.getElementById('totalPatients').textContent = new Set(appointments.map(a => a.patient_id)).size;
+        document.getElementById('reportCount').textContent = String(injuries.filter(i => i.report_id).length);
+        
+        // Render appointments table
+        const tbody = document.getElementById('appointmentTableBody');
+        if (appointments.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--muted);">No appointments scheduled</td></tr>';
+        } else {
+          tbody.innerHTML = appointments.map(appt => {
+            const dateTime = formatDateTime(appt.preferred_date, appt.preferred_time);
+            return `
+              <tr>
+                <td>${dateTime}</td>
+                <td>
+                  <div style="font-weight: 600;">${appt.patient_name || 'Patient'}</div>
+                  <div style="color: var(--muted); font-size: 0.9rem;">ID: ${appt.patient_id}</div>
+                </td>
+                <td>${appt.reason}</td>
+                <td><span class="badge">${appt.status}</span></td>
+                <td style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                  <a class="btn small ghost" href="appointment-detail.html?id=${appt.id}">View</a>
+                  <button class="btn small ghost" onclick="updateStatus(${appt.id}, 'confirm', this)" ${appt.status === 'confirmed' ? 'disabled' : ''}>✓ Confirm</button>
+                  <button class="btn small ghost" onclick="updateStatus(${appt.id}, 'cancel', this)" ${appt.status === 'canceled' ? 'disabled' : ''}>✕ Cancel</button>
+                </td>
+              </tr>
+            `;
+          }).join('');
+        }
+        
+        // Render injury submissions
+        const injuryDiv = document.getElementById('injurySubmissions');
+        if (injuries.length === 0) {
+          injuryDiv.innerHTML = '<p style="color: var(--muted);">No injury submissions yet</p>';
+        } else {
+          injuryDiv.innerHTML = injuries.slice(0, 5).map(injury => `
+            <div class="list-item">
+              <div>
+                <div class="list-item-title">${injury.patient_name || 'Patient'} - ${injury.injury_type}</div>
+                <div class="list-item-desc">Submitted ${formatDate(injury.created_at)}</div>
+              </div>
+              <a class="btn small primary" href="injury-detail.html?id=${injury.id}">Review</a>
+            </div>
+          `).join('');
+        }
       } catch (err) {
-        console.error('Failed to load appointments', err);
+        console.error('Failed to load doctor dashboard:', err);
+        console.error('Error details:', {
+          message: err.message,
+          stack: err.stack
+        });
+        document.getElementById('appointmentTableBody').innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: #d32f2f;">Error loading appointments. Check browser console (F12) for details.</td></tr>';
       }
     }
 
-    async function updateStatus(id, action) {
+    async function updateStatus(id, action, buttonElement) {
+      const actionLabel = action === 'confirm' ? 'confirm' : 'cancel';
+      
+      // Show confirmation dialog
+      if (!confirm(`Are you sure you want to ${actionLabel} this appointment? The patient will see this update.`)) {
+        return;
+      }
+
+      // Disable button and show loading state
+      if (buttonElement) {
+        buttonElement.disabled = true;
+        const originalText = buttonElement.textContent;
+        buttonElement.textContent = '⏳ Updating...';
+        buttonElement.style.opacity = '0.6';
+      }
+
       const formData = new FormData();
       formData.append('appointment_id', id);
       formData.append('action', action);
 
       try {
-        const res = await fetch('/src/php/doctor/update-appointment.php', {
+        const res = await fetch('../php/doctor/update-appointment.php', {
           method: 'POST',
           body: formData
         });
-        if (res.ok) loadAppointments();
+        
+        const result = await res.json();
+        
+        if (res.ok && result.success) {
+          // Show success message
+          const message = action === 'confirm' 
+            ? 'Appointment confirmed! Patient will see this update.' 
+            : 'Appointment cancelled! Patient will see this update.';
+          alert(message);
+          
+          // Reload dashboard to show updated status
+          await loadDoctorDashboard();
+        } else {
+          alert('Failed to update appointment: ' + (result.error || 'Unknown error'));
+          // Restore button state
+          if (buttonElement) {
+            buttonElement.disabled = false;
+            buttonElement.style.opacity = '1';
+          }
+        }
       } catch (err) {
         console.error('Update failed', err);
+        alert('Error updating appointment');
+        // Restore button state
+        if (buttonElement) {
+          buttonElement.disabled = false;
+          buttonElement.style.opacity = '1';
+        }
       }
     }
 
-    document.addEventListener('DOMContentLoaded', loadAppointments);
+    function formatDateTime(date, time) {
+      if (!date) return 'N/A';
+      const d = new Date(date + 'T' + time);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + 
+             ' at ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return 'N/A';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadDoctorDashboard);
   </script>
 </body>
 </html>

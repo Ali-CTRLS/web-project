@@ -7,16 +7,14 @@
 require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/../session.php';
 
-// التأكد من أن المستخدم "مريض" ومسجل دخول
+ensure_session_started();
 require_login('patient');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    // تصحيح المسار: العودة للخلف مرتين للوصول لمجلد pages
     header("Location: ../../pages/patient-dashboard.html");
     exit;
 }
 
-// تصحيح اسم الدالة: في ملف session.php الذي أرسلته الاسم هو get_user() وليس get_current_user_data()
 $user = get_user();
 $patient_id = $user['id'];
 

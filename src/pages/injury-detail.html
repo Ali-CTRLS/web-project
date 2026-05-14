@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Injury Report Details — MedCare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+</head>
+<body>
+  <div id="componentHeader"></div>
+  <main class="container">
+    <div style="margin-bottom: 2rem;">
+      <a href="doctor-dashboard.html" class="link-back">← Back to Dashboard</a>
+    </div>
+
+    <h1 class="section-title">Injury Report Details</h1>
+
+    <div id="injuryContent" style="display: none;">
+      <div class="two-col-section">
+        <div>
+          <div class="card">
+            <h2 style="margin-top: 0;">Report Information</h2>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Injury Type</label>
+              <div id="injuryType" style="font-size: 1.1rem; font-weight: 600;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Patient Name</label>
+              <div id="patientName" style="font-size: 1.1rem; font-weight: 600;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Patient ID</label>
+              <div id="patientId" style="font-size: 1rem;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Date of Injury</label>
+              <div id="injuryDate" style="font-size: 1rem;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Severity</label>
+              <div id="injurySeverity">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Description</label>
+              <div id="injuryDescription" style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; min-height: 3rem; white-space: pre-wrap;">No description provided</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Treatment Notes</label>
+              <div id="treatmentNotes" style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; min-height: 3rem; white-space: pre-wrap;">No treatment notes</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <h2 style="margin-top: 0;">Actions</h2>
+            
+            <a class="btn primary full-width-action" href="report-form.html" style="display: block; text-decoration: none; text-align: center;">📝 Create Medical Report</a>
+            <a class="btn ghost full-width-action" href="doctor-dashboard.html" style="display: block; text-decoration: none; text-align: center;">← Back to Dashboard</a>
+          </div>
+
+          <div class="card" style="margin-top: 1.5rem;">
+            <h3 style="margin-top: 0;">Quick Info</h3>
+            <div style="font-size: 0.9rem; color: var(--muted);">
+              <div style="margin-bottom: 0.75rem;">
+                <strong>Report ID:</strong>
+                <div id="injuryId" style="color: var(--text);">-</div>
+              </div>
+              <div>
+                <strong>Submitted:</strong>
+                <div id="createdAt" style="color: var(--text);">-</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="loadingState" style="display: flex; align-items: center; justify-content: center; padding: 4rem; color: var(--muted);">
+      <span>Loading injury report...</span>
+    </div>
+
+    <div id="errorState" style="display: none; padding: 2rem; background: rgba(255, 107, 107, 0.1); border-radius: 8px; border: 1px solid rgba(255, 107, 107, 0.2); color: var(--text);">
+      <h2 style="margin-top: 0;">Could not load injury report</h2>
+      <p id="errorMessage">The requested injury report could not be found. Please check the report ID and try again.</p>
+      <a href="doctor-dashboard.html" class="btn primary">Back to Dashboard</a>
+    </div>
+  </main>
+  <div id="componentFooter"></div>
+  <script src="../js/main.js"></script>
+  <script>
+    let injuryId = null;
+
+    async function loadInjuryDetail() {
+      // Get injury ID from URL parameters
+      const params = new URLSearchParams(window.location.search);
+      injuryId = params.get('id');
+
+      if (!injuryId) {
+        showError('No injury report ID provided');
+        return;
+      }
+
+      try {
+        const response = await fetch(`../php/api/get-injury.php?id=${injuryId}`);
+        
+        if (!response.ok) {
+          showError('Injury report not found');
+          return;
+        }
+
+        const injury = await response.json();
+        displayInjury(injury);
+      } catch (err) {
+        console.error('Failed to load injury report', err);
+        showError('Failed to load injury report details. Please try again.');
+      }
+    }
+
+    function displayInjury(injury) {
+      if (!injury || !injury.id) {
+        showError('Invalid injury report data');
+        return;
+      }
+
+      document.getElementById('injuryType').textContent = injury.injury_type || 'Unknown';
+      document.getElementById('patientName').textContent = injury.patient_name || 'Unknown Patient';
+      document.getElementById('patientId').textContent = injury.patient_id || '-';
+      document.getElementById('injuryId').textContent = injury.id;
+      document.getElementById('injuryDate').textContent = formatDate(injury.date_of_injury);
+      document.getElementById('injuryDescription').textContent = injury.description || 'No description provided';
+      document.getElementById('treatmentNotes').textContent = injury.treatment_notes || 'No treatment notes';
+      document.getElementById('createdAt').textContent = formatDate(injury.created_at || new Date().toISOString());
+      
+      const severityBadge = document.createElement('span');
+      severityBadge.className = 'badge';
+      severityBadge.textContent = (injury.severity || 'moderate').toUpperCase();
+      // Add color based on severity
+      if (injury.severity === 'critical' || injury.severity === 'severe') {
+        severityBadge.style.background = 'rgba(255, 107, 107, 0.2)';
+        severityBadge.style.color = '#ff6b6b';
+      } else if (injury.severity === 'minor') {
+        severityBadge.style.background = 'rgba(15, 118, 110, 0.2)';
+        severityBadge.style.color = '#0f766e';
+      }
+      document.getElementById('injurySeverity').innerHTML = '';
+      document.getElementById('injurySeverity').appendChild(severityBadge);
+
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('injuryContent').style.display = 'block';
+    }
+
+    function showError(message) {
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('injuryContent').style.display = 'none';
+      document.getElementById('errorState').style.display = 'block';
+      document.getElementById('errorMessage').textContent = message || 'An error occurred while loading the injury report.';
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return 'N/A';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // Add CSS for link-back and full-width-action button
+    const style = document.createElement('style');
+    style.textContent = `
+      .link-back {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .link-back:hover {
+        text-decoration: underline;
+      }
+      .full-width-action {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+      }
+    `;
+    document.head.appendChild(style);
+
+    document.addEventListener('DOMContentLoaded', loadInjuryDetail);
+  </script>
+</body>
+</html>

@@ -14,15 +14,15 @@
     <p class="muted">View and manage your medical reports and documentation.</p>
 
     <div style="margin:2rem 0;display:flex;gap:1rem;flex-wrap:wrap">
-      <input type="text" placeholder="Search reports..." style="flex:1;min-width:200px;padding:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);color:inherit">
-      <select style="padding:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);color:inherit">
+      <input id="searchInput" type="text" placeholder="Search reports..." style="flex:1;min-width:200px;padding:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);color:inherit" onkeyup="filterReports()">
+      <select id="typeFilter" style="padding:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.01);color:inherit" onchange="filterReports()">
         <option value="">All Types</option>
         <option value="physical">Physical Examination</option>
         <option value="lab">Laboratory Results</option>
         <option value="imaging">Imaging Report</option>
         <option value="consultation">Consultation Notes</option>
       </select>
-      <button class="btn primary">🔍 Filter</button>
+      <button class="btn primary" onclick="filterReports()">🔍 Filter</button>
     </div>
 
     <div style="overflow-x:auto;margin:2rem 0">
@@ -36,48 +36,179 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="reportTableBody">
           <tr>
-            <td>
-              <div style="font-weight:600">Physical Examination</div>
-              <div style="color:var(--muted);font-size:0.9rem">General health check-up</div>
-            </td>
-            <td>May 8, 2026</td>
-            <td>Dr. Sarah Smith</td>
-            <td><span class="badge">Completed</span></td>
-            <td style="display:flex;gap:0.5rem">
-              <button class="btn small ghost">View</button>
-              <button class="btn small ghost">⬇ Download</button>
-            </td>
+            <td colspan="5" style="text-align: center; padding: 2rem; color: var(--muted);">Loading reports...</td>
           </tr>
-          </tbody>
+        </tbody>
       </table>
     </div>
 
     <div style="margin-top:3rem">
-      <h2>Sample Report Preview</h2>
-      <div class="form-card" style="background:rgba(255,255,255,0.015)">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
-          <div>
-            <h3 style="margin:0 0 0.5rem;color:var(--accent)">Physical Examination Report</h3>
-            <p style="margin:0;color:var(--muted)">May 8, 2026 | Dr. Sarah Smith</p>
-          </div>
-          <button class="btn small primary">📥 Export PDF</button>
-        </div>
-        <div style="line-height:1.8;color:#e6eef8">
-          <h4 style="color:var(--accent-2)">Patient Information</h4>
-          <p><strong>Name:</strong> John Doe | <strong>ID:</strong> P001 | <strong>DOB:</strong> January 15, 1985</p>
-          
-          <h4 style="margin-top:1.5rem;color:var(--accent-2)">Clinical Findings</h4>
-          <p>Patient presents in good general health. Vital signs within normal limits.</p>
-          
-          <h4 style="margin-top:1.5rem;color:var(--accent-2)">Diagnosis</h4>
-          <p>General health check - No acute findings.</p>
+      <h2>Report Preview</h2>
+      <div id="reportPreviewContainer" class="form-card" style="background:rgba(255,255,255,0.015)">
+        <div id="reportPreviewContent">
+          <p style="color: var(--muted); text-align: center; padding: 2rem;">Select a report from the list above to view details.</p>
         </div>
       </div>
     </div>
   </main>
   <div id="componentFooter"></div>
   <script src="../js/main.js"></script>
+  <script>
+    let allReports = [];
+
+    async function loadReports() {
+      try {
+        // Fetch all reports - for patient, use get-appointments or create a get-reports endpoint
+        // For now, we'll fetch from the API we created
+        const response = await fetch('../php/api/get-reports.php');
+        if (response.ok) {
+          const data = await response.json();
+          allReports = data.data || data || [];
+        } else {
+          allReports = [];
+        }
+
+        renderReportsTable();
+      } catch (err) {
+        console.error('Failed to load reports', err);
+        allReports = [];
+        renderReportsTable();
+      }
+    }
+
+    function renderReportsTable() {
+      const tbody = document.getElementById('reportTableBody');
+
+      if (allReports.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--muted);">No reports available</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = allReports.map(report => `
+        <tr>
+          <td>
+            <div style="font-weight:600">${escapeHtml(report.report_type || 'Report')}</div>
+            <div style="color:var(--muted);font-size:0.9rem">${escapeHtml(report.notes || 'No description')}</div>
+          </td>
+          <td>${formatDate(report.created_at)}</td>
+          <td>${escapeHtml(report.doctor_name || 'Unknown')}</td>
+          <td><span class="badge">${escapeHtml((report.status || 'draft').toUpperCase())}</span></td>
+          <td style="display:flex;gap:0.5rem">
+            <button class="btn small ghost" onclick="viewReport(${report.id})">View</button>
+            <button class="btn small ghost" onclick="downloadReport(${report.id})">⬇ Download</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function viewReport(reportId) {
+      try {
+        const response = await fetch(`../php/api/get-report.php?id=${reportId}`);
+        if (!response.ok) {
+          alert('Could not load report');
+          return;
+        }
+
+        const report = await response.json();
+        displayReportPreview(report);
+      } catch (err) {
+        console.error('Failed to load report', err);
+        alert('Error loading report');
+      }
+    }
+
+    function displayReportPreview(report) {
+      const preview = document.getElementById('reportPreviewContent');
+      preview.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
+          <div>
+            <h3 style="margin:0 0 0.5rem;color:var(--accent)">${escapeHtml(report.report_type || 'Medical Report')}</h3>
+            <p style="margin:0;color:var(--muted)">${formatDate(report.created_at)} | ${escapeHtml(report.doctor_name || 'Doctor')}</p>
+          </div>
+          <button class="btn small primary" onclick="downloadReport(${report.id})">📥 Export PDF</button>
+        </div>
+        <div style="line-height:1.8;color:#e6eef8">
+          <h4 style="color:var(--accent-2)">Patient Information</h4>
+          <p><strong>Name:</strong> ${escapeHtml(report.patient_name || 'Patient')} | <strong>ID:</strong> ${escapeHtml(report.patient_id || '-')}</p>
+          
+          <h4 style="margin-top:1.5rem;color:var(--accent-2)">Report Details</h4>
+          <p>${(report.content || 'No content available').split('\n').join('<br>')}</p>
+          
+          ${report.notes ? `
+            <h4 style="margin-top:1.5rem;color:var(--accent-2)">Notes</h4>
+            <p>${(report.notes || '').split('\n').join('<br>')}</p>
+          ` : ''}
+          
+          <h4 style="margin-top:1.5rem;color:var(--accent-2)">Status</h4>
+          <p><span class="badge">${escapeHtml((report.status || 'draft').toUpperCase())}</span></p>
+        </div>
+      `;
+    }
+
+    function downloadReport(reportId) {
+      // In a real application, this would generate a PDF or download a file
+      alert('Download feature would be implemented with server-side PDF generation.\nReport ID: ' + reportId);
+      // For now, you could add actual PDF export by creating a PHP endpoint that generates PDF
+    }
+
+    function filterReports() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const typeFilter = document.getElementById('typeFilter').value.toLowerCase();
+
+      const filtered = allReports.filter(report => {
+        const matchesSearch = !searchTerm || 
+          (report.report_type || '').toLowerCase().includes(searchTerm) ||
+          (report.doctor_name || '').toLowerCase().includes(searchTerm) ||
+          (report.notes || '').toLowerCase().includes(searchTerm);
+
+        const matchesType = !typeFilter || 
+          (report.report_type || '').toLowerCase().includes(typeFilter);
+
+        return matchesSearch && matchesType;
+      });
+
+      const tbody = document.getElementById('reportTableBody');
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 2rem; color: var(--muted);">No reports match your search</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(report => `
+        <tr>
+          <td>
+            <div style="font-weight:600">${escapeHtml(report.report_type || 'Report')}</div>
+            <div style="color:var(--muted);font-size:0.9rem">${escapeHtml(report.notes || 'No description')}</div>
+          </td>
+          <td>${formatDate(report.created_at)}</td>
+          <td>${escapeHtml(report.doctor_name || 'Unknown')}</td>
+          <td><span class="badge">${escapeHtml((report.status || 'draft').toUpperCase())}</span></td>
+          <td style="display:flex;gap:0.5rem">
+            <button class="btn small ghost" onclick="viewReport(${report.id})">View</button>
+            <button class="btn small ghost" onclick="downloadReport(${report.id})">⬇ Download</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return 'N/A';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    document.addEventListener('DOMContentLoaded', loadReports);
+  </script>
 </body>
 </html>

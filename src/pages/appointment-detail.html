@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Appointment Details — MedCare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+</head>
+<body>
+  <div id="componentHeader"></div>
+  <main class="container">
+    <div style="margin-bottom: 2rem;">
+      <a href="doctor-dashboard.html" class="link-back">← Back to Dashboard</a>
+    </div>
+
+    <h1 class="section-title">Appointment Details</h1>
+
+    <div id="appointmentContent" style="display: none;">
+      <div class="two-col-section">
+        <div>
+          <div class="card">
+            <h2 style="margin-top: 0;">Appointment Information</h2>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Date & Time</label>
+              <div id="appointmentDateTime" style="font-size: 1.1rem; font-weight: 600;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Patient Name</label>
+              <div id="patientName" style="font-size: 1.1rem; font-weight: 600;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Patient ID</label>
+              <div id="patientId" style="font-size: 1rem;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Reason for Visit</label>
+              <div id="appointmentReason" style="font-size: 1.1rem;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Status</label>
+              <div id="appointmentStatus">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Patient Notes</label>
+              <div id="patientNotes" style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; min-height: 3rem; white-space: pre-wrap;">No notes provided</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <h2 style="margin-top: 0;">Actions</h2>
+            
+            <button class="btn primary full-width-action" id="confirmBtn" onclick="updateAppointmentStatus('confirm')">✓ Confirm Appointment</button>
+            <button class="btn ghost full-width-action" id="cancelBtn" onclick="updateAppointmentStatus('cancel')">✕ Cancel Appointment</button>
+            <a class="btn ghost full-width-action" href="report-form.html" style="display: block; text-decoration: none; text-align: center;">📝 Create Report</a>
+            <a class="btn ghost full-width-action" href="doctor-dashboard.html" style="display: block; text-decoration: none; text-align: center;">← Back to Dashboard</a>
+          </div>
+
+          <div class="card" style="margin-top: 1.5rem;">
+            <h3 style="margin-top: 0;">Quick Info</h3>
+            <div style="font-size: 0.9rem; color: var(--muted);">
+              <div style="margin-bottom: 0.75rem;">
+                <strong>Appointment ID:</strong>
+                <div id="appointmentId" style="color: var(--text);">-</div>
+              </div>
+              <div>
+                <strong>Created:</strong>
+                <div id="createdAt" style="color: var(--text);">-</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="loadingState" style="display: flex; align-items: center; justify-content: center; padding: 4rem; color: var(--muted);">
+      <span>Loading appointment details...</span>
+    </div>
+
+    <div id="errorState" style="display: none; padding: 2rem; background: rgba(255, 107, 107, 0.1); border-radius: 8px; border: 1px solid rgba(255, 107, 107, 0.2); color: var(--text);">
+      <h2 style="margin-top: 0;">Could not load appointment</h2>
+      <p id="errorMessage">The requested appointment could not be found. Please check the appointment ID and try again.</p>
+      <a href="doctor-dashboard.html" class="btn primary">Back to Dashboard</a>
+    </div>
+  </main>
+  <div id="componentFooter"></div>
+  <script src="../js/main.js"></script>
+  <script>
+    let appointmentId = null;
+
+    async function loadAppointmentDetail() {
+      // Get appointment ID from URL parameters
+      const params = new URLSearchParams(window.location.search);
+      appointmentId = params.get('id');
+
+      if (!appointmentId) {
+        showError('No appointment ID provided');
+        return;
+      }
+
+      try {
+        // For now, we'll fetch from the doctor appointments endpoint
+        // In a production app, you'd create a dedicated API endpoint
+        const response = await fetch(`../php/api/get-appointment.php?id=${appointmentId}`);
+        
+        if (!response.ok) {
+          showError('Appointment not found');
+          return;
+        }
+
+        const appointment = await response.json();
+        displayAppointment(appointment);
+      } catch (err) {
+        console.error('Failed to load appointment', err);
+        showError('Failed to load appointment details. Please try again.');
+      }
+    }
+
+    function displayAppointment(appt) {
+      if (!appt || !appt.id) {
+        showError('Invalid appointment data');
+        return;
+      }
+
+      const dateTime = formatDateTime(appt.preferred_date, appt.preferred_time);
+      
+      document.getElementById('appointmentDateTime').textContent = dateTime;
+      document.getElementById('patientName').textContent = appt.patient_name || 'Unknown Patient';
+      document.getElementById('patientId').textContent = appt.patient_id || '-';
+      document.getElementById('appointmentId').textContent = appt.id;
+      document.getElementById('appointmentReason').textContent = appt.reason || 'No reason provided';
+      document.getElementById('patientNotes').textContent = appt.notes || 'No notes provided';
+      document.getElementById('createdAt').textContent = formatDate(appt.created_at || new Date().toISOString());
+      
+      const statusBadge = document.createElement('span');
+      statusBadge.className = 'badge';
+      statusBadge.textContent = (appt.status || 'scheduled').toUpperCase();
+      document.getElementById('appointmentStatus').innerHTML = '';
+      document.getElementById('appointmentStatus').appendChild(statusBadge);
+
+      // Update button states based on status
+      const confirmBtn = document.getElementById('confirmBtn');
+      const cancelBtn = document.getElementById('cancelBtn');
+      
+      if (appt.status === 'confirmed' || appt.status === 'completed') {
+        confirmBtn.disabled = true;
+        confirmBtn.style.opacity = '0.6';
+      }
+      if (appt.status === 'cancelled') {
+        cancelBtn.disabled = true;
+        cancelBtn.style.opacity = '0.6';
+      }
+
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('appointmentContent').style.display = 'block';
+    }
+
+    async function updateAppointmentStatus(action) {
+      const actionLabel = action === 'confirm' ? 'confirm' : 'cancel';
+      
+      // Show confirmation
+      if (!confirm(`Are you sure you want to ${actionLabel} this appointment? The patient will see this update.`)) {
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('appointment_id', appointmentId);
+      formData.append('action', action);
+
+      try {
+        const res = await fetch('../php/doctor/update-appointment.php', {
+          method: 'POST',
+          body: formData
+        });
+
+        if (res.ok) {
+          const message = action === 'confirm' 
+            ? 'Appointment confirmed successfully! Patient will see this update.' 
+            : 'Appointment cancelled successfully! Patient will see this update.';
+          alert(message);
+          // Refresh the appointment details
+          loadAppointmentDetail();
+        } else {
+          alert('Failed to update appointment');
+        }
+      } catch (err) {
+        console.error('Update failed', err);
+        alert('Error updating appointment');
+      }
+    }
+
+    function showError(message) {
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('appointmentContent').style.display = 'none';
+      document.getElementById('errorState').style.display = 'block';
+      document.getElementById('errorMessage').textContent = message || 'An error occurred while loading the appointment.';
+    }
+
+    function formatDateTime(date, time) {
+      if (!date) return 'N/A';
+      const d = new Date(date + 'T' + time);
+      return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) + 
+             ' at ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return 'N/A';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // Add CSS for link-back and full-width-action button
+    const style = document.createElement('style');
+    style.textContent = `
+      .link-back {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .link-back:hover {
+        text-decoration: underline;
+      }
+      .full-width-action {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+      }
+    `;
+    document.head.appendChild(style);
+
+    document.addEventListener('DOMContentLoaded', loadAppointmentDetail);
+  </script>
+</body>
+</html>

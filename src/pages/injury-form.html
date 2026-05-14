@@ -4,30 +4,33 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Report Injury — MedCare Demo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/utilities.css">
 </head>
 <body>
   <div id="componentHeader"></div>
   <main class="container">
-    <h1 class="section-title">Report an Injury</h1>
-    <p class="muted">Submit details about your recent injury to get proper medical attention.</p>
+    <h1 class="section-title">🏥 Report an Injury</h1>
+    <p class="muted">Submit details about your recent injury to get proper medical attention</p>
 
     <div class="form-card">
-      <h2 style="margin-top:0">Injury Report Form</h2>
-      <form action="../php/patient/save-injury.php" method="POST">
+      <form action="../php/patient/save-injury.php" method="POST" id="injuryForm" onsubmit="handleInjurySubmit(event)">
+        
         <div class="form-group">
-          <label for="fullname">Full Name:</label>
+          <label for="fullname">Full Name</label>
           <input type="text" id="fullname" name="fullname" placeholder="Your full name" required>
+          <div class="form-error"></div>
         </div>
 
         <div class="form-group">
-          <label for="date">Date of Injury:</label>
+          <label for="date">Date of Injury</label>
           <input type="date" id="date" name="date" required>
+          <div class="form-error"></div>
         </div>
 
         <div class="form-group">
-          <label for="location">Location of Injury:</label>
+          <label for="location">Location of Injury</label>
           <select id="location" name="location" required>
             <option value="">-- Select body part --</option>
             <option value="head">Head</option>
@@ -45,10 +48,11 @@
             <option value="ankle">Ankle</option>
             <option value="foot">Foot</option>
           </select>
+          <div class="form-error"></div>
         </div>
 
         <div class="form-group">
-          <label for="severity">Severity Level:</label>
+          <label for="severity">Severity Level</label>
           <select id="severity" name="severity" required>
             <option value="">-- Select severity --</option>
             <option value="mild">Mild (Minor pain, no swelling)</option>
@@ -56,10 +60,11 @@
             <option value="severe">Severe (Significant pain, swelling present)</option>
             <option value="critical">Critical (Urgent medical attention needed)</option>
           </select>
+          <div class="form-error"></div>
         </div>
 
         <div class="form-group">
-          <label for="cause">Cause of Injury:</label>
+          <label for="cause">Cause of Injury</label>
           <select id="cause" name="cause" required>
             <option value="">-- Select cause --</option>
             <option value="sports">Sports/Athletic Activity</option>
@@ -68,21 +73,24 @@
             <option value="vehicular">Vehicular Accident</option>
             <option value="other">Other</option>
           </select>
+          <div class="form-error"></div>
         </div>
 
         <div class="form-group">
-          <label for="description">Detailed Description:</label>
-          <textarea id="description" name="description" placeholder="Describe how the injury occurred and any symptoms you're experiencing..." required></textarea>
+          <label for="description">Detailed Description</label>
+          <textarea id="description" name="description" placeholder="Describe how the injury occurred and any symptoms..." required></textarea>
+          <div class="form-error"></div>
         </div>
 
         <div class="form-group">
-          <label for="medications">Current Medications (if any):</label>
+          <label for="medications">Current Medications (if any)</label>
           <textarea id="medications" name="medications" placeholder="List any medications you're currently taking..."></textarea>
         </div>
 
         <div class="form-group">
-          <label for="symptoms">Current Symptoms:</label>
+          <label for="symptoms">Current Symptoms</label>
           <textarea id="symptoms" name="symptoms" placeholder="List any pain, swelling, numbness, or other symptoms..." required></textarea>
+          <div class="form-error"></div>
         </div>
 
         <div class="form-actions">
@@ -92,12 +100,74 @@
       </form>
     </div>
 
-    <div style="margin-top:2rem;padding:1rem;background:rgba(255,255,255,0.02);border-radius:8px;border-left:3px solid #f87171">
-      <strong style="color:#f87171">⚠️ Emergency?</strong>
-      <p>If you are experiencing a life-threatening emergency, please call emergency services (911) immediately instead of filling this form.</p>
+    <div class="emergency-box">
+      <strong class="emergency-text">⚠️ Emergency Situation?</strong>
+      <p style="margin: 0.5rem 0 0; color: var(--text);">If you are experiencing a life-threatening emergency, please call emergency services (<strong>911</strong>) immediately instead of filling this form.</p>
     </div>
   </main>
   <div id="componentFooter"></div>
   <script src="../js/main.js"></script>
+  <script>
+    function handleInjurySubmit(e) {
+      let hasErrors = false;
+      document.querySelectorAll('.form-error').forEach(el => el.textContent = '');
+      document.querySelectorAll('.form-group').forEach(el => el.classList.remove('has-error'));
+      
+      const fullname = document.getElementById('fullname').value.trim();
+      const date = document.getElementById('date').value;
+      const location = document.getElementById('location').value;
+      const severity = document.getElementById('severity').value;
+      const cause = document.getElementById('cause').value;
+      const description = document.getElementById('description').value.trim();
+      const symptoms = document.getElementById('symptoms').value.trim();
+      
+      if (!fullname || fullname.length < 3) {
+        document.getElementById('fullname').parentElement.querySelector('.form-error').textContent = 'Please enter your full name';
+        document.getElementById('fullname').parentElement.classList.add('has-error');
+        hasErrors = true;
+      }
+      
+      if (!date) {
+        document.getElementById('date').parentElement.querySelector('.form-error').textContent = 'Please select the date of injury';
+        document.getElementById('date').parentElement.classList.add('has-error');
+        hasErrors = true;
+      }
+      
+      if (!location) {
+        document.getElementById('location').parentElement.querySelector('.form-error').textContent = 'Please select the location of injury';
+        document.getElementById('location').parentElement.classList.add('has-error');
+        hasErrors = true;
+      }
+      
+      if (!severity) {
+        document.getElementById('severity').parentElement.querySelector('.form-error').textContent = 'Please select severity level';
+        document.getElementById('severity').parentElement.classList.add('has-error');
+        hasErrors = true;
+      }
+      
+      if (!cause) {
+        document.getElementById('cause').parentElement.querySelector('.form-error').textContent = 'Please select the cause of injury';
+        document.getElementById('cause').parentElement.classList.add('has-error');
+        hasErrors = true;
+      }
+      
+      if (!description || description.length < 10) {
+        document.getElementById('description').parentElement.querySelector('.form-error').textContent = 'Please provide a detailed description (at least 10 characters)';
+        document.getElementById('description').parentElement.classList.add('has-error');
+        hasErrors = true;
+      }
+      
+      if (!symptoms || symptoms.length < 5) {
+        document.getElementById('symptoms').parentElement.querySelector('.form-error').textContent = 'Please describe your current symptoms';
+        document.getElementById('symptoms').parentElement.classList.add('has-error');
+        hasErrors = true;
+      }
+      
+      if (hasErrors) {
+        e.preventDefault();
+      }
+      // If no errors, form submits normally to the PHP backend
+    }
+  </script>
 </body>
 </html>

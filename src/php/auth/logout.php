@@ -18,6 +18,6 @@ if (ini_get("session.use_cookies")) {
 }
 
 session_destroy();
-header("Location: /src/pages/login.html");
+header("Location: ../../pages/login.html");
 exit;
 ?>

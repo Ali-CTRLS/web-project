@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Medical Report Details — MedCare</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/utilities.css">
+</head>
+<body>
+  <div id="componentHeader"></div>
+  <main class="container">
+    <div style="margin-bottom: 2rem;">
+      <a href="doctor-dashboard.html" class="link-back">← Back to Dashboard</a>
+    </div>
+
+    <h1 class="section-title">Medical Report Details</h1>
+
+    <div id="reportContentContainer" style="display: none;">
+      <div class="two-col-section">
+        <div>
+          <div class="card">
+            <h2 style="margin-top: 0;">Report Information</h2>
+            
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Report Type</label>
+              <div id="reportType" style="font-size: 1.1rem; font-weight: 600;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Patient Name</label>
+              <div id="patientName" style="font-size: 1.1rem; font-weight: 600;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Patient ID</label>
+              <div id="patientId" style="font-size: 1rem;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Created By (Doctor)</label>
+              <div id="doctorName" style="font-size: 1rem;">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Status</label>
+              <div id="reportStatus">-</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Report Content</label>
+              <div id="reportContentText" style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; min-height: 4rem; white-space: pre-wrap;">No content provided</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem;">
+              <label style="display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 0.25rem;">Notes</label>
+              <div id="reportNotes" style="background: rgba(255,255,255,0.02); padding: 1rem; border-radius: 8px; min-height: 2rem; white-space: pre-wrap;">No notes</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <h2 style="margin-top: 0;">Actions</h2>
+            
+            <a class="btn primary full-width-action" href="report-form.html" style="display: block; text-decoration: none; text-align: center;">✎ Edit Report</a>
+            <a class="btn ghost full-width-action" href="doctor-dashboard.html" style="display: block; text-decoration: none; text-align: center;">← Back to Dashboard</a>
+          </div>
+
+          <div class="card" style="margin-top: 1.5rem;">
+            <h3 style="margin-top: 0;">Quick Info</h3>
+            <div style="font-size: 0.9rem; color: var(--muted);">
+              <div style="margin-bottom: 0.75rem;">
+                <strong>Report ID:</strong>
+                <div id="reportId" style="color: var(--text);">-</div>
+              </div>
+              <div>
+                <strong>Created:</strong>
+                <div id="createdAt" style="color: var(--text);">-</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="loadingState" style="display: flex; align-items: center; justify-content: center; padding: 4rem; color: var(--muted);">
+      <span>Loading medical report...</span>
+    </div>
+
+    <div id="errorState" style="display: none; padding: 2rem; background: rgba(255, 107, 107, 0.1); border-radius: 8px; border: 1px solid rgba(255, 107, 107, 0.2); color: var(--text);">
+      <h2 style="margin-top: 0;">Could not load medical report</h2>
+      <p id="errorMessage">The requested medical report could not be found. Please check the report ID and try again.</p>
+      <a href="doctor-dashboard.html" class="btn primary">Back to Dashboard</a>
+    </div>
+  </main>
+  <div id="componentFooter"></div>
+  <script src="../js/main.js"></script>
+  <script>
+    let reportId = null;
+
+    async function loadReportDetail() {
+      // Get report ID from URL parameters
+      const params = new URLSearchParams(window.location.search);
+      reportId = params.get('id');
+
+      if (!reportId) {
+        showError('No report ID provided');
+        return;
+      }
+
+      try {
+        const response = await fetch(`../php/api/get-report.php?id=${reportId}`);
+        
+        if (!response.ok) {
+          showError('Medical report not found');
+          return;
+        }
+
+        const report = await response.json();
+        displayReport(report);
+      } catch (err) {
+        console.error('Failed to load medical report', err);
+        showError('Failed to load medical report details. Please try again.');
+      }
+    }
+
+    function displayReport(report) {
+      if (!report || !report.id) {
+        showError('Invalid medical report data');
+        return;
+      }
+
+      document.getElementById('reportType').textContent = report.report_type || 'Medical Report';
+      document.getElementById('patientName').textContent = report.patient_name || 'Unknown Patient';
+      document.getElementById('patientId').textContent = report.patient_id || '-';
+      document.getElementById('reportId').textContent = report.id;
+      document.getElementById('doctorName').textContent = report.doctor_name || 'Unknown Doctor';
+      document.getElementById('createdAt').textContent = formatDate(report.created_at || new Date().toISOString());
+      
+      document.getElementById('reportContentText').textContent = report.content || 'No content provided';
+      document.getElementById('reportNotes').textContent = report.notes || 'No notes';
+      
+      const statusBadge = document.createElement('span');
+      statusBadge.className = 'badge';
+      statusBadge.textContent = (report.status || 'draft').toUpperCase();
+      document.getElementById('reportStatus').innerHTML = '';
+      document.getElementById('reportStatus').appendChild(statusBadge);
+
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('reportContentContainer').style.display = 'block';
+    }
+
+    function showError(message) {
+      document.getElementById('loadingState').style.display = 'none';
+      document.getElementById('reportContentContainer').style.display = 'none';
+      document.getElementById('errorState').style.display = 'block';
+      document.getElementById('errorMessage').textContent = message || 'An error occurred while loading the medical report.';
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return 'N/A';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    // Add CSS for link-back and full-width-action button
+    const style = document.createElement('style');
+    style.textContent = `
+      .link-back {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .link-back:hover {
+        text-decoration: underline;
+      }
+      .full-width-action {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+      }
+    `;
+    document.head.appendChild(style);
+
+    document.addEventListener('DOMContentLoaded', loadReportDetail);
+  </script>
+</body>
+</html>
